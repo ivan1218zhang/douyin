@@ -18,4 +18,5 @@ if [ ! -d "$KITEX_LOG_DIR/rpc" ]; then
     mkdir -p "$KITEX_LOG_DIR/rpc"
 fi
 
-exec "$CURDIR/bin/test_service"
+exec "$CURDIR/bin/user"
+
