@@ -1,17 +1,6 @@
+include 'common.thrift'
+
 namespace go user
-
-struct User{
-    1:i64 id
-    2:string name
-    3:i64 follow_count
-    4:i64 follower_count
-    5:bool is_follow
-}
-
-struct BaseResp {
-    1:i64 status_code
-    2:string status_message
-}
 
 struct CreateUserReq{
     1:string username
@@ -19,7 +8,7 @@ struct CreateUserReq{
 }
 
 struct CreateUserResp{
-    1:BaseResp base_resp
+    1:common.BaseResp base_resp
     2:i64 user_id
 }
 
@@ -28,8 +17,8 @@ struct GetUserByIdReq{
 }
 
 struct GetUserByIdResp{
-    1:BaseResp base_resp
-    2:User user
+    1:common.BaseResp base_resp
+    2:common.User user
 }
 
 struct CheckUserReq {
@@ -39,7 +28,7 @@ struct CheckUserReq {
 
 struct CheckUserResp {
     1: i64 user_id
-    2: BaseResp base_resp
+    2: common.BaseResp base_resp
 }
 
 service UserService {
