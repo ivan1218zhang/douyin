@@ -6,7 +6,6 @@ import (
 	"douyin/cmd/user/service"
 	"douyin/kitex_gen/user"
 	"douyin/pkg/errno"
-
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
@@ -29,8 +28,6 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	return resp, nil
-}
-	return
 }
 
 // GetUserById implements the UserServiceImpl interface.
