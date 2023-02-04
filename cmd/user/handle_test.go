@@ -11,33 +11,33 @@ import (
 
 func TestCreateUser(t *testing.T) {
 	tests := []struct {
-		req      *user.CreateUserRequest
-		expected *user.CreateUserResponse
+		req      *user.CreateUserReq
+		expected *user.CreateUserResp
 	}{
 		{
-			req: &user.CreateUserRequest{
-				UserName: "user1",
+			req: &user.CreateUserReq{
+				Username: "user1",
 				Password: "password1",
 			},
-			expected: &user.CreateUserResponse{
+			expected: &user.CreateUserResp{
 				BaseResp: pack.BuildBaseResp(errno.Success),
 			},
 		},
 		{
-			req: &user.CreateUserRequest{
-				UserName: "",
+			req: &user.CreateUserReq{
+				Username: "",
 				Password: "password2",
 			},
-			expected: &user.CreateUserResponse{
+			expected: &user.CreateUserResp{
 				BaseResp: pack.BuildBaseResp(errno.ParamErr),
 			},
 		},
 		{
-			req: &user.CreateUserRequest{
-				UserName: "user3",
+			req: &user.CreateUserReq{
+				Username: "user3",
 				Password: "",
 			},
-			expected: &user.CreateUserResponse{
+			expected: &user.CreateUserResp{
 				BaseResp: pack.BuildBaseResp(errno.ParamErr),
 			},
 		},

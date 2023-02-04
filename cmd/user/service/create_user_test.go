@@ -15,8 +15,8 @@ func TestCreateUser(t *testing.T) {
 	service := service.NewCreateUserService(ctx)
 
 	// Test case 1: check if user is created successfully
-	req := &user.CreateUserRequest{
-		UserName: "testuser1",
+	req := &user.CreateUserReq{
+		Username: "testuser1",
 		Password: "password",
 	}
 	if err := service.CreateUser(req); err != nil {
@@ -24,8 +24,8 @@ func TestCreateUser(t *testing.T) {
 	}
 
 	// Test case 2: check if user already exists error is returned
-	req = &user.CreateUserRequest{
-		UserName: "testuser1",
+	req = &user.CreateUserReq{
+		Username: "testuser1",
 		Password: "password",
 	}
 	if err := service.CreateUser(req); err != errno.UserAlreadyExistErr {
