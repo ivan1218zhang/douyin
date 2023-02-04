@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"douyin/cmd/video/service"
 	"douyin/kitex_gen/video"
 )
 
@@ -17,6 +18,8 @@ func (s *VideoServiceImpl) GetVideos(ctx context.Context, getVideosReq *video.Ge
 // Publish implements the VideoServiceImpl interface.
 func (s *VideoServiceImpl) Publish(ctx context.Context, publishReq *video.PublishReq) (resp *video.PublishResp, err error) {
 	// TODO: Your code here...
+	publishService := service.NewPublishService(ctx)
+	err = publishService.Publish(publishReq)
 	return
 }
 
