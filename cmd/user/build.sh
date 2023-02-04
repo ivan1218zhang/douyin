@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+
 RUN_NAME="user_service"
+
 
 mkdir -p output/bin
 cp script/* output/
@@ -9,4 +11,6 @@ if [ "$IS_SYSTEM_TEST_ENV" != "1" ]; then
     go build -o output/bin/${RUN_NAME}
 else
     go test -c -covermode=set -o output/bin/${RUN_NAME} -coverpkg=./...
+
 fi
+

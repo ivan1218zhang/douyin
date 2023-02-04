@@ -1,12 +1,12 @@
 package main
 
 import (
-	test "douyin/kitex_gen/test/echo"
+	user "douyin/kitex_gen/user/userservice"
 	"log"
 )
 
 func main() {
-	svr := test.NewServer(new(EchoImpl))
+	svr := user.NewServer(new(UserServiceImpl))
 
 	err := svr.Run()
 
