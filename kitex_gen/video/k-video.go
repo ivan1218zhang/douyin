@@ -498,7 +498,7 @@ func (p *PublishReq) FastRead(buf []byte) (int, error) {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.LIST {
+			if fieldTypeId == thrift.STRING {
 				l, err = p.FastReadField3(buf[offset:])
 				offset += l
 				if err != nil {
@@ -577,29 +577,13 @@ func (p *PublishReq) FastReadField2(buf []byte) (int, error) {
 func (p *PublishReq) FastReadField3(buf []byte) (int, error) {
 	offset := 0
 
-	_, size, l, err := bthrift.Binary.ReadListBegin(buf[offset:])
-	offset += l
-	if err != nil {
-		return offset, err
-	}
-	p.Data = make([]int8, 0, size)
-	for i := 0; i < size; i++ {
-		var _elem int8
-		if v, l, err := bthrift.Binary.ReadByte(buf[offset:]); err != nil {
-			return offset, err
-		} else {
-			offset += l
-
-			_elem = v
-
-		}
-
-		p.Data = append(p.Data, _elem)
-	}
-	if l, err := bthrift.Binary.ReadListEnd(buf[offset:]); err != nil {
+	if v, l, err := bthrift.Binary.ReadBinary(buf[offset:]); err != nil {
 		return offset, err
 	} else {
 		offset += l
+
+		p.Data = []byte(v)
+
 	}
 	return offset, nil
 }
@@ -655,17 +639,9 @@ func (p *PublishReq) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWrit
 
 func (p *PublishReq) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "data", thrift.LIST, 3)
-	listBeginOffset := offset
-	offset += bthrift.Binary.ListBeginLength(thrift.BYTE, 0)
-	var length int
-	for _, v := range p.Data {
-		length++
-		offset += bthrift.Binary.WriteByte(buf[offset:], v)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "data", thrift.STRING, 3)
+	offset += bthrift.Binary.WriteBinaryNocopy(buf[offset:], binaryWriter, []byte(p.Data))
 
-	}
-	bthrift.Binary.WriteListBegin(buf[listBeginOffset:], thrift.BYTE, length)
-	offset += bthrift.Binary.WriteListEnd(buf[offset:])
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
 }
@@ -690,11 +666,9 @@ func (p *PublishReq) field2Length() int {
 
 func (p *PublishReq) field3Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("data", thrift.LIST, 3)
-	l += bthrift.Binary.ListBeginLength(thrift.BYTE, len(p.Data))
-	var tmpV int8
-	l += bthrift.Binary.ByteLength(int8(tmpV)) * len(p.Data)
-	l += bthrift.Binary.ListEndLength()
+	l += bthrift.Binary.FieldBeginLength("data", thrift.STRING, 3)
+	l += bthrift.Binary.BinaryLengthNocopy([]byte(p.Data))
+
 	l += bthrift.Binary.FieldEndLength()
 	return l
 }

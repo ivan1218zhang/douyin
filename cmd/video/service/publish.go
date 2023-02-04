@@ -21,8 +21,10 @@ func NewPublishService(ctx context.Context) *PublishService {
 func (p *PublishService) Publish(req *video.PublishReq) error {
 	// 生成视频信息
 	videoId := 0
-	playUrl := fmt.Sprintf("%s%d.mp4", conf.CDN.Url, videoId)
-	coverUrl := fmt.Sprintf("%s%d.png", conf.CDN.Url, videoId)
+	videoName := fmt.Sprintf("%d.mp4", videoId)
+	coverName := fmt.Sprintf("%d.png", videoId)
+	playUrl := fmt.Sprintf("%s%s", conf.CDN.Url, videoName)
+	coverUrl := fmt.Sprintf("%s%s", conf.CDN.Url, coverName)
 	// 存入数据库
 	videoModel := &repository.Video{
 		ID:            0,
@@ -34,13 +36,16 @@ func (p *PublishService) Publish(req *video.PublishReq) error {
 		CommentCount:  0,
 	}
 	// 存到cdn
-	go saveVideoCdn(playUrl, coverUrl, req.Data)
+	go saveVideoCdn(videoName, coverName, req.Data)
 	return db.CreateVideo(p.ctx, videoModel)
 }
 
 // 把视频和封面存到七牛云
-func saveVideoCdn(playUrl string, coverUrl string, data []int8) {
+func saveVideoCdn(videoName string, coverName string, data []byte) error {
 	// 视频存本地
-	byteData := []byte{}
-	ioutil.WriteFile(playUrl, byteData, 0644)
+	err := ioutil.WriteFile(fmt.Sprintf("./public/%s", videoName), data, 0644)
+	if err != nil {
+		return nil
+	}
+	return nil
 }
