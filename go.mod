@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/cloudwego/hertz v0.5.1
 	github.com/cloudwego/kitex v0.4.4
+	gorm.io/gorm v1.24.3
 )
 
 require (
@@ -42,6 +43,8 @@ require (
 	github.com/henrylee2cn/ameda v1.4.10 // indirect
 	github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8 // indirect
 	github.com/jhump/protoreflect v1.8.2 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kitex-contrib/registry-etcd v0.1.0
 	github.com/klauspost/cpuid/v2 v2.1.0 // indirect
