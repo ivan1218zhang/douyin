@@ -18,6 +18,9 @@ func Init() error {
 	if err != nil {
 		return err
 	}
-	DB.AutoMigrate(&repository.User{}, &repository.Video{})
+	err = DB.AutoMigrate(&repository.User{}, &repository.Video{})
+	if err != nil {
+		return err
+	}
 	return nil
 }
