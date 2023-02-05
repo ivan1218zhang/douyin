@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"douyin/cmd/user/dal/db"
 	"douyin/cmd/user/pack"
 	"douyin/cmd/user/service"
 	"douyin/kitex_gen/user"
@@ -32,8 +33,21 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 
 // GetUserById implements the UserServiceImpl interface.
 func (s *UserServiceImpl) GetUserById(ctx context.Context, req *user.GetUserByIdReq) (resp *user.GetUserByIdResp, err error) {
-	// TODO: Your code here...
-	return
+
+	resp = new(user.GetUserByIdResp)
+	users := &db.User{}
+
+	users, err = service.NewGetUserByIdService(ctx).GetUserById(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	if users == nil {
+		resp.BaseResp = pack.BuildBaseResp(errno.Success)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, nil
 }
 
 // CheckUser implements the UserServiceImpl interface.
