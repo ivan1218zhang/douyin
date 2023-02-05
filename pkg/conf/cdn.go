@@ -15,5 +15,5 @@ var CDN = cdn{
 	Bucket:    "dousheng2022",
 	UploadUrl: "https://rcnh4fg5p.hn-bkt.clouddn.com/",
 	Url:       "https://cdn.nobugnolife.com/",
-	LocalPath: "video/",
+	LocalPath: "tmp/videos/",
 }
