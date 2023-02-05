@@ -10,8 +10,8 @@ type Video struct {
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 	DeletedAt     gorm.DeletedAt `gorm:"index"`
+	Title         string
 	AuthorId      int64
-	Author        User
 	PlayUrl       string
 	CoverUrl      string
 	FavoriteCount int64

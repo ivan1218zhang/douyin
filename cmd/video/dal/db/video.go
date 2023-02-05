@@ -4,6 +4,7 @@ import (
 	"context"
 	"douyin/cmd/user/dal/db"
 	"douyin/pkg/constants"
+	"douyin/pkg/repository"
 	"gorm.io/gorm"
 	"time"
 )
@@ -37,4 +38,8 @@ func QueryVideo(ctx context.Context, userID int64) ([]*Video, error) {
 	}
 
 	return res, nil
+}
+
+func CreateVideo(ctx context.Context, video *repository.Video) error {
+	return db.DB.WithContext(ctx).Create(video).Error
 }

@@ -16,7 +16,7 @@ struct GetVideosResp {
 struct PublishReq{
     1:i64 user_id
     2:string title
-    3:list<byte> data
+    3:binary data
 }
 
 struct PublishResp{

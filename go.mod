@@ -38,15 +38,16 @@ require (
 	github.com/nyaruka/phonenumbers v1.0.55 // indirect
 	github.com/oleiade/lane v1.0.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
+	github.com/qiniu/go-sdk/v7 v7.14.0 // indirect
 	github.com/tidwall/gjson v1.13.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	golang.org/x/arch v0.0.0-20220722155209-00200b7164a7 // indirect
-	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
+	golang.org/x/net v0.5.0 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220817070843-5a390386f1f2 // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/text v0.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20210513213006-bf773b8c8384 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
