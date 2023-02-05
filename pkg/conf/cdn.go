@@ -6,6 +6,7 @@ type cdn struct {
 	Bucket    string
 	UploadUrl string
 	Url       string
+	LocalPath string
 }
 
 var CDN = cdn{
@@ -14,4 +15,5 @@ var CDN = cdn{
 	Bucket:    "dousheng2022",
 	UploadUrl: "https://rcnh4fg5p.hn-bkt.clouddn.com/",
 	Url:       "https://cdn.nobugnolife.com/",
+	LocalPath: "video/",
 }
