@@ -1,36 +1,18 @@
 package main
 
 import (
-	"douyin/cmd/video/internal/dal"
-	video "douyin/kitex_gen/video/video/videoservice"
+	video "douyin/kitex_gen/video/videoservice"
+	"douyin/pkg/db"
 	"log"
-	"net"
-
-	"github.com/cloudwego/kitex/pkg/limit"
-	"github.com/cloudwego/kitex/server"
 )
 
-func Init() {
-	dal.Init()
-}
-
 func main() {
-	//r, err := etcd.NewEtcdRegistry([]string{constants.EtcdAddress})
-	//if err != nil {
-	//	panic(err)
-	//}
-	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8888")
+	// init数据库
+	err := db.Init()
 	if err != nil {
-		panic(err)
+		return
 	}
-	Init()
-
-	svr := video.NewServer(new(VideoServiceImpl),
-		server.WithServiceAddr(addr),                                       // address
-		server.WithLimit(&limit.Option{MaxConnections: 1000, MaxQPS: 100}), // limit
-		server.WithMuxTransport(),                                          // Multiplex
-		//server.WithRegistry(r),
-	)
+	svr := video.NewServer(new(VideoServiceImpl))
 
 	err = svr.Run()
 

@@ -20,8 +20,8 @@ func NewCreateUserService(ctx context.Context) *CreateUserService {
 }
 
 // CreateUser create user info.
-func (s *CreateUserService) CreateUser(req *user.CreateUserRequest) error {
-	users, err := db.QueryUser(s.ctx, req.UserName)
+func (s *CreateUserService) CreateUser(req *user.CreateUserReq) error {
+	users, err := db.QueryUser(s.ctx, req.Username)
 	if err != nil {
 		return err
 	}
@@ -35,7 +35,7 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserRequest) error {
 	}
 	password := fmt.Sprintf("%x", h.Sum(nil))
 	return db.CreateUser(s.ctx, []*db.User{{
-		UserName: req.UserName,
+		UserName: req.Username,
 		Password: password,
 	}})
 }

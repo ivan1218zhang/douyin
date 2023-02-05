@@ -12,10 +12,11 @@ import (
 type UserServiceImpl struct{}
 
 // CreateUser implements the UserServiceImpl interface.
-func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRequest) (resp *user.CreateUserResponse, err error) {
-	resp = new(user.CreateUserResponse)
+func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserReq) (resp *user.CreateUserResp, err error) {
 
-	if len(req.UserName) == 0 || len(req.Password) == 0 {
+	resp = new(user.CreateUserResp)
+
+	if len(req.Username) == 0 || len(req.Password) == 0 {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}
@@ -29,14 +30,14 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 	return resp, nil
 }
 
-// GetUser implements the UserServiceImpl interface.
-func (s *UserServiceImpl) GetUser(ctx context.Context, req *user.GetUserRequest) (resp *user.GetUserResponse, err error) {
+// GetUserById implements the UserServiceImpl interface.
+func (s *UserServiceImpl) GetUserById(ctx context.Context, req *user.GetUserByIdReq) (resp *user.GetUserByIdResp, err error) {
 	// TODO: Your code here...
 	return
 }
 
 // CheckUser implements the UserServiceImpl interface.
-func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserRequest) (resp *user.CheckUserResponse, err error) {
+func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserReq) (resp *user.CheckUserResp, err error) {
 	// TODO: Your code here...
 	return
 }
