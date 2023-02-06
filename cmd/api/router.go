@@ -3,11 +3,20 @@
 package main
 
 import (
+	"context"
+
+	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 )
 
 // customizeRegister registers customize routers.
 func customizedRegister(r *server.Hertz) {
+	r.GET("/douyin/feed", func(_ context.Context, c *app.RequestContext) {
+		c.JSON(200, utils.H{
+			"message": "pong",
+		})
+	})
 
 	// your code ...
 }

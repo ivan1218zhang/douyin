@@ -1,7 +1,7 @@
 package dal
 
 import (
-	"douyin/cmd/user/dal/db"
+	"douyin/cmd/video/internal/dal/db"
 )
 
 // Init init dal
