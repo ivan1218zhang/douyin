@@ -2,11 +2,10 @@ package service
 
 import (
 	"context"
-
-	"douyin/cmd/video/internal/dal/db"
-	"douyin/cmd/video/internal/pack"
-
-	"douyin/kitex_gen/video/video"
+	"douyin/cmd/video/dal/db"
+	"douyin/cmd/video/pack"
+	"douyin/kitex_gen/common"
+	"douyin/kitex_gen/video"
 )
 
 type MGetVideoService struct {
@@ -19,7 +18,7 @@ func NewMGetVideoService(ctx context.Context) *MGetVideoService {
 }
 
 // MGetVideo multiple get list of video info
-func (s *MGetVideoService) MGetVideo(req *video.DouyinFeedRequest) ([]*video.Video, error) {
+func (s *MGetVideoService) MGetVideo(req *video.GetVideosReq) ([]*common.Video, error) {
 	videoModels, err := db.MGetVideos(s.ctx, req.LatestTime)
 	if err != nil {
 		return nil, err

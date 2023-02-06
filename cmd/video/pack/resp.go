@@ -1,15 +1,13 @@
 package pack
 
 import (
-	"errors"
-	"time"
-
-	"douyin/kitex_gen/video/video"
+	"douyin/kitex_gen/common"
 	"douyin/pkg/errno"
+	"errors"
 )
 
 // BuildBaseResp build baseResp from error
-func BuildBaseResp(err error) *video.BaseResp {
+func BuildBaseResp(err error) *common.BaseResp {
 	if err == nil {
 		return baseResp(errno.Success)
 	}
@@ -21,10 +19,9 @@ func BuildBaseResp(err error) *video.BaseResp {
 	return baseResp(s)
 }
 
-func baseResp(err errno.ErrNo) *video.BaseResp {
-	return &video.BaseResp{
+func baseResp(err errno.ErrNo) *common.BaseResp {
+	return &common.BaseResp{
 		StatusCode:    err.ErrCode,
 		StatusMessage: err.ErrMsg,
-		ServiceTime:   time.Now().Unix(),
 	}
 }
