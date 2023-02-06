@@ -1,18 +1,3 @@
-// Copyright 2021 CloudWeGo Authors
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-
 package errno
 
 import (
@@ -26,6 +11,7 @@ const (
 	ParamErrCode               = 10002
 	UserAlreadyExistErrCode    = 10003
 	AuthorizationFailedErrCode = 10004
+	UserNotExistErrCode        = 10005
 )
 
 type ErrNo struct {
@@ -52,6 +38,7 @@ var (
 	ParamErr               = NewErrNo(ParamErrCode, "Wrong Parameter has been given")
 	UserAlreadyExistErr    = NewErrNo(UserAlreadyExistErrCode, "User already exists")
 	AuthorizationFailedErr = NewErrNo(AuthorizationFailedErrCode, "Authorization failed")
+	UserNotExistErr        = NewErrNo(UserNotExistErrCode, "User not exists")
 )
 
 // ConvertErr convert error to Errno

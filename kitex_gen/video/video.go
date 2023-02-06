@@ -3,6 +3,7 @@
 package video
 
 import (
+	"bytes"
 	"context"
 	"douyin/kitex_gen/common"
 	"fmt"
@@ -543,7 +544,7 @@ func (p *GetVideosResp) Field3DeepEqual(src int64) bool {
 type PublishReq struct {
 	UserId int64  `thrift:"user_id,1" json:"user_id"`
 	Title  string `thrift:"title,2" json:"title"`
-	Data   []int8 `thrift:"data,3" json:"data"`
+	Data   []byte `thrift:"data,3" json:"data"`
 }
 
 func NewPublishReq() *PublishReq {
@@ -558,7 +559,7 @@ func (p *PublishReq) GetTitle() (v string) {
 	return p.Title
 }
 
-func (p *PublishReq) GetData() (v []int8) {
+func (p *PublishReq) GetData() (v []byte) {
 	return p.Data
 }
 func (p *PublishReq) SetUserId(val int64) {
@@ -567,7 +568,7 @@ func (p *PublishReq) SetUserId(val int64) {
 func (p *PublishReq) SetTitle(val string) {
 	p.Title = val
 }
-func (p *PublishReq) SetData(val []int8) {
+func (p *PublishReq) SetData(val []byte) {
 	p.Data = val
 }
 
@@ -617,7 +618,7 @@ func (p *PublishReq) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.LIST {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -675,23 +676,10 @@ func (p *PublishReq) ReadField2(iprot thrift.TProtocol) error {
 }
 
 func (p *PublishReq) ReadField3(iprot thrift.TProtocol) error {
-	_, size, err := iprot.ReadListBegin()
-	if err != nil {
+	if v, err := iprot.ReadBinary(); err != nil {
 		return err
-	}
-	p.Data = make([]int8, 0, size)
-	for i := 0; i < size; i++ {
-		var _elem int8
-		if v, err := iprot.ReadByte(); err != nil {
-			return err
-		} else {
-			_elem = v
-		}
-
-		p.Data = append(p.Data, _elem)
-	}
-	if err := iprot.ReadListEnd(); err != nil {
-		return err
+	} else {
+		p.Data = []byte(v)
 	}
 	return nil
 }
@@ -768,18 +756,10 @@ WriteFieldEndError:
 }
 
 func (p *PublishReq) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("data", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("data", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.BYTE, len(p.Data)); err != nil {
-		return err
-	}
-	for _, v := range p.Data {
-		if err := oprot.WriteByte(v); err != nil {
-			return err
-		}
-	}
-	if err := oprot.WriteListEnd(); err != nil {
+	if err := oprot.WriteBinary([]byte(p.Data)); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -831,16 +811,10 @@ func (p *PublishReq) Field2DeepEqual(src string) bool {
 	}
 	return true
 }
-func (p *PublishReq) Field3DeepEqual(src []int8) bool {
+func (p *PublishReq) Field3DeepEqual(src []byte) bool {
 
-	if len(p.Data) != len(src) {
+	if bytes.Compare(p.Data, src) != 0 {
 		return false
-	}
-	for i, v := range p.Data {
-		_src := src[i]
-		if v != _src {
-			return false
-		}
 	}
 	return true
 }
