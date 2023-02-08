@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"douyin/cmd/user/dal/db"
 	"douyin/cmd/user/pack"
 	"douyin/cmd/user/service"
 	"douyin/kitex_gen/user"
 	"douyin/pkg/errno"
+	"douyin/pkg/repository"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
@@ -22,12 +22,13 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 		return resp, nil
 	}
 
-	err = service.NewCreateUserService(ctx).CreateUser(req)
+	user_id, err := service.NewCreateUserService(ctx).CreateUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.SetUserId(user_id)
 	return resp, nil
 }
 
@@ -35,7 +36,7 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 func (s *UserServiceImpl) GetUserById(ctx context.Context, req *user.GetUserByIdReq) (resp *user.GetUserByIdResp, err error) {
 
 	resp = new(user.GetUserByIdResp)
-	users := &db.User{}
+	users := &repository.User{}
 
 	users, err = service.NewGetUserByIdService(ctx).GetUserById(req)
 	if err != nil {
