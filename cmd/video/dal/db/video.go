@@ -5,8 +5,9 @@ import (
 	"douyin/cmd/user/dal/db"
 	"douyin/pkg/constants"
 	"douyin/pkg/repository"
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Video struct {
@@ -15,7 +16,7 @@ type Video struct {
 	UpdatedAt     time.Time
 	DeletedAt     gorm.DeletedAt `gorm:"index"`
 	AuthorId      int64
-	Author        db.User
+	Author        repository.User
 	PlayUrl       string
 	CoverUrl      string
 	FavoriteCount string

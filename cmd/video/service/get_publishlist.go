@@ -28,7 +28,7 @@ func (s *GetPublishListService) GetPublishListService(req *video.GetPublishListR
 			Id: v.ID,
 			Author: &common.User{
 				Id:   v.Author.ID,
-				Name: v.Author.Name,
+				Name: v.Author.UserName,
 			},
 			PlayUrl:  v.PlayUrl,
 			CoverUrl: v.CoverUrl,

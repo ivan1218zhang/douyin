@@ -12,7 +12,6 @@ import (
 
 var DB *gorm.DB
 var snowflake *util.SnowFlake
-var machineID = 1
 
 // Init init DB
 func Init() {
@@ -31,5 +30,5 @@ func Init() {
 		panic(err)
 	}
 
-	snowflake = util.NewSnowFlake(int64(machineID))
+	snowflake = util.NewSnowFlake(constants.UserServiceMachineID)
 }
