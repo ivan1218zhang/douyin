@@ -53,5 +53,19 @@ func (s *UserServiceImpl) GetUserById(ctx context.Context, req *user.GetUserById
 // CheckUser implements the UserServiceImpl interface.
 func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserReq) (resp *user.CheckUserResp, err error) {
 	// TODO: Your code here...
-	return
+	resp = new(user.CheckUserResp)
+
+	if len(req.Username) == 0 || len(req.Password) == 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	uid, err := service.NewCheckUserService(ctx).CheckUser(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.UserId = uid
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, nil
 }
