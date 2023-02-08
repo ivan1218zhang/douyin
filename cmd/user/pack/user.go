@@ -1,12 +1,12 @@
 package pack
 
 import (
-	"douyin/cmd/user/dal/db"
 	"douyin/kitex_gen/common"
+	"douyin/pkg/repository"
 )
 
 // User pack user info
-func User(u *db.User) *common.User {
+func User(u *repository.User) *common.User {
 	if u == nil {
 		return nil
 	}

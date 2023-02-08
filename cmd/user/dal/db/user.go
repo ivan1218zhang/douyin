@@ -2,23 +2,11 @@ package db
 
 import (
 	"context"
-	"douyin/pkg/constants"
-
-	"gorm.io/gorm"
+	"douyin/pkg/repository"
 )
 
-type User struct {
-	gorm.Model
-	UserName string `json:"user_name"`
-	Password string `json:"password"`
-}
-
-func (u *User) TableName() string {
-	return constants.UserTableName
-}
-
-func GetUsers(ctx context.Context, userID int64) (*User, error) {
-	res := &User{}
+func GetUsers(ctx context.Context, userID int64) (*repository.User, error) {
+	res := &repository.User{}
 
 	if err := DB.WithContext(ctx).Where("id = ?", userID).Find(&res).Error; err != nil {
 		return nil, err
@@ -27,13 +15,15 @@ func GetUsers(ctx context.Context, userID int64) (*User, error) {
 }
 
 // CreateUser create user info
-func CreateUser(ctx context.Context, users []*User) error {
-	return DB.WithContext(ctx).Create(users).Error
+func CreateUser(ctx context.Context, user *repository.User) (int64, error) {
+	// 使用雪花ID生成器生成id
+	user.ID = snowflake.NextSnowID()
+	return user.ID, DB.WithContext(ctx).Create(user).Error
 }
 
 // QueryUser query list of user info
-func QueryUser(ctx context.Context, userName string) ([]*User, error) {
-	res := make([]*User, 0)
+func QueryUser(ctx context.Context, userName string) ([]*repository.User, error) {
+	res := make([]*repository.User, 0)
 	if err := DB.WithContext(ctx).Where("user_name = ?", userName).Find(&res).Error; err != nil {
 		return nil, err
 	}
