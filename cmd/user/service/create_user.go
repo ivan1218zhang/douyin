@@ -28,7 +28,7 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserReq) (int64, error) {
 	if len(users) != 0 {
 		return 0, errno.UserAlreadyExistErr
 	}
-
+	// bcrypt密码加密
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return 0, err

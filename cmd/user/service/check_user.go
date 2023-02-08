@@ -17,15 +17,14 @@ package service
 
 import (
 	"context"
-	"crypto/md5"
-	"fmt"
-	"io"
 
 	"douyin/pkg/errno"
 
 	"douyin/kitex_gen/user"
 
 	"douyin/cmd/user/dal/db"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type CheckUserService struct {
@@ -41,11 +40,8 @@ func NewCheckUserService(ctx context.Context) *CheckUserService {
 
 // CheckUser check user info
 func (s *CheckUserService) CheckUser(req *user.CheckUserReq) (int64, error) {
-	h := md5.New()
-	if _, err := io.WriteString(h, req.Password); err != nil {
-		return 0, err
-	}
-	passWord := fmt.Sprintf("%x", h.Sum(nil))
+
+	passWord := req.Password
 
 	userName := req.Username
 	users, err := db.QueryUser(s.ctx, userName)
@@ -56,7 +52,7 @@ func (s *CheckUserService) CheckUser(req *user.CheckUserReq) (int64, error) {
 		return 0, errno.AuthorizationFailedErr
 	}
 	u := users[0]
-	if u.Password != passWord {
+	if e := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(passWord)); e != nil {
 		return 0, errno.AuthorizationFailedErr
 	}
 	return int64(u.ID), nil
