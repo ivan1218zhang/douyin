@@ -23,3 +23,10 @@ struct Video{
 	7:bool is_favorite
 	8:string title
 }
+
+struct Comment{
+    1:i64 id
+    2:User user
+    3:string content
+    4:string create_date
+}
