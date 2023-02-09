@@ -22,7 +22,6 @@ func (s *VideoServiceImpl) MGetVideo(ctx context.Context, req *video.MGetVideoRe
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.VideoList = videos
-
 	return resp, nil
 }
 

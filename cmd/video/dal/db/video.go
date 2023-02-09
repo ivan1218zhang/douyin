@@ -2,9 +2,10 @@ package db
 
 import (
 	"context"
-	"douyin/cmd/user/dal/db"
 	"douyin/kitex_gen/common"
+	"douyin/pkg/db"
 	"douyin/pkg/repository"
+	"time"
 )
 
 // QueryVideo query list of video info
@@ -25,8 +26,8 @@ func CreateVideo(ctx context.Context, video *repository.Video) error {
 // MGetVideo multiple get list of Video info
 func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
 	var res []*common.Video
-
-	if err := DB.WithContext(ctx).Where("created_at < ?", latestTime).Find(&res).Error; err != nil {
+	tm := time.Unix(0, latestTime*int64(time.Millisecond))
+	if err := db.DB.WithContext(ctx).Where("created_at < ?", tm.Format("2006-01-02 03:04:05")).Find(&res).Error; err != nil {
 		return res, err
 	}
 	return res, nil

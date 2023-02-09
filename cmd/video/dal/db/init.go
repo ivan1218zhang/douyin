@@ -2,6 +2,7 @@ package db
 
 import (
 	"douyin/pkg/constants"
+	"douyin/pkg/repository"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -22,7 +23,7 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&Video{})
+	DB.AutoMigrate(&repository.Video{})
 	if err = DB.Use(gormopentracing.New()); err != nil {
 		panic(err)
 	}

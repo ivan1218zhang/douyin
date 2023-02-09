@@ -3,12 +3,13 @@
 package main
 
 import (
+	"douyin/cmd/api/biz/rpc"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
 func main() {
-	h := server.Default(server.WithHostPorts("127.0.0.1:8080"))
-
+	rpc.Init()
+	h := server.Default(server.WithHostPorts("0.0.0.0:8080"))
 	register(h)
 	h.Spin()
 }
