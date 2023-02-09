@@ -2,11 +2,12 @@ package db
 
 import (
 	"context"
+	"douyin/kitex_gen/common"
 	"douyin/pkg/repository"
 )
 
-func GetUsers(ctx context.Context, userID int64) (*repository.User, error) {
-	res := &repository.User{}
+func GetUser(ctx context.Context, userID int64) (*common.User, error) {
+	res := &common.User{}
 
 	if err := DB.WithContext(ctx).Where("id = ?", userID).Find(&res).Error; err != nil {
 		return nil, err

@@ -14,7 +14,7 @@ type CreateUserService struct {
 	ctx context.Context
 }
 
-// 实例化CreateUserService
+// NewCreateUserService 实例化CreateUserService
 func NewCreateUserService(ctx context.Context) *CreateUserService {
 	return &CreateUserService{ctx: ctx}
 }
@@ -34,9 +34,9 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserReq) (int64, error) {
 		return 0, err
 	}
 	password := string(hash)
-	user := &repository.User{
+	user1 := &repository.User{
 		UserName: req.Username,
 		Password: password,
 	}
-	return db.CreateUser(s.ctx, user)
+	return db.CreateUser(s.ctx, user1)
 }

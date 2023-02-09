@@ -55,5 +55,5 @@ func (s *CheckUserService) CheckUser(req *user.CheckUserReq) (int64, error) {
 	if e := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(passWord)); e != nil {
 		return 0, errno.AuthorizationFailedErr
 	}
-	return int64(u.ID), nil
+	return u.ID, nil
 }

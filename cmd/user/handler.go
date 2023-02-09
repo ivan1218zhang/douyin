@@ -6,7 +6,6 @@ import (
 	"douyin/cmd/user/service"
 	"douyin/kitex_gen/user"
 	"douyin/pkg/errno"
-	"douyin/pkg/repository"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
@@ -22,32 +21,32 @@ func (s *UserServiceImpl) CreateUser(ctx context.Context, req *user.CreateUserRe
 		return resp, nil
 	}
 
-	user_id, err := service.NewCreateUserService(ctx).CreateUser(req)
+	userId, err := service.NewCreateUserService(ctx).CreateUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.SetUserId(user_id)
+	resp.SetUserId(userId)
 	return resp, nil
 }
 
-// GetUserById implements the UserServiceImpl interface.
-func (s *UserServiceImpl) GetUserById(ctx context.Context, req *user.GetUserByIdReq) (resp *user.GetUserByIdResp, err error) {
+// GetUser implements the UserServiceImpl interface.
+func (s *UserServiceImpl) GetUser(ctx context.Context, req *user.GetUserReq) (resp *user.GetUserResp, err error) {
 
-	resp = new(user.GetUserByIdResp)
-	users := &repository.User{}
+	resp = new(user.GetUserResp)
 
-	users, err = service.NewGetUserByIdService(ctx).GetUserById(req)
+	user1, err := service.NewGetUserService(ctx).GetUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
-	if users == nil {
+	if user1 == nil {
 		resp.BaseResp = pack.BuildBaseResp(errno.Success)
 		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.User = user1
 	return resp, nil
 }
 
@@ -69,4 +68,10 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *user.CheckUserReq)
 	resp.UserId = uid
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	return resp, nil
+}
+
+// MGetUser implements the UserServiceImpl interface.
+func (s *UserServiceImpl) MGetUser(ctx context.Context, req *user.MGetUserReq) (resp *user.MGetUserResp, err error) {
+	// TODO: Your code here...
+	return
 }
