@@ -625,13 +625,14 @@ func (p *User) Field5DeepEqual(src bool) bool {
 
 type Video struct {
 	Id            int64  `thrift:"id,1" json:"id"`
-	Author        *User  `thrift:"Author,2" json:"Author"`
-	PlayUrl       string `thrift:"PlayUrl,3" json:"PlayUrl"`
-	CoverUrl      string `thrift:"CoverUrl,4" json:"CoverUrl"`
+	Author        *User  `thrift:"author,2" json:"author"`
+	PlayUrl       string `thrift:"play_url,3" json:"play_url"`
+	CoverUrl      string `thrift:"cover_url,4" json:"cover_url"`
 	FavoriteCount int64  `thrift:"favorite_count,5" json:"favorite_count"`
 	CommentCount  int64  `thrift:"comment_count,6" json:"comment_count"`
 	IsFavorite    bool   `thrift:"is_favorite,7" json:"is_favorite"`
 	Title         string `thrift:"title,8" json:"title"`
+	AuthorId      int64  `thrift:"author_id,9" json:"author_id"`
 }
 
 func NewVideo() *Video {
@@ -674,6 +675,10 @@ func (p *Video) GetIsFavorite() (v bool) {
 func (p *Video) GetTitle() (v string) {
 	return p.Title
 }
+
+func (p *Video) GetAuthorId() (v int64) {
+	return p.AuthorId
+}
 func (p *Video) SetId(val int64) {
 	p.Id = val
 }
@@ -698,16 +703,20 @@ func (p *Video) SetIsFavorite(val bool) {
 func (p *Video) SetTitle(val string) {
 	p.Title = val
 }
+func (p *Video) SetAuthorId(val int64) {
+	p.AuthorId = val
+}
 
 var fieldIDToName_Video = map[int16]string{
 	1: "id",
-	2: "Author",
-	3: "PlayUrl",
-	4: "CoverUrl",
+	2: "author",
+	3: "play_url",
+	4: "cover_url",
 	5: "favorite_count",
 	6: "comment_count",
 	7: "is_favorite",
 	8: "title",
+	9: "author_id",
 }
 
 func (p *Video) IsSetAuthor() bool {
@@ -806,6 +815,16 @@ func (p *Video) Read(iprot thrift.TProtocol) (err error) {
 		case 8:
 			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField8(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 9:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField9(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -914,6 +933,15 @@ func (p *Video) ReadField8(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *Video) ReadField9(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.AuthorId = v
+	}
+	return nil
+}
+
 func (p *Video) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("Video"); err != nil {
@@ -950,6 +978,10 @@ func (p *Video) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField8(oprot); err != nil {
 			fieldId = 8
+			goto WriteFieldError
+		}
+		if err = p.writeField9(oprot); err != nil {
+			fieldId = 9
 			goto WriteFieldError
 		}
 
@@ -989,7 +1021,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Author", thrift.STRUCT, 2); err != nil {
+	if err = oprot.WriteFieldBegin("author", thrift.STRUCT, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := p.Author.Write(oprot); err != nil {
@@ -1006,7 +1038,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("PlayUrl", thrift.STRING, 3); err != nil {
+	if err = oprot.WriteFieldBegin("play_url", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.PlayUrl); err != nil {
@@ -1023,7 +1055,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("CoverUrl", thrift.STRING, 4); err != nil {
+	if err = oprot.WriteFieldBegin("cover_url", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.CoverUrl); err != nil {
@@ -1107,6 +1139,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 8 end error: ", p), err)
 }
 
+func (p *Video) writeField9(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("author_id", thrift.I64, 9); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.AuthorId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 9 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 9 end error: ", p), err)
+}
+
 func (p *Video) String() string {
 	if p == nil {
 		return "<nil>"
@@ -1142,6 +1191,9 @@ func (p *Video) DeepEqual(ano *Video) bool {
 		return false
 	}
 	if !p.Field8DeepEqual(ano.Title) {
+		return false
+	}
+	if !p.Field9DeepEqual(ano.AuthorId) {
 		return false
 	}
 	return true
@@ -1203,12 +1255,20 @@ func (p *Video) Field8DeepEqual(src string) bool {
 	}
 	return true
 }
+func (p *Video) Field9DeepEqual(src int64) bool {
+
+	if p.AuthorId != src {
+		return false
+	}
+	return true
+}
 
 type Comment struct {
 	Id         int64  `thrift:"id,1" json:"id"`
 	User       *User  `thrift:"user,2" json:"user"`
 	Content    string `thrift:"content,3" json:"content"`
 	CreateDate string `thrift:"create_date,4" json:"create_date"`
+	UserId     int64  `thrift:"user_id,5" json:"user_id"`
 }
 
 func NewComment() *Comment {
@@ -1235,6 +1295,10 @@ func (p *Comment) GetContent() (v string) {
 func (p *Comment) GetCreateDate() (v string) {
 	return p.CreateDate
 }
+
+func (p *Comment) GetUserId() (v int64) {
+	return p.UserId
+}
 func (p *Comment) SetId(val int64) {
 	p.Id = val
 }
@@ -1247,12 +1311,16 @@ func (p *Comment) SetContent(val string) {
 func (p *Comment) SetCreateDate(val string) {
 	p.CreateDate = val
 }
+func (p *Comment) SetUserId(val int64) {
+	p.UserId = val
+}
 
 var fieldIDToName_Comment = map[int16]string{
 	1: "id",
 	2: "user",
 	3: "content",
 	4: "create_date",
+	5: "user_id",
 }
 
 func (p *Comment) IsSetUser() bool {
@@ -1311,6 +1379,16 @@ func (p *Comment) Read(iprot thrift.TProtocol) (err error) {
 		case 4:
 			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -1383,6 +1461,15 @@ func (p *Comment) ReadField4(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *Comment) ReadField5(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+
 func (p *Comment) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("Comment"); err != nil {
@@ -1403,6 +1490,10 @@ func (p *Comment) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField4(oprot); err != nil {
 			fieldId = 4
+			goto WriteFieldError
+		}
+		if err = p.writeField5(oprot); err != nil {
+			fieldId = 5
 			goto WriteFieldError
 		}
 
@@ -1492,6 +1583,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
 }
 
+func (p *Comment) writeField5(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 5); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
+}
+
 func (p *Comment) String() string {
 	if p == nil {
 		return "<nil>"
@@ -1515,6 +1623,9 @@ func (p *Comment) DeepEqual(ano *Comment) bool {
 		return false
 	}
 	if !p.Field4DeepEqual(ano.CreateDate) {
+		return false
+	}
+	if !p.Field5DeepEqual(ano.UserId) {
 		return false
 	}
 	return true
@@ -1544,6 +1655,13 @@ func (p *Comment) Field3DeepEqual(src string) bool {
 func (p *Comment) Field4DeepEqual(src string) bool {
 
 	if strings.Compare(p.CreateDate, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *Comment) Field5DeepEqual(src int64) bool {
+
+	if p.UserId != src {
 		return false
 	}
 	return true
