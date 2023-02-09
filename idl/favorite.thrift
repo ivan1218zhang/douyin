@@ -11,14 +11,14 @@ struct IsFavoriteResp{
     2:bool is_favorite
 }
 
-struct IsFavoriteListReq{
+struct MIsFavoriteReq{
     1:i64 user_id
-    2:list<i64> video_id
+    2:list<i64> video_id_list
 }
 
-struct IsFavoriteListResp{
+struct MIsFavoriteResp{
     1:common.BaseResp base_resp
-    2:list<bool> is_favorite
+    2:list<bool> is_favorite_list
 }
 
 struct FavoriteActionReq{
@@ -31,13 +31,13 @@ struct FavoriteActionResp{
     1:common.BaseResp base_resp
 }
 
-struct GetFavoritesByUserIdReq{
+struct MGetFavoriteVideoReq{
     1:i64 user_id
 }
 
-struct GetFavoritesByUserIdResp{
+struct MGetFavoriteVideoResp{
     1:common.BaseResp base_resp
-    2:list<common.Video> favorites
+    2:list<common.Video> video_list
 }
 
 struct CountFavoriteReq{
@@ -49,20 +49,20 @@ struct CountFavoriteResp{
     2:i64 favorite_count
 }
 
-struct CountFavoriteListReq{
-    1:list<i64> video_id
+struct MCountFavoriteReq{
+    1:list<i64> video_id_list
 }
 
-struct CountFavoriteListResp{
+struct MCountFavoriteResp{
     1:common.BaseResp base_resp
-    2:list<i64> favorite_count
+    2:list<i64> favorite_count_list
 }
 
 service FavoriteService {
     IsFavoriteResp IsFavorite(1:IsFavoriteReq req)
-    IsFavoriteListResp IsFavoriteList(1:IsFavoriteListReq req)
+    MIsFavoriteResp MIsFavorite(1:MIsFavoriteReq req)
     CountFavoriteResp CountFavorite(1:CountFavoriteReq req)
-    CountFavoriteListResp CountFavoriteList(1:CountFavoriteListReq req)
+    MCountFavoriteResp MCountFavorite(1:MCountFavoriteReq req)
     FavoriteActionResp FavoriteAction(1:FavoriteActionReq req)
-    GetFavoritesByUserIdResp GetFavoritesByUserId(1:GetFavoritesByUserIdReq req)
+    MGetFavoriteVideoResp MGetFavoriteVideo(1:MGetFavoriteVideoReq req)
 }

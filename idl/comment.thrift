@@ -15,13 +15,13 @@ struct CommentActionResp{
     2:common.Comment comment
 }
 
-struct GetCommentsByVideoIdReq{
+struct MGetCommentReq{
     1:i64 video_id
 }
 
-struct GetCommentsByVideoIdResp{
+struct MGetCommentResp{
     1:common.BaseResp base_resp
-    2:list<common.Comment> comments
+    2:list<common.Comment> comment_list
 }
 
 struct CountCommentReq{
@@ -33,18 +33,18 @@ struct CountCommentResp{
     2:i64 comment_count
 }
 
-struct CountCommentListReq{
-    1:list<i64> video_id
+struct MCountCommentReq{
+    1:list<i64> video_id_list
 }
 
-struct CountCommentListResp{
+struct MCountCommentResp{
     1:common.BaseResp base_resp
-    2:list<i64> comment_count
+    2:list<i64> comment_count_list
 }
 
 service CommentService {
-    CommentActionResp CreateComment(1:CommentActionReq req)
+    CommentActionResp CommentAction(1:CommentActionReq req)
     CountCommentResp CountComment(1:CountCommentReq req)
-    CountCommentListResp CountCommentList(1:CountCommentListReq req)
-    GetCommentsByVideoIdResp GetCommentsByVideoId(1:GetCommentsByVideoIdReq getCommentsByVideoIdReq)
+    MCountCommentResp MCountComment(1:MCountCommentReq req)
+    MGetCommentResp MGetComment(1:MGetCommentReq req)
 }
