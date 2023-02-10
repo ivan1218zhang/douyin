@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"douyin/cmd/user/dal/db"
+	"douyin/cmd/user/pack"
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 )
@@ -16,9 +17,9 @@ func NewMGetUserService(ctx context.Context) *GetUserService {
 }
 
 func (s *GetUserService) MGetUser(req *user.MGetUserReq) (user []*common.User, err error) {
-	user1, err := db.MGetUser(s.ctx, req.IdList)
+	modelUsers, err := db.MGetUsers(s.ctx, req.IdList)
 	if err != nil {
 		return nil, err
 	}
-	return user1, nil
+	return pack.Users(modelUsers), nil
 }

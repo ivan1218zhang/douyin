@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"douyin/cmd/user/dal/db"
+	"douyin/cmd/user/pack"
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 )
@@ -20,5 +21,5 @@ func (s *GetUserService) GetUser(req *user.GetUserReq) (user *common.User, err e
 	if err != nil {
 		return nil, err
 	}
-	return user1, nil
+	return pack.User(user1), nil
 }

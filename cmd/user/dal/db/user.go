@@ -2,12 +2,11 @@ package db
 
 import (
 	"context"
-	"douyin/kitex_gen/common"
 	"douyin/pkg/repository"
 )
 
-func GetUser(ctx context.Context, userID int64) (*common.User, error) {
-	res := &common.User{}
+func GetUser(ctx context.Context, userID int64) (*repository.User, error) {
+	res := &repository.User{}
 
 	if err := DB.WithContext(ctx).Where("id = ?", userID).Find(&res).Error; err != nil {
 		return nil, err
@@ -31,8 +30,8 @@ func QueryUser(ctx context.Context, userName string) ([]*repository.User, error)
 	return res, nil
 }
 
-func MGetUser(ctx context.Context, userIDs []int64) ([]*common.User, error) {
-	res := make([]*common.User, 0)
+func MGetUsers(ctx context.Context, userIDs []int64) ([]*repository.User, error) {
+	res := make([]*repository.User, 0)
 	if len(userIDs) == 0 {
 		return res, nil
 	}
