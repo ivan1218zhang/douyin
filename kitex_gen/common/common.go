@@ -632,16 +632,16 @@ func (p *User) Field5DeepEqual(src bool) bool {
 }
 
 type Video struct {
-	Id            int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
-	Author        *User  `thrift:"author,2" frugal:"2,default,User" json:"author"`
-	PlayUrl       string `thrift:"play_url,3" frugal:"3,default,string" json:"play_url"`
-	CoverUrl      string `thrift:"cover_url,4" frugal:"4,default,string" json:"cover_url"`
-	FavoriteCount int64  `thrift:"favorite_count,5" frugal:"5,default,i64" json:"favorite_count"`
-	CommentCount  int64  `thrift:"comment_count,6" frugal:"6,default,i64" json:"comment_count"`
-	IsFavorite    bool   `thrift:"is_favorite,7" frugal:"7,default,bool" json:"is_favorite"`
-	Title         string `thrift:"title,8" frugal:"8,default,string" json:"title"`
-	AuthorId      int64  `thrift:"author_id,9" frugal:"9,default,i64" json:"author_id"`
-	CreatedAt     int64  `thrift:"created_at,10" frugal:"10,default,i64" json:"created_at"`
+	Id            int64  `thrift:"id,1" json:"id"`
+	Author        *User  `thrift:"author,2" json:"author"`
+	PlayUrl       string `thrift:"play_url,3" json:"play_url"`
+	CoverUrl      string `thrift:"cover_url,4" json:"cover_url"`
+	FavoriteCount int64  `thrift:"favorite_count,5" json:"favorite_count"`
+	CommentCount  int64  `thrift:"comment_count,6" json:"comment_count"`
+	IsFavorite    bool   `thrift:"is_favorite,7" json:"is_favorite"`
+	Title         string `thrift:"title,8" json:"title"`
+	AuthorId      int64  `thrift:"author_id,9" json:"author_id"`
+	CreatedAt     int64  `thrift:"created_at,10" json:"created_at"`
 }
 
 func NewVideo() *Video {
