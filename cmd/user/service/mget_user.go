@@ -12,8 +12,8 @@ type MGetUserService struct {
 	ctx context.Context
 }
 
-func NewMGetUserService(ctx context.Context) *GetUserService {
-	return &GetUserService{ctx: ctx}
+func NewMGetUserService(ctx context.Context) *MGetUserService {
+	return &MGetUserService{ctx: ctx}
 }
 
 func (s *MGetUserService) MGetUser(req *user.MGetUserReq) (user []*common.User, err error) {
