@@ -8,7 +8,7 @@ import (
 	"douyin/kitex_gen/user"
 )
 
-type GetMUsersService struct {
+type MGetUserService struct {
 	ctx context.Context
 }
 
@@ -16,7 +16,7 @@ func NewMGetUserService(ctx context.Context) *GetUserService {
 	return &GetUserService{ctx: ctx}
 }
 
-func (s *GetUserService) MGetUser(req *user.MGetUserReq) (user []*common.User, err error) {
+func (s *MGetUserService) MGetUser(req *user.MGetUserReq) (user []*common.User, err error) {
 	modelUsers, err := db.MGetUsers(s.ctx, req.IdList)
 	if err != nil {
 		return nil, err
