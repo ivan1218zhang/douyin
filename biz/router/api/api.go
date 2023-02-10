@@ -3,7 +3,7 @@
 package Api
 
 import (
-	api "douyin/cmd/api/biz/handler/api"
+	api "douyin/biz/handler/api"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 

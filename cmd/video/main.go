@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		return
 	}
+
 	svr := video.NewServer(new(VideoServiceImpl))
 
 	err = svr.Run()

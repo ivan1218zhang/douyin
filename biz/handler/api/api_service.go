@@ -4,12 +4,8 @@ package api
 
 import (
 	"context"
-	"douyin/cmd/api/biz/rpc"
-	"douyin/kitex_gen/user"
-	"douyin/kitex_gen/video"
-	"io/ioutil"
+	"douyin/cmd/api/biz/model/api"
 
-	api "douyin/cmd/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -25,10 +21,7 @@ func MGetVideo(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp, err := rpc.MGetVideo(ctx, &video.MGetVideoReq{
-		LatestTime: req.LatestTime,
-		UserId:     0,
-	})
+	resp := new(api.MGetVideoResp)
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -44,10 +37,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp, err := rpc.CreateUser(ctx, &user.CreateUserReq{
-		Username: req.Username,
-		Password: req.Password,
-	})
+	resp := new(api.RegisterResp)
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -79,7 +69,7 @@ func GetUser(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp, err := rpc.GetUser(ctx, &user.GetUserReq{Id: req.UserID})
+	resp := new(api.GetUserResp)
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -94,15 +84,8 @@ func Publish(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	file, err := c.FormFile("data")
-	source, err := file.Open()
-	defer source.Close()
-	data, err := ioutil.ReadAll(source)
-	resp, err := rpc.Publish(ctx, &video.PublishReq{
-		UserId: 0,
-		Title:  req.Title,
-		Data:   data,
-	})
+
+	resp := new(api.PublishResp)
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -117,7 +100,8 @@ func MGetPublish(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	resp, err := rpc.MGetPublish(ctx, &video.MGetPublishReq{UserId: req.UserID})
+
+	resp := new(api.MGetPublishResp)
 
 	c.JSON(consts.StatusOK, resp)
 }

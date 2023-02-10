@@ -5,11 +5,13 @@ package main
 import (
 	"douyin/cmd/api/biz/rpc"
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/hertz-contrib/logger/accesslog"
 )
 
 func main() {
 	rpc.Init()
 	h := server.Default(server.WithHostPorts("0.0.0.0:8080"))
 	register(h)
+	h.Use(accesslog.New(accesslog.WithFormat("[${time}] ${status} - ${latency} ${method} ${path} ${queryParams}")))
 	h.Spin()
 }

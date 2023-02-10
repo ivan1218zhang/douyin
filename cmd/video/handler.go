@@ -46,6 +46,9 @@ func (s *VideoServiceImpl) MGetPublish(ctx context.Context, req *video.MGetPubli
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
+	if len(videos) > 0 {
+
+	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.VideoList = videos
 	return resp, nil
