@@ -30,3 +30,15 @@ func QueryUser(ctx context.Context, userName string) ([]*repository.User, error)
 	}
 	return res, nil
 }
+
+func MGetUser(ctx context.Context, userIDs []int64) ([]*common.User, error) {
+	res := make([]*common.User, 0)
+	if len(userIDs) == 0 {
+		return res, nil
+	}
+
+	if err := DB.WithContext(ctx).Where("id in ?", userIDs).Find(&res).Error; err != nil {
+		return nil, err
+	}
+	return res, nil
+}
