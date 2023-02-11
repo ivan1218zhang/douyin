@@ -3,21 +3,23 @@ package service
 import (
 	"context"
 	"douyin/cmd/user/dal/db"
+	"douyin/cmd/user/pack"
+	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 )
 
-type GetUserByIdService struct {
+type GetUserService struct {
 	ctx context.Context
 }
 
-func NewGetUserByIdService(ctx context.Context) *GetUserByIdService {
-	return &GetUserByIdService{ctx: ctx}
+func NewGetUserService(ctx context.Context) *GetUserService {
+	return &GetUserService{ctx: ctx}
 }
 
-func (s *GetUserByIdService) GetUserById(req *user.GetUserByIdReq) (user *db.User, err error) {
-	users, err := db.GetUsers(s.ctx, req.Id)
+func (s *GetUserService) GetUser(req *user.GetUserReq) (user *common.User, err error) {
+	user1, err := db.GetUser(s.ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}
-	return users, nil
+	return pack.User(user1), nil
 }

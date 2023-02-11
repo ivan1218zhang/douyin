@@ -19,7 +19,7 @@ func TestCreateUser(t *testing.T) {
 		Username: "testuser1",
 		Password: "password",
 	}
-	if err := service.CreateUser(req); err != nil {
+	if _, err := service.CreateUser(req); err != nil {
 		t.Errorf("CreateUser returned an error: %v", err)
 	}
 
@@ -28,7 +28,7 @@ func TestCreateUser(t *testing.T) {
 		Username: "testuser1",
 		Password: "password",
 	}
-	if err := service.CreateUser(req); err != errno.UserAlreadyExistErr {
+	if _, err := service.CreateUser(req); err != errno.UserAlreadyExistErr {
 		t.Errorf("CreateUser should have returned UserAlreadyExistErr error")
 	}
 }

@@ -2,40 +2,41 @@ package service
 
 import (
 	"context"
-	"crypto/md5"
 	"douyin/cmd/user/dal/db"
 	"douyin/kitex_gen/user"
 	"douyin/pkg/errno"
-	"fmt"
-	"io"
+	"douyin/pkg/repository"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type CreateUserService struct {
 	ctx context.Context
 }
 
-// 实例化CreateUserService
+// NewCreateUserService 实例化CreateUserService
 func NewCreateUserService(ctx context.Context) *CreateUserService {
 	return &CreateUserService{ctx: ctx}
 }
 
 // CreateUser create user info.
-func (s *CreateUserService) CreateUser(req *user.CreateUserReq) error {
+func (s *CreateUserService) CreateUser(req *user.CreateUserReq) (int64, error) {
 	users, err := db.QueryUser(s.ctx, req.Username)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	if len(users) != 0 {
-		return errno.UserAlreadyExistErr
+		return 0, errno.UserAlreadyExistErr
 	}
-
-	h := md5.New()
-	if _, err = io.WriteString(h, req.Password); err != nil {
-		return err
+	// bcrypt密码加密
+	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return 0, err
 	}
-	password := fmt.Sprintf("%x", h.Sum(nil))
-	return db.CreateUser(s.ctx, []*db.User{{
+	password := string(hash)
+	user1 := &repository.User{
 		UserName: req.Username,
 		Password: password,
-	}})
+	}
+	return db.CreateUser(s.ctx, user1)
 }

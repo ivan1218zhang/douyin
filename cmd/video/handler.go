@@ -4,7 +4,6 @@ import (
 	"context"
 	"douyin/cmd/video/pack"
 	"douyin/cmd/video/service"
-	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/video"
 	"douyin/pkg/errno"
 )
@@ -12,41 +11,42 @@ import (
 // VideoServiceImpl implements the last service interface defined in the IDL.
 type VideoServiceImpl struct{}
 
-// GetVideos implements the VideoServiceImpl interface.
-func (s *VideoServiceImpl) GetVideos(ctx context.Context, getVideosReq *video.GetVideosReq) (resp *video.GetVideosResp, err error) {
-	// TODO: Your code here...
-	return
-}
+// MGetVideo implements the VideoServiceImpl interface.
+func (s *VideoServiceImpl) MGetVideo(ctx context.Context, req *video.MGetVideoReq) (resp *video.MGetVideoResp, err error) {
+	resp = new(video.MGetVideoResp)
 
-// Publish implements the VideoServiceImpl interface.
-func (s *VideoServiceImpl) Publish(ctx context.Context, publishReq *video.PublishReq) (resp *video.PublishResp, err error) {
-	// TODO: Your code here...
-	resp = &video.PublishResp{
-		BaseResp: &common.BaseResp{
-			StatusCode:    0,
-			StatusMessage: "",
-		},
-		Url: "",
-	}
-	publishService := service.NewPublishService(ctx)
-	err = publishService.Publish(publishReq)
-	if err != nil {
-		resp.BaseResp.StatusCode = 1
-		resp.BaseResp.StatusMessage = "视频接收失败"
-	}
-	return
-}
-
-// GetPublishList implements the VideoServiceImpl interface.
-func (s *VideoServiceImpl) GetPublishList(ctx context.Context, req *video.GetPublishListReq) (resp *video.GetPublishListResp, err error) {
-	resp = new(video.GetPublishListResp)
-	// TODO:check param
-	videos, err := service.NewGetPublishListService(ctx).GetPublishListService(req)
+	videos, err := service.NewMGetVideoService(ctx).MGetVideo(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.Videos = videos
+	resp.VideoList = videos
+	return resp, nil
+}
+
+// Publish implements the VideoServiceImpl interface.
+func (s *VideoServiceImpl) Publish(ctx context.Context, req *video.PublishReq) (resp *video.PublishResp, err error) {
+	resp = new(video.PublishResp)
+	publishService := service.NewPublishService(ctx)
+	err = publishService.Publish(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return
+}
+
+// MGetPublish implements the VideoServiceImpl interface.
+func (s *VideoServiceImpl) MGetPublish(ctx context.Context, req *video.MGetPublishReq) (resp *video.MGetPublishResp, err error) {
+	resp = new(video.MGetPublishResp)
+	// TODO:check param
+	videos, err := service.NewMGetPublishService(ctx).MGetPublishList(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.VideoList = videos
 	return resp, nil
 }

@@ -12,8 +12,9 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	CreateUser(ctx context.Context, req *user.CreateUserReq, callOptions ...callopt.Option) (r *user.CreateUserResp, err error)
-	GetUserById(ctx context.Context, req *user.GetUserByIdReq, callOptions ...callopt.Option) (r *user.GetUserByIdResp, err error)
+	GetUser(ctx context.Context, req *user.GetUserReq, callOptions ...callopt.Option) (r *user.GetUserResp, err error)
 	CheckUser(ctx context.Context, req *user.CheckUserReq, callOptions ...callopt.Option) (r *user.CheckUserResp, err error)
+	MGetUser(ctx context.Context, req *user.MGetUserReq, callOptions ...callopt.Option) (r *user.MGetUserResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -50,12 +51,17 @@ func (p *kUserServiceClient) CreateUser(ctx context.Context, req *user.CreateUse
 	return p.kClient.CreateUser(ctx, req)
 }
 
-func (p *kUserServiceClient) GetUserById(ctx context.Context, req *user.GetUserByIdReq, callOptions ...callopt.Option) (r *user.GetUserByIdResp, err error) {
+func (p *kUserServiceClient) GetUser(ctx context.Context, req *user.GetUserReq, callOptions ...callopt.Option) (r *user.GetUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetUserById(ctx, req)
+	return p.kClient.GetUser(ctx, req)
 }
 
 func (p *kUserServiceClient) CheckUser(ctx context.Context, req *user.CheckUserReq, callOptions ...callopt.Option) (r *user.CheckUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CheckUser(ctx, req)
+}
+
+func (p *kUserServiceClient) MGetUser(ctx context.Context, req *user.MGetUserReq, callOptions ...callopt.Option) (r *user.MGetUserResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.MGetUser(ctx, req)
 }

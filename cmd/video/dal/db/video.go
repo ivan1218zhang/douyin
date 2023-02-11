@@ -2,44 +2,34 @@ package db
 
 import (
 	"context"
-	"douyin/cmd/user/dal/db"
-	"douyin/pkg/constants"
+	"douyin/kitex_gen/common"
+	"douyin/pkg/db"
 	"douyin/pkg/repository"
-	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"time"
 )
 
-type Video struct {
-	ID            int64
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	DeletedAt     gorm.DeletedAt `gorm:"index"`
-	AuthorId      int64
-	Author        db.User
-	PlayUrl       string
-	CoverUrl      string
-	FavoriteCount string
-	CommentCount  string
-	IsFavorite    bool
-	Title         string
-}
-
-func (n *Video) TableName() string {
-	return constants.VideoTableName
-}
-
 // QueryVideo query list of video info
-func QueryVideo(ctx context.Context, userID int64) ([]*repository.Video, error) {
-	var res []*repository.Video
-	conn := DB.WithContext(ctx).Model(&Video{}).Where("user_id = ?", userID)
-
+func QueryVideo(ctx context.Context, userID int64) ([]*common.Video, error) {
+	var res []*common.Video
+	conn := DB.WithContext(ctx).Model(&repository.Video{}).Where("user_id = ?", userID)
 	if err := conn.Find(&res).Error; err != nil {
 		return res, err
 	}
-
 	return res, nil
 }
 
+// CreateVideo create video
 func CreateVideo(ctx context.Context, video *repository.Video) error {
 	return db.DB.WithContext(ctx).Create(video).Error
+}
+
+// MGetVideo multiple get list of Video info
+func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
+	var res []*common.Video
+	tm := time.Unix(0, latestTime*int64(time.Millisecond))
+	if err := db.DB.WithContext(ctx).Where("created_at < ?", tm.Format("2006-01-02 15:04:05")).Order(clause.OrderByColumn{Column: clause.Column{Name: "created_at"}, Desc: true}).Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
 }

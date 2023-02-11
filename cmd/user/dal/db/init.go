@@ -2,6 +2,8 @@ package db
 
 import (
 	"douyin/pkg/constants"
+	"douyin/pkg/repository"
+	"douyin/pkg/util"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -9,6 +11,7 @@ import (
 )
 
 var DB *gorm.DB
+var snowflake *util.SnowFlake
 
 // Init init DB
 func Init() {
@@ -22,8 +25,10 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&User{})
+	DB.AutoMigrate(&repository.User{})
 	if err = DB.Use(gormopentracing.New()); err != nil {
 		panic(err)
 	}
+
+	snowflake = util.NewSnowFlake(constants.UserServiceMachineID)
 }

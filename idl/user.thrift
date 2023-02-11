@@ -12,11 +12,11 @@ struct CreateUserResp{
     2:i64 user_id
 }
 
-struct GetUserByIdReq{
+struct GetUserReq{
     1:i64 id
 }
 
-struct GetUserByIdResp{
+struct GetUserResp{
     1:common.BaseResp base_resp
     2:common.User user
 }
@@ -31,8 +31,18 @@ struct CheckUserResp {
     2: common.BaseResp base_resp
 }
 
+struct MGetUserReq{
+    1:list<i64> id_list
+}
+
+struct MGetUserResp{
+    1:common.BaseResp base_resp
+    2:list<common.User> user_list
+}
+
 service UserService {
     CreateUserResp CreateUser(1:CreateUserReq req)
-    GetUserByIdResp GetUserById(1:GetUserByIdReq req)
+    GetUserResp GetUser(1:GetUserReq req)
     CheckUserResp CheckUser(1: CheckUserReq req)
+    MGetUserResp MGetUser(1:MGetUserReq req)
 }

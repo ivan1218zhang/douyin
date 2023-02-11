@@ -39,8 +39,19 @@ func initUserRpc() {
 	userClient = c
 }
 
-func GetUserById(ctx context.Context, req *user.GetUserByIdReq) (r *user.GetUserByIdResp, err error) {
-	resp, err := userClient.GetUserById(ctx, req)
+func GetUserById(ctx context.Context, req *user.GetUserReq) (r *user.GetUserResp, err error) {
+	resp, err := userClient.GetUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	}
+	return resp, nil
+}
+
+func MGetUser(ctx context.Context, req *user.MGetUserReq) (r *user.MGetUserResp, err error) {
+	resp, err := userClient.MGetUser(ctx, req)
 	if err != nil {
 		return nil, err
 	}
