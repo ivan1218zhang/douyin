@@ -24,24 +24,25 @@ func (s *MGetPublishService) MGetPublishList(req *video.MGetPublishReq) ([]*comm
 	if err != nil {
 		return nil, err
 	}
-	userReq := new(user.MGetUserReq)
-	for i, v := range videoModels {
-		userReq.IdList[i] = v.AuthorId
+	if len(videoModels) == 0 {
+		return nil, nil
 	}
-	usersResp, err := rpc.MGetUser(s.ctx, userReq)
+	userReq := new(user.GetUserReq)
+	userReq.Id = req.UserId
+	userResp, err := rpc.GetUserById(s.ctx, userReq)
 	if err != nil {
 		return nil, err
 	}
 	result := make([]*common.Video, len(videoModels))
 	for i, v := range videoModels {
 		result[i] = &common.Video{
-			Id: v.Id,
+			Id: v.ID,
 			Author: &common.User{
-				Id:            usersResp.UserList[i].Id,
-				Name:          usersResp.UserList[i].Name,
-				FollowCount:   usersResp.UserList[i].FollowCount,
-				FollowerCount: usersResp.UserList[i].FollowerCount,
-				IsFollow:      usersResp.UserList[i].IsFollow,
+				Id:            userResp.User.Id,
+				Name:          userResp.User.Name,
+				FollowCount:   userResp.User.FollowCount,
+				FollowerCount: userResp.User.FollowerCount,
+				IsFollow:      userResp.User.IsFollow,
 			},
 			PlayUrl:  v.PlayUrl,
 			CoverUrl: v.CoverUrl,

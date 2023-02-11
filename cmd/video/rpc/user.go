@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/user/userservice"
 	"douyin/pkg/constants"
@@ -50,13 +51,14 @@ func GetUserById(ctx context.Context, req *user.GetUserReq) (r *user.GetUserResp
 	return resp, nil
 }
 
-func MGetUser(ctx context.Context, req *user.MGetUserReq) (r *user.MGetUserResp, err error) {
+func MGetUser(ctx context.Context, req *user.MGetUserReq) (map[int64]*common.User, error) {
 	resp, err := userClient.MGetUser(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	if resp.BaseResp.StatusCode != 0 {
-		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	res := make(map[int64]*common.User)
+	for _, u := range resp.UserList {
+		res[u.Id] = u
 	}
-	return resp, nil
+	return res, nil
 }

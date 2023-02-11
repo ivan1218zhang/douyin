@@ -10,9 +10,9 @@ import (
 )
 
 // QueryVideo query list of video info
-func QueryVideo(ctx context.Context, userID int64) ([]*common.Video, error) {
-	var res []*common.Video
-	conn := DB.WithContext(ctx).Model(&repository.Video{}).Where("user_id = ?", userID)
+func QueryVideo(ctx context.Context, userID int64) ([]*repository.Video, error) {
+	var res []*repository.Video
+	conn := db.DB.WithContext(ctx).Model(&repository.Video{}).Where("author_id = ?", userID)
 	if err := conn.Find(&res).Error; err != nil {
 		return res, err
 	}
