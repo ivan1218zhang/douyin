@@ -19,16 +19,17 @@ func NewGetPublishListService(ctx context.Context) *GetPublishListService {
 // QueryNoteService query list of note info
 func (s *GetPublishListService) GetPublishListService(req *video.GetPublishListReq) ([]*common.Video, error) {
 	videoModels, err := db.QueryVideo(s.ctx, req.UserId)
+	// TODO 改为rpc调用组装
 	if err != nil {
 		return nil, err
 	}
 	result := make([]*common.Video, len(videoModels))
 	for i, v := range videoModels {
 		result[i] = &common.Video{
-			Id: v.ID,
+			Id:     v.ID,
 			Author: &common.User{
-				Id:   v.Author.ID,
-				Name: v.Author.Name,
+				//Id:   v.Author.ID,
+				//Name: v.Author.Name,
 			},
 			PlayUrl:  v.PlayUrl,
 			CoverUrl: v.CoverUrl,

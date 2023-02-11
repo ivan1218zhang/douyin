@@ -29,8 +29,8 @@ func (n *Video) TableName() string {
 }
 
 // QueryVideo query list of video info
-func QueryVideo(ctx context.Context, userID int64) ([]*Video, error) {
-	var res []*Video
+func QueryVideo(ctx context.Context, userID int64) ([]*repository.Video, error) {
+	var res []*repository.Video
 	conn := DB.WithContext(ctx).Model(&Video{}).Where("user_id = ?", userID)
 
 	if err := conn.Find(&res).Error; err != nil {
