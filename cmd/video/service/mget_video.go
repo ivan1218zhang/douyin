@@ -2,10 +2,11 @@ package service
 
 import (
 	"context"
-	"douyin/cmd/video/dal/db"
-	"douyin/cmd/video/pack"
-	"douyin/kitex_gen/common"
-	"douyin/kitex_gen/video"
+
+	"douyin/cmd/video/internal/dal/db"
+	"douyin/cmd/video/internal/pack"
+
+	"douyin/kitex_gen/video/video"
 )
 
 type MGetVideoService struct {

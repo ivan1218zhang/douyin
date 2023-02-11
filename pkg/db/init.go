@@ -2,6 +2,7 @@ package db
 
 import (
 	"douyin/pkg/conf"
+	"douyin/pkg/repository"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

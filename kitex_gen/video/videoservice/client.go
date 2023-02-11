@@ -11,9 +11,9 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	GetVideos(ctx context.Context, getVideosReq *video.GetVideosReq, callOptions ...callopt.Option) (r *video.GetVideosResp, err error)
-	Publish(ctx context.Context, publishReq *video.PublishReq, callOptions ...callopt.Option) (r *video.PublishResp, err error)
-	GetPublishList(ctx context.Context, getPublishListReq *video.GetPublishListReq, callOptions ...callopt.Option) (r *video.GetPublishListResp, err error)
+	MGetVideo(ctx context.Context, req *video.MGetVideoReq, callOptions ...callopt.Option) (r *video.MGetVideoResp, err error)
+	Publish(ctx context.Context, req *video.PublishReq, callOptions ...callopt.Option) (r *video.PublishResp, err error)
+	MGetPublish(ctx context.Context, req *video.MGetPublishReq, callOptions ...callopt.Option) (r *video.MGetPublishResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -45,17 +45,17 @@ type kVideoServiceClient struct {
 	*kClient
 }
 
-func (p *kVideoServiceClient) GetVideos(ctx context.Context, getVideosReq *video.GetVideosReq, callOptions ...callopt.Option) (r *video.GetVideosResp, err error) {
+func (p *kVideoServiceClient) MGetVideo(ctx context.Context, req *video.MGetVideoReq, callOptions ...callopt.Option) (r *video.MGetVideoResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetVideos(ctx, getVideosReq)
+	return p.kClient.MGetVideo(ctx, req)
 }
 
-func (p *kVideoServiceClient) Publish(ctx context.Context, publishReq *video.PublishReq, callOptions ...callopt.Option) (r *video.PublishResp, err error) {
+func (p *kVideoServiceClient) Publish(ctx context.Context, req *video.PublishReq, callOptions ...callopt.Option) (r *video.PublishResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.Publish(ctx, publishReq)
+	return p.kClient.Publish(ctx, req)
 }
 
-func (p *kVideoServiceClient) GetPublishList(ctx context.Context, getPublishListReq *video.GetPublishListReq, callOptions ...callopt.Option) (r *video.GetPublishListResp, err error) {
+func (p *kVideoServiceClient) MGetPublish(ctx context.Context, req *video.MGetPublishReq, callOptions ...callopt.Option) (r *video.MGetPublishResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetPublishList(ctx, getPublishListReq)
+	return p.kClient.MGetPublish(ctx, req)
 }

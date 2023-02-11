@@ -15,11 +15,21 @@ struct User{
 
 struct Video{
 	1:i64 id
-	2:User Author
-	3:string PlayUrl
-	4:string CoverUrl
+	2:User author
+	3:string play_url
+	4:string cover_url
 	5:i64 favorite_count
 	6:i64 comment_count
 	7:bool is_favorite
 	8:string title
+	9:i64 author_id
+	10:i64 created_at
+}
+
+struct Comment{
+    1:i64 id
+    2:User user
+    3:string content
+    4:string create_date
+    5:i64 user_id
 }

@@ -2,11 +2,22 @@ package db
 
 import (
 	"context"
+	"douyin/kitex_gen/common"
 	"douyin/pkg/db"
 	"douyin/pkg/repository"
-	"time"
 )
 
+// QueryVideo query list of video info
+func QueryVideo(ctx context.Context, userID int64) ([]*common.Video, error) {
+	var res []*common.Video
+	conn := DB.WithContext(ctx).Model(&repository.Video{}).Where("user_id = ?", userID)
+	if err := conn.Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
+}
+
+// CreateVideo create video
 func CreateVideo(ctx context.Context, video *repository.Video) error {
 	return db.DB.WithContext(ctx).Create(video).Error
 }

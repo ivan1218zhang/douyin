@@ -2,15 +2,15 @@ include 'common.thrift'
 
 namespace go video
 
-struct GetVideosReq {
+struct MGetVideoReq {
     1:i64 latest_time
     2:i64 user_id
 }
 
-struct GetVideosResp {
+struct MGetVideoResp {
     1:common.BaseResp base_resp
-    2:list<common.Video> videos
-    3:i64 nextTime
+    2:list<common.Video> video_list
+    3:i64 next_time
 }
 
 struct PublishReq{
@@ -21,20 +21,19 @@ struct PublishReq{
 
 struct PublishResp{
     1:common.BaseResp base_resp
-    2:string url
 }
 
-struct GetPublishListReq{
+struct MGetPublishReq{
     1:i64 user_id
 }
 
-struct GetPublishListResp{
+struct MGetPublishResp{
     1:common.BaseResp base_resp
-    2:list<common.Video> videos
+    2:list<common.Video> video_list
 }
 
 service VideoService {
-    GetVideosResp GetVideos(1:GetVideosReq getVideosReq)
-    PublishResp Publish(1:PublishReq publishReq)
-    GetPublishListResp GetPublishList(1:GetPublishListReq getPublishListReq)
+    MGetVideoResp MGetVideo(1:MGetVideoReq req)
+    PublishResp Publish(1:PublishReq req)
+    MGetPublishResp MGetPublish(1:MGetPublishReq req)
 }
