@@ -29,7 +29,7 @@ func TestMGetVideoService_MGetVideo(t *testing.T) {
 		log.Print(v.CreatedAt)
 
 	*/
-	req := video.GetVideosReq{
+	req := video.MGetVideoReq{
 		LatestTime: time.Now().AddDate(0, 0, 0).Unix(),
 	}
 	vs, err := NewMGetVideoService(context.Background()).MGetVideo(&req)

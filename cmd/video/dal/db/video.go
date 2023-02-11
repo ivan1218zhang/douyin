@@ -5,12 +5,13 @@ import (
 	"douyin/kitex_gen/common"
 	"douyin/pkg/db"
 	"douyin/pkg/repository"
+	"time"
 )
 
 // QueryVideo query list of video info
 func QueryVideo(ctx context.Context, userID int64) ([]*common.Video, error) {
 	var res []*common.Video
-	conn := DB.WithContext(ctx).Model(&repository.Video{}).Where("user_id = ?", userID)
+	conn := db.DB.WithContext(ctx).Model(&repository.Video{}).Where("user_id = ?", userID)
 	if err := conn.Find(&res).Error; err != nil {
 		return res, err
 	}
@@ -29,8 +30,8 @@ func GetVideo(ctx context.Context, id int64) (repository.Video, error) {
 	return v, err
 }
 
-// MGetVideos multiple get list of Video info
-func MGetVideos(ctx context.Context, latestTime int64) (vs []*repository.Video, err error) {
+// MGetVideo multiple get list of Video info
+func MGetVideo(ctx context.Context, latestTime int64) (vs []*repository.Video, err error) {
 	vs = []*repository.Video{}
 	if latestTime != 0 {
 		err = db.DB.WithContext(ctx).Where("created_at < ?", time.Unix(latestTime, 0)).Limit(10).Find(&vs).Error
