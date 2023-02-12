@@ -8,5 +8,6 @@ const (
 	DefaultLimit                 = 10
 	VideoTableName               = "video"
 	UserTableName                = "user"
+	FavoriteTableName            = "favorite"
 	UserServiceMachineID int64   = 1
 )

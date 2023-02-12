@@ -10,7 +10,9 @@ import (
 )
 
 func TestMGetVideoService_MGetVideo(t *testing.T) {
+	db.Init()
 
+	//db.DB.AutoMigrate(&repository.Video{})
 	/*
 		v := repository.Video{
 			AuthorId: 1,
@@ -22,7 +24,6 @@ func TestMGetVideoService_MGetVideo(t *testing.T) {
 			db.DB.Create(&v)
 		}
 	*/
-	db.Init()
 	/*
 		v := repository.Video{}
 		db.DB.First(&v, 1)

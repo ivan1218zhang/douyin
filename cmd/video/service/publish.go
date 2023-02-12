@@ -28,13 +28,11 @@ func (p *PublishService) Publish(req *video.PublishReq) error {
 	coverUrl := conf.CDN.Url + coverName
 	// 存入数据库
 	videoModel := &repository.Video{
-		ID:            0,
-		AuthorId:      req.UserId,
-		Title:         req.Title,
-		PlayUrl:       playUrl,
-		CoverUrl:      coverUrl,
-		FavoriteCount: 0,
-		CommentCount:  0,
+		ID:       0,
+		AuthorId: req.UserId,
+		Title:    req.Title,
+		PlayUrl:  playUrl,
+		CoverUrl: coverUrl,
 	}
 	// 存到cdn
 	go saveVideoCdn(videoName, coverName, req.Data)

@@ -6,6 +6,7 @@ require (
 	github.com/apache/thrift v0.17.0
 	github.com/cloudwego/hertz v0.5.1
 	github.com/cloudwego/kitex v0.4.4
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/hertz-contrib/logger/accesslog v0.0.0-20230206071608-2de215a9fd50
 	github.com/qiniu/go-sdk/v7 v7.14.0
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
@@ -28,7 +29,7 @@ require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/go-cmp v0.5.8 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/pprof v0.0.0-20220608213341-c488b8fa1db3 // indirect
 	github.com/henrylee2cn/ameda v1.4.10 // indirect
 	github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8 // indirect
@@ -41,6 +42,8 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nyaruka/phonenumbers v1.0.55 // indirect
 	github.com/oleiade/lane v1.0.1 // indirect
+	github.com/onsi/ginkgo v1.16.5 // indirect
+	github.com/onsi/gomega v1.26.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/stretchr/testify v1.8.0 // indirect
 	github.com/tidwall/gjson v1.13.0 // indirect

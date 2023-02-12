@@ -10,23 +10,20 @@ import (
 )
 
 type Video struct {
-	ID            int64
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	DeletedAt     gorm.DeletedAt `gorm:"index"`
-	Title         string
-	AuthorId      int64
-	PlayUrl       string
-	CoverUrl      string
-	FavoriteCount int64
-	CommentCount  int64
+	ID        int64
+	CreatedAt time.Time      `gorm:"index"`
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+	Title     string
+	AuthorId  int64 `gorm:"index"`
+	PlayUrl   string
+	CoverUrl  string
 }
 
 func (v *Video) TableName() string {
 	return constants.VideoTableName
 }
 
-// MarshalBinary implements encoding.BinaryMarshaler for redis
+// MarshalBinary implements encoding.BinaryMarshaller for redis
 func (v *Video) MarshalBinary() (data []byte, err error) {
 	return json.Marshal(v)
 }

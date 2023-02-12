@@ -16,10 +16,8 @@ func Video(v *repository.Video) *common.Video {
 		Author: &common.User{
 			Id: int64(v.AuthorId),
 		},
-		PlayUrl:       v.PlayUrl,
-		CoverUrl:      v.CoverUrl,
-		FavoriteCount: v.FavoriteCount,
-		CommentCount:  v.CommentCount,
+		PlayUrl:  v.PlayUrl,
+		CoverUrl: v.CoverUrl,
 	}
 }
 
