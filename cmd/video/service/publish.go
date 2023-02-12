@@ -21,20 +21,18 @@ func NewPublishService(ctx context.Context) *PublishService {
 
 func (p *PublishService) Publish(req *video.PublishReq) error {
 	// 生成视频信息
-	videoId := 0
+	videoId := db.Snowflake.NextSnowID()
 	videoName := fmt.Sprintf("%d.mp4", videoId)
 	coverName := fmt.Sprintf("%d.png", videoId)
 	playUrl := conf.CDN.Url + videoName
 	coverUrl := conf.CDN.Url + coverName
 	// 存入数据库
 	videoModel := &repository.Video{
-		ID:            0,
-		AuthorId:      req.UserId,
-		Title:         req.Title,
-		PlayUrl:       playUrl,
-		CoverUrl:      coverUrl,
-		FavoriteCount: 0,
-		CommentCount:  0,
+		ID:       videoId,
+		AuthorId: req.UserId,
+		Title:    req.Title,
+		PlayUrl:  playUrl,
+		CoverUrl: coverUrl,
 	}
 	// 存到cdn
 	go saveVideoCdn(videoName, coverName, req.Data)
