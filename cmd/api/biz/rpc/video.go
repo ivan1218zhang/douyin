@@ -7,7 +7,6 @@ import (
 	"douyin/kitex_gen/video"
 	"douyin/kitex_gen/video/videoservice"
 	"github.com/cloudwego/kitex/client"
-	"time"
 )
 
 var videoClient videoservice.Client
@@ -15,8 +14,7 @@ var videoClient videoservice.Client
 func initVideo() {
 	c, err := videoservice.NewClient(
 		"video",
-		client.WithHostPorts("0.0.0.0:8888"),
-		client.WithRPCTimeout(3*time.Second),
+		client.WithHostPorts("127.0.0.1:8888"),
 	)
 	if err != nil {
 		panic(err)

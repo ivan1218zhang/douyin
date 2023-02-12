@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-// QueryVideo query list of video info
-func QueryVideo(ctx context.Context, userID int64) ([]*common.Video, error) {
+// MGetPublish query list of video info
+func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 	var res []*common.Video
-	conn := DB.WithContext(ctx).Model(&repository.Video{}).Where("user_id = ?", userID)
-	if err := conn.Find(&res).Error; err != nil {
+	err := db.DB.WithContext(ctx).Where("author_id = ?", userID).Find(&res).Error
+	if err != nil {
 		return res, err
 	}
 	return res, nil
