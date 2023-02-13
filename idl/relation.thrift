@@ -24,7 +24,7 @@ struct MGetFollowerReq{
 }
 struct MGetFollowerResp{
     1: common.BaseResp base_resp
-    2:list<i64> user_list
+    2:list<common.User> user_list
 }
 
 struct CountFollowReq{

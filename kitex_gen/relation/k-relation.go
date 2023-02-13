@@ -936,16 +936,13 @@ func (p *MGetFollowerResp) FastReadField2(buf []byte) (int, error) {
 	if err != nil {
 		return offset, err
 	}
-	p.UserList = make([]int64, 0, size)
+	p.UserList = make([]*common.User, 0, size)
 	for i := 0; i < size; i++ {
-		var _elem int64
-		if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		_elem := common.NewUser()
+		if l, err := _elem.FastRead(buf[offset:]); err != nil {
 			return offset, err
 		} else {
 			offset += l
-
-			_elem = v
-
 		}
 
 		p.UserList = append(p.UserList, _elem)
@@ -999,14 +996,13 @@ func (p *MGetFollowerResp) fastWriteField2(buf []byte, binaryWriter bthrift.Bina
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "user_list", thrift.LIST, 2)
 	listBeginOffset := offset
-	offset += bthrift.Binary.ListBeginLength(thrift.I64, 0)
+	offset += bthrift.Binary.ListBeginLength(thrift.STRUCT, 0)
 	var length int
 	for _, v := range p.UserList {
 		length++
-		offset += bthrift.Binary.WriteI64(buf[offset:], v)
-
+		offset += v.FastWriteNocopy(buf[offset:], binaryWriter)
 	}
-	bthrift.Binary.WriteListBegin(buf[listBeginOffset:], thrift.I64, length)
+	bthrift.Binary.WriteListBegin(buf[listBeginOffset:], thrift.STRUCT, length)
 	offset += bthrift.Binary.WriteListEnd(buf[offset:])
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -1023,9 +1019,10 @@ func (p *MGetFollowerResp) field1Length() int {
 func (p *MGetFollowerResp) field2Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("user_list", thrift.LIST, 2)
-	l += bthrift.Binary.ListBeginLength(thrift.I64, len(p.UserList))
-	var tmpV int64
-	l += bthrift.Binary.I64Length(int64(tmpV)) * len(p.UserList)
+	l += bthrift.Binary.ListBeginLength(thrift.STRUCT, len(p.UserList))
+	for _, v := range p.UserList {
+		l += v.BLength()
+	}
 	l += bthrift.Binary.ListEndLength()
 	l += bthrift.Binary.FieldEndLength()
 	return l

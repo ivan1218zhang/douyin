@@ -1029,7 +1029,7 @@ func (p *MGetFollowerReq) Field1DeepEqual(src int64) bool {
 
 type MGetFollowerResp struct {
 	BaseResp *common.BaseResp `thrift:"base_resp,1" json:"base_resp"`
-	UserList []int64          `thrift:"user_list,2" json:"user_list"`
+	UserList []*common.User   `thrift:"user_list,2" json:"user_list"`
 }
 
 func NewMGetFollowerResp() *MGetFollowerResp {
@@ -1045,13 +1045,13 @@ func (p *MGetFollowerResp) GetBaseResp() (v *common.BaseResp) {
 	return p.BaseResp
 }
 
-func (p *MGetFollowerResp) GetUserList() (v []int64) {
+func (p *MGetFollowerResp) GetUserList() (v []*common.User) {
 	return p.UserList
 }
 func (p *MGetFollowerResp) SetBaseResp(val *common.BaseResp) {
 	p.BaseResp = val
 }
-func (p *MGetFollowerResp) SetUserList(val []int64) {
+func (p *MGetFollowerResp) SetUserList(val []*common.User) {
 	p.UserList = val
 }
 
@@ -1146,13 +1146,11 @@ func (p *MGetFollowerResp) ReadField2(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.UserList = make([]int64, 0, size)
+	p.UserList = make([]*common.User, 0, size)
 	for i := 0; i < size; i++ {
-		var _elem int64
-		if v, err := iprot.ReadI64(); err != nil {
+		_elem := common.NewUser()
+		if err := _elem.Read(iprot); err != nil {
 			return err
-		} else {
-			_elem = v
 		}
 
 		p.UserList = append(p.UserList, _elem)
@@ -1217,11 +1215,11 @@ func (p *MGetFollowerResp) writeField2(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("user_list", thrift.LIST, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.I64, len(p.UserList)); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.UserList)); err != nil {
 		return err
 	}
 	for _, v := range p.UserList {
-		if err := oprot.WriteI64(v); err != nil {
+		if err := v.Write(oprot); err != nil {
 			return err
 		}
 	}
@@ -1267,14 +1265,14 @@ func (p *MGetFollowerResp) Field1DeepEqual(src *common.BaseResp) bool {
 	}
 	return true
 }
-func (p *MGetFollowerResp) Field2DeepEqual(src []int64) bool {
+func (p *MGetFollowerResp) Field2DeepEqual(src []*common.User) bool {
 
 	if len(p.UserList) != len(src) {
 		return false
 	}
 	for i, v := range p.UserList {
 		_src := src[i]
-		if v != _src {
+		if !v.DeepEqual(_src) {
 			return false
 		}
 	}
