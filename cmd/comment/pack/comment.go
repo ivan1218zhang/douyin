@@ -10,7 +10,8 @@ func Comment(c *repository.Comment) *common.Comment {
 		return nil
 	}
 	return &common.Comment{
-		Id:      int64(c.ID),
+		Id:      c.ID,
+		UserId:  c.UserId,
 		Content: c.Content,
 	}
 }
