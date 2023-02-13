@@ -83,6 +83,15 @@ struct MIsFollowResp{
     2:list<bool> is_follow_list
 }
 
+struct MGetFriendReq{
+    1:i64 user_id
+}
+
+struct MGetFriendResp{
+    1:common.BaseResp base_resp
+    2:list<common.User> user_list
+}
+
 service RelationService {
     RelationActionResp RelationAction(1:RelationActionReq req)
     MGetFollowResp MGetFollow(1:MGetFollowReq req)
@@ -93,4 +102,5 @@ service RelationService {
     MCountFollowResp MCountFollow(1:MCountFollowReq req)
     MCountFollowerResp MCountFollower(1:MCountFollowerReq req)
     MIsFollowResp MIsFollow(1:MIsFollowReq req)
+    MGetFriendResp MGetFriend(1:MGetFriendReq req)
 }
