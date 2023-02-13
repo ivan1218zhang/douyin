@@ -32,3 +32,12 @@ func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
 	}
 	return res, nil
 }
+
+func GetVideoCreatedAt(ctx context.Context, videoId int64) (int64, error) {
+	var res *repository.User
+	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").FirstOrCreate(res).Error
+	if res == nil {
+		return time.Now().UnixMilli(), err
+	}
+	return res.CreatedAt.UnixMilli(), err
+}
