@@ -3,7 +3,7 @@
 package Api
 
 import (
-	api "douyin/cmd/api/biz/handler/api"
+	"douyin/cmd/api/biz/handler/api"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
@@ -20,18 +20,61 @@ func Register(r *server.Hertz) {
 	{
 		_douyin := root.Group("/douyin", _douyinMw()...)
 		{
+			_comment := _douyin.Group("/comment", _commentMw()...)
+			{
+				_action := _comment.Group("/action", _actionMw()...)
+				_action.POST("/", append(_comment_ctionMw(), api.CommentAction)...)
+			}
+			{
+				_list := _comment.Group("/list", _listMw()...)
+				_list.GET("/", append(_mgetcommentMw(), api.MGetComment)...)
+			}
+		}
+		{
+			_favorite := _douyin.Group("/favorite", _favoriteMw()...)
+			{
+				_action0 := _favorite.Group("/action", _action0Mw()...)
+				_action0.POST("/", append(_favorite_ctionMw(), api.FavoriteAction)...)
+			}
+			{
+				_list0 := _favorite.Group("/list", _list0Mw()...)
+				_list0.GET("/", append(_mgetfavoriteMw(), api.MGetFavorite)...)
+			}
+		}
+		{
 			_feed := _douyin.Group("/feed", _feedMw()...)
 			_feed.GET("/", append(_mgetvideoMw(), api.MGetVideo)...)
 		}
 		{
 			_publish := _douyin.Group("/publish", _publishMw()...)
 			{
-				_action := _publish.Group("/action", _actionMw()...)
-				_action.POST("/", append(_publish0Mw(), api.Publish)...)
+				_action1 := _publish.Group("/action", _action1Mw()...)
+				_action1.POST("/", append(_publish0Mw(), api.Publish)...)
 			}
 			{
-				_list := _publish.Group("/list", _listMw()...)
-				_list.GET("/", append(_mgetpublishMw(), api.MGetPublish)...)
+				_list1 := _publish.Group("/list", _list1Mw()...)
+				_list1.GET("/", append(_mgetpublishMw(), api.MGetPublish)...)
+			}
+		}
+		{
+			_relation := _douyin.Group("/relation", _relationMw()...)
+			{
+				_action2 := _relation.Group("/action", _action2Mw()...)
+				_action2.POST("/", append(_relation_ctionMw(), api.RelationAction)...)
+			}
+			{
+				_follow := _relation.Group("/follow", _followMw()...)
+				{
+					_list2 := _follow.Group("/list", _list2Mw()...)
+					_list2.GET("/", append(_mgetfollowMw(), api.MGetFollow)...)
+				}
+			}
+			{
+				_follower := _relation.Group("/follower", _followerMw()...)
+				{
+					_list3 := _follower.Group("/list", _list3Mw()...)
+					_list3.GET("/", append(_mgetfollowerMw(), api.MGetFollower)...)
+				}
 			}
 		}
 		{

@@ -5,6 +5,9 @@ package api
 import (
 	"context"
 	"douyin/cmd/api/biz/rpc"
+	"douyin/kitex_gen/comment"
+	"douyin/kitex_gen/favorite"
+	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/video"
 	"io/ioutil"
@@ -118,6 +121,128 @@ func MGetPublish(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	resp, err := rpc.MGetPublish(ctx, &video.MGetPublishReq{UserId: req.UserID})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// FavoriteAction .
+// @router /douyin/favorite/action/ [POST]
+func FavoriteAction(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.FavoriteActionReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+	resp, err := rpc.FavoriteAction(ctx, &favorite.FavoriteActionReq{
+		UserId:     0,
+		VideoId:    req.VideoID,
+		ActionType: req.ActionType,
+	})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// MGetFavorite .
+// @router /douyin/favorite/list/ [GET]
+func MGetFavorite(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MGetFavoriteReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+	resp, err := rpc.MGetFavorite(ctx, &favorite.MGetFavoriteVideoReq{UserId: 0})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// CommentAction .
+// @router /douyin/comment/action/ [POST]
+func CommentAction(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.CommentActionReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+	resp, err := rpc.CommentAction(ctx, &comment.CommentActionReq{
+		UserId:      0,
+		VideoId:     req.VideoID,
+		ActionType:  req.ActionType,
+		CommentText: req.CommentContext,
+		CommentId:   req.CommentID,
+	})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// MGetComment .
+// @router /douyin/comment/list/ [GET]
+func MGetComment(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MGetCommentReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+	resp, err := rpc.MGetComment(ctx, &comment.MGetCommentReq{VideoId: req.VideoID})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// RelationAction .
+// @router /douyin/relation/action/ [POST]
+func RelationAction(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.RelationActionReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp, err := rpc.RelationAction(ctx, &relation.RelationActionReq{
+		UserId:     0,
+		ToUserId:   req.ToUserID,
+		ActionType: req.ActionType,
+	})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// MGetFollow .
+// @router /douyin/relation/follow/list/ [GET]
+func MGetFollow(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MGetFollowReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp, err := rpc.MGetFollow(ctx, &relation.MGetFollowReq{UserId: 0})
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// MGetFollower .
+// @router /douyin/relation/follower/list/ [GET]
+func MGetFollower(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MGetFollowerReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp, err := rpc.MGetFollower(ctx, &relation.MGetFollowerReq{UserId: 0})
 
 	c.JSON(consts.StatusOK, resp)
 }
