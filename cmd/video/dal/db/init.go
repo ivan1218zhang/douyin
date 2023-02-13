@@ -3,13 +3,14 @@ package db
 import (
 	"douyin/pkg/constants"
 	"douyin/pkg/repository"
-
+	"douyin/pkg/util"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormopentracing "gorm.io/plugin/opentracing"
 )
 
 var DB *gorm.DB
+var Snowflake *util.SnowFlake
 
 // Init init DB
 func Init() {
@@ -23,8 +24,10 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&repository.Video{})
+	DB.AutoMigrate(&repository.User{}, &repository.Video{})
 	if err = DB.Use(gormopentracing.New()); err != nil {
 		panic(err)
 	}
+
+	Snowflake = util.NewSnowFlake(constants.VideoServiceMachineID)
 }

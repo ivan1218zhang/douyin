@@ -9,5 +9,6 @@ const (
 	VideoTableName                  = "video"
 	UserTableName                   = "user"
 	UserServiceMachineID    int64   = 1
-	CommentServiceMachineID int64   = 1
+	VideoServiceMachineID   int64   = 2
+	CommentServiceMachineID int64   = 3
 )
