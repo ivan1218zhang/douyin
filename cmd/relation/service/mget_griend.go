@@ -42,7 +42,7 @@ func (s *MGetFriendService) MGetFriend(req *relation.MGetFriendReq) ([]*common.U
 	}
 	for i := range followedUser {
 		_, exists := set[followerUser[i]]
-		if exists == false {
+		if exists == true {
 			userID = append(userID, followerUser[i])
 		}
 	}
