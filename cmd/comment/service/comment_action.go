@@ -44,5 +44,8 @@ func publishComment(ctx context.Context, comment repository.Comment) (*common.Co
 	if err != nil {
 		return nil, err
 	}
-	return pack.Comment(comment1), nil
+	c := pack.Comment(comment1)
+	// TODO:根据UserId获取用户信息
+
+	return c, nil
 }

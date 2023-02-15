@@ -22,10 +22,6 @@ func (s *CommentServiceImpl) CommentAction(ctx context.Context, req *comment.Com
 		return resp, nil
 	}
 
-	if c != nil {
-		// TODO:通过c.UserID获得用户信息
-	}
-
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.SetComment(c)
 
@@ -46,6 +42,17 @@ func (s *CommentServiceImpl) MCountComment(ctx context.Context, req *comment.MCo
 
 // MGetComment implements the CommentServiceImpl interface.
 func (s *CommentServiceImpl) MGetComment(ctx context.Context, req *comment.MGetCommentReq) (resp *comment.MGetCommentResp, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(comment.MGetCommentResp)
+
+	comments, err := service.NewMGetCommentService(ctx).MGetComment(req)
+
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.SetCommentList(comments)
+
+	return resp, nil
 }
