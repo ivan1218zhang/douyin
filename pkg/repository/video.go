@@ -11,7 +11,8 @@ import (
 
 type Video struct {
 	ID        int64
-	CreatedAt time.Time      `gorm:"index"`
+	CreatedAt time.Time `gorm:"index"`
+	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Title     string
 	AuthorId  int64 `gorm:"index"`
