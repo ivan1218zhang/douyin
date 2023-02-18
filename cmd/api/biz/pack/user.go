@@ -14,3 +14,11 @@ func User(user *common.User) *common2.User {
 		IsFollow:      user.IsFollow,
 	}
 }
+
+func UserList(users []*common.User) []*common2.User {
+	res := make([]*common2.User, len(users))
+	for index, user := range users {
+		res[index] = User(user)
+	}
+	return res
+}

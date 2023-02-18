@@ -61,3 +61,9 @@ func (s *RelationServiceImpl) MIsFollow(ctx context.Context, req *relation.MIsFo
 	// TODO: Your code here...
 	return
 }
+
+// MGetFriend implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (resp *relation.MGetFriendResp, err error) {
+	// TODO: Your code here...
+	return
+}

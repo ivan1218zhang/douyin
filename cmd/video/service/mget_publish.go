@@ -18,7 +18,7 @@ func NewMGetPublishService(ctx context.Context) *MGetPublishService {
 
 // MGetPublishList query list of note info
 func (s *MGetPublishService) MGetPublishList(req *video.MGetPublishReq) ([]*common.Video, error) {
-	videos, err := db.QueryVideo(s.ctx, req.UserId)
+	videos, err := db.MGetPublish(s.ctx, req.UserId)
 	if err != nil {
 		return nil, err
 	}

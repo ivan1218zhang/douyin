@@ -28,6 +28,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"MCountFollow":   kitex.NewMethodInfo(mCountFollowHandler, newRelationServiceMCountFollowArgs, newRelationServiceMCountFollowResult, false),
 		"MCountFollower": kitex.NewMethodInfo(mCountFollowerHandler, newRelationServiceMCountFollowerArgs, newRelationServiceMCountFollowerResult, false),
 		"MIsFollow":      kitex.NewMethodInfo(mIsFollowHandler, newRelationServiceMIsFollowArgs, newRelationServiceMIsFollowResult, false),
+		"MGetFriend":     kitex.NewMethodInfo(mGetFriendHandler, newRelationServiceMGetFriendArgs, newRelationServiceMGetFriendResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "relation",
@@ -205,6 +206,24 @@ func newRelationServiceMIsFollowResult() interface{} {
 	return relation.NewRelationServiceMIsFollowResult()
 }
 
+func mGetFriendHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceMGetFriendArgs)
+	realResult := result.(*relation.RelationServiceMGetFriendResult)
+	success, err := handler.(relation.RelationService).MGetFriend(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceMGetFriendArgs() interface{} {
+	return relation.NewRelationServiceMGetFriendArgs()
+}
+
+func newRelationServiceMGetFriendResult() interface{} {
+	return relation.NewRelationServiceMGetFriendResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -300,6 +319,16 @@ func (p *kClient) MIsFollow(ctx context.Context, req *relation.MIsFollowReq) (r 
 	_args.Req = req
 	var _result relation.RelationServiceMIsFollowResult
 	if err = p.c.Call(ctx, "MIsFollow", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (r *relation.MGetFriendResp, err error) {
+	var _args relation.RelationServiceMGetFriendArgs
+	_args.Req = req
+	var _result relation.RelationServiceMGetFriendResult
+	if err = p.c.Call(ctx, "MGetFriend", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

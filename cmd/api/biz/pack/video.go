@@ -9,14 +9,8 @@ func VideoList(videos []*common.Video) []*common2.Video {
 	res := make([]*common2.Video, len(videos))
 	for index, video := range videos {
 		res[index] = &common2.Video{
-			ID: video.Id,
-			Author: &common2.User{
-				ID:            video.Author.Id,
-				Name:          video.Author.Name,
-				FollowCount:   video.Author.FollowCount,
-				FollowerCount: video.Author.FollowerCount,
-				IsFollow:      video.Author.IsFollow,
-			},
+			ID:            video.Id,
+			Author:        User(video.Author),
 			PlayURL:       video.PlayUrl,
 			CoverURL:      video.CoverUrl,
 			FavoriteCount: video.FavoriteCount,

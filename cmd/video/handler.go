@@ -15,13 +15,14 @@ type VideoServiceImpl struct{}
 func (s *VideoServiceImpl) MGetVideo(ctx context.Context, req *video.MGetVideoReq) (resp *video.MGetVideoResp, err error) {
 	resp = new(video.MGetVideoResp)
 
-	videos, err := service.NewMGetVideoService(ctx).MGetVideo(req)
+	videos, nextTime, err := service.NewMGetVideoService(ctx).MGetVideo(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.VideoList = videos
+	resp.NextTime = nextTime
 	return resp, nil
 }
 
