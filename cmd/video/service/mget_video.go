@@ -19,10 +19,10 @@ func NewMGetVideoService(ctx context.Context) *MGetVideoService {
 }
 
 // MGetVideo multiple get list of video info
-func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, error) {
+func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, int64, error) {
 	videoModels, err := db.MGetVideo(s.ctx, req.LatestTime)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	videos := pack.Videos(videoModels)
 	/*
@@ -43,5 +43,5 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 		wg.Wait()
 	*/
 
-	return videos, nil
+	return videos, videoModels[len(videos)-1].CreatedAt.Unix() - 1, nil
 }

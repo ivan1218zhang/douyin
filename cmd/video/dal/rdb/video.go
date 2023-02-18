@@ -41,6 +41,17 @@ func MSetVideo(videoModels []*repository.Video) error {
 	return GetRDB().ZAdd(zsetKey, vs...).Err()
 }
 
+func MGetVideoIDByTime(latestTime int64) ([]int64, error) {
+	opt := redis.ZRangeBy{
+		Max:   strconv.FormatInt(latestTime, 10), // 最大分数
+		Count: 10,                                // 一次返回多少数据
+	}
+	vs := make([]*repository.Video, 10)
+	//根据opt范围返回集合元素
+	GetRDB().ZRevRangeByScore(zsetKey, opt).ScanSlice(&vs)
+	return vs
+}
+
 func MGetVideoByTime(latestTime int64) []*repository.Video {
 	opt := redis.ZRangeBy{
 		Max:   strconv.FormatInt(latestTime, 10), // 最大分数

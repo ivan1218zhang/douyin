@@ -5,14 +5,13 @@ import (
 	"douyin/kitex_gen/common"
 	"douyin/pkg/db"
 	"douyin/pkg/repository"
-	"gorm.io/gorm/clause"
 	"time"
 )
 
 // MGetPublish query list of video info
 func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 	var res []*common.Video
-	err := DB.WithContext(ctx).Where("author_id = ?", userID).Find(&res).Error
+	err := db.DB.WithContext(ctx).Where("author_id = ?", userID).Find(&res).Error
 	if err != nil {
 		return res, err
 	}
@@ -21,7 +20,7 @@ func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 
 // CreateVideo create video
 func CreateVideo(ctx context.Context, video *repository.Video) error {
-	return DB.WithContext(ctx).Create(video).Error
+	return db.DB.WithContext(ctx).Create(video).Error
 }
 
 // GetVideo get video by id
@@ -45,7 +44,7 @@ func MGetVideo(ctx context.Context, latestTime int64) (vs []*repository.Video, e
 
 func GetVideoCreatedAt(ctx context.Context, videoId int64) (int64, error) {
 	var res *repository.User
-	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").FirstOrCreate(res).Error
+	err := db.DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").FirstOrCreate(res).Error
 	if res == nil {
 		return time.Now().UnixMilli(), err
 	}

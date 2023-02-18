@@ -33,7 +33,7 @@ func TestMGetVideoService_MGetVideo(t *testing.T) {
 	req := video.MGetVideoReq{
 		LatestTime: time.Now().AddDate(0, 0, 0).Unix(),
 	}
-	vs, err := NewMGetVideoService(context.Background()).MGetVideo(&req)
+	vs, _, err := NewMGetVideoService(context.Background()).MGetVideo(&req)
 	if err != nil {
 		panic(err)
 	}
