@@ -60,7 +60,7 @@ func (s *MGetVideoService) MGetVideoById(req *video.MGetVideoByIdReq) ([]*common
 		idList[i] = videos[i].AuthorId
 	}
 	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
-		IdList: nil,
+		IdList: idList,
 		UserId: 0,
 	})
 	if err != nil {
