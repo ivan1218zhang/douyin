@@ -61,3 +61,16 @@ func MGetFollower(ctx context.Context, req *relation.MGetFollowerReq) (*api.MGet
 		UserList:      pack.UserList(resp.UserList),
 	}, nil
 }
+
+// MGetFriend 朋友列表
+func MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (*api.MGetFriendResp, error) {
+	resp, err := relationClient.MGetFriend(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return &api.MGetFriendResp{
+		StatusCode:    resp.BaseResp.StatusCode,
+		StatusMessage: resp.BaseResp.StatusMessage,
+		UserList:      pack.UserList(resp.UserList),
+	}, nil
+}

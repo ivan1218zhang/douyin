@@ -32,3 +32,11 @@ struct Comment{
     4:string create_date
     5:i64 user_id
 }
+
+struct Message {
+    1:i64 id
+    2:i64 to_user_id
+    3:i64 from_user_id
+    4:string content
+    5:i64 create_time
+}

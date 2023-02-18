@@ -3,7 +3,7 @@
 package Api
 
 import (
-	"douyin/cmd/api/biz/handler/api"
+	api "douyin/biz/handler/api"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
@@ -46,10 +46,21 @@ func Register(r *server.Hertz) {
 			_feed.GET("/", append(_mgetvideoMw(), api.MGetVideo)...)
 		}
 		{
+			_message := _douyin.Group("/message", _messageMw()...)
+			{
+				_action1 := _message.Group("/action", _action1Mw()...)
+				_action1.POST("/", append(_message_ctionMw(), api.MessageAction)...)
+			}
+			{
+				_chat := _message.Group("/chat", _chatMw()...)
+				_chat.GET("/", append(_mgetchatmessageMw(), api.MGetChatMessage)...)
+			}
+		}
+		{
 			_publish := _douyin.Group("/publish", _publishMw()...)
 			{
-				_action1 := _publish.Group("/action", _action1Mw()...)
-				_action1.POST("/", append(_publish0Mw(), api.Publish)...)
+				_action2 := _publish.Group("/action", _action2Mw()...)
+				_action2.POST("/", append(_publish0Mw(), api.Publish)...)
 			}
 			{
 				_list1 := _publish.Group("/list", _list1Mw()...)
@@ -59,8 +70,8 @@ func Register(r *server.Hertz) {
 		{
 			_relation := _douyin.Group("/relation", _relationMw()...)
 			{
-				_action2 := _relation.Group("/action", _action2Mw()...)
-				_action2.POST("/", append(_relation_ctionMw(), api.RelationAction)...)
+				_action3 := _relation.Group("/action", _action3Mw()...)
+				_action3.POST("/", append(_relation_ctionMw(), api.RelationAction)...)
 			}
 			{
 				_follow := _relation.Group("/follow", _followMw()...)
@@ -74,6 +85,13 @@ func Register(r *server.Hertz) {
 				{
 					_list3 := _follower.Group("/list", _list3Mw()...)
 					_list3.GET("/", append(_mgetfollowerMw(), api.MGetFollower)...)
+				}
+			}
+			{
+				_friend := _relation.Group("/friend", _friendMw()...)
+				{
+					_list4 := _friend.Group("/list", _list4Mw()...)
+					_list4.GET("/", append(_mgetfriendMw(), api.MGetFriend)...)
 				}
 			}
 		}

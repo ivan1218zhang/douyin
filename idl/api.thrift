@@ -150,6 +150,40 @@ struct MGetFollowerResp {
     3:list<common.User> user_list
 }
 
+struct MGetFriendReq {
+    1:i64 user_id
+    2:string token
+}
+
+struct MGetFriendResp {
+    1:i64 status_code
+    2:string status_message
+    3:list<common.User> user_list
+}
+
+struct MessageActionReq {
+    1:string token
+    2:i64 to_user_id
+    3:i32 action_type
+    4:string content
+}
+
+struct MessageActionResp {
+    1:i64 status_code
+    2:string status_message
+}
+
+struct MGetChatMessageReq {
+    1:string token
+    2:i64 to_user_id
+}
+
+struct MGetChatMessageResp {
+    1:i64 status_code
+    2:string status_message
+    3:list<common.Message> message_list
+}
+
 service ApiService {
     MGetVideoResp MGetVideo(1:MGetVideoReq req) (api.get="/douyin/feed/")
     RegisterResp Register(1:RegisterReq req) (api.post="/douyin/user/register/")
@@ -164,4 +198,7 @@ service ApiService {
     RelationActionResp RelationAction(1:RelationActionReq req) (api.post="/douyin/relation/action/")
     MGetFollowResp MGetFollow(1:MGetFollowReq req) (api.get="/douyin/relation/follow/list/")
     MGetFollowerResp MGetFollower(1:MGetFollowerReq req) (api.get="/douyin/relation/follower/list/")
+    MGetFriendResp MGetFriend(1:MGetFriendReq req) (api.get="/douyin/relation/friend/list/")
+    MessageActionResp MessageAction(1:MessageActionReq req) (api.post="/douyin/message/action/")
+    MGetChatMessageResp MGetChatMessage(1:MGetChatMessageReq req) (api.get="/douyin/message/chat/")
 }
