@@ -2,10 +2,9 @@ package service
 
 import (
 	"context"
-	"douyin/kitex_gen/common"
-
 	"douyin/cmd/video/dal/db"
 	"douyin/cmd/video/pack"
+	"douyin/kitex_gen/common"
 
 	"douyin/kitex_gen/video"
 )
@@ -26,6 +25,23 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 		return nil, err
 	}
 	videos := pack.Videos(videoModels)
+	/*
+		wg := sync.WaitGroup{}
+		wg.Add(2)
+		go func() {
+			uIds := pack.UserIds(videos)
+			users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: uIds})
+			if err != nil {
+				log.Print(err)
+			}
+
+			for i := range videos {
+				videos[i].Author = users[i]
+			}
+		}()
+
+		wg.Wait()
+	*/
 
 	return videos, nil
 }

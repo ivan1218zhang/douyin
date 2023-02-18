@@ -31,3 +31,15 @@ func Videos(vs []*repository.Video) []*common.Video {
 	}
 	return videos
 }
+
+func UserIds(vs []*common.Video) []int64 {
+	uIds := make([]int64, len(vs))
+	if len(vs) == 0 {
+		return uIds
+	}
+	for i, v := range vs {
+		uIds[i] = v.AuthorId
+	}
+
+	return uIds
+}
