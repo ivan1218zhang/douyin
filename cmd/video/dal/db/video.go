@@ -11,7 +11,7 @@ import (
 // MGetPublish query list of video info
 func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 	var res []*common.Video
-	err := DB.WithContext(ctx).Where("author_id = ?", userID).Find(&res).Error
+	err := DB.WithContext(ctx).Table("video").Where("author_id = ?", userID).Find(&res).Error
 	if err != nil {
 		return res, err
 	}
@@ -20,14 +20,14 @@ func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 
 // CreateVideo create video
 func CreateVideo(ctx context.Context, video *repository.Video) error {
-	return DB.WithContext(ctx).Create(video).Error
+	return DB.WithContext(ctx).Table("video").Create(video).Error
 }
 
 // MGetVideo multiple get list of Video info
 func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
 	var res []*common.Video
 	tm := time.Unix(0, latestTime*int64(time.Millisecond))
-	if err := DB.WithContext(ctx).Where("created_at < ?", tm.Format("2006-01-02 15:04:05")).Order(clause.OrderByColumn{Column: clause.Column{Name: "created_at"}, Desc: true}).Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).Table("video").Where("created_at < ?", tm.Format("2006-01-02 15:04:05")).Order(clause.OrderByColumn{Column: clause.Column{Name: "created_at"}, Desc: true}).Find(&res).Error; err != nil {
 		return res, err
 	}
 	return res, nil
@@ -35,7 +35,7 @@ func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
 
 func GetVideoCreatedAt(ctx context.Context, videoId int64) (int64, error) {
 	var res *repository.User
-	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").FirstOrCreate(res).Error
+	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").First(res).Error
 	if res == nil {
 		return time.Now().UnixMilli(), err
 	}
