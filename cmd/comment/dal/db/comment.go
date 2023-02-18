@@ -8,7 +8,7 @@ import (
 func GetCommentListByVideoId(ctx context.Context, videoId int64) ([]*repository.Comment, error) {
 	res := make([]*repository.Comment, 0)
 
-	if err := DB.WithContext(ctx).Where("videoid = ?", videoId).Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).Where("video_id = ?", videoId).Find(&res).Error; err != nil {
 		return nil, err
 	}
 	return res, nil

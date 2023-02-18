@@ -18,6 +18,11 @@ require (
 )
 
 require (
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+)
+
+require (
 	github.com/bytedance/go-tagexpr/v2 v2.9.2 // indirect
 	github.com/bytedance/gopkg v0.0.0-20220531084716-665b4f21126f // indirect
 	github.com/bytedance/sonic v1.5.0 // indirect
@@ -29,6 +34,7 @@ require (
 	github.com/cloudwego/netpoll v0.3.1 // indirect
 	github.com/cloudwego/thriftgo v0.2.4 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
