@@ -36,6 +36,19 @@ func MGetVideo(ctx context.Context, req *video.MGetVideoReq) (*api.MGetVideoResp
 	}, nil
 }
 
+func MGetVideoById(ctx context.Context, req *video.MGetVideoReq) (*api.MGetVideoResp, error) {
+	resp, err := videoClient.MGetVideo(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return &api.MGetVideoResp{
+		StatusCode:    resp.BaseResp.StatusCode,
+		StatusMessage: resp.BaseResp.StatusMessage,
+		VideoList:     pack.VideoList(resp.VideoList),
+		NextTime:      0,
+	}, nil
+}
+
 // Publish 上传视频
 func Publish(ctx context.Context, req *video.PublishReq) (*api.PublishResp, error) {
 	resp, err := videoClient.Publish(ctx, req)

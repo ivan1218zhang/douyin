@@ -1,14 +1,32 @@
 package main
 
 import (
+	"douyin/cmd/favorite/dal"
 	favorite "douyin/kitex_gen/favorite/favoriteservice"
+	"github.com/cloudwego/kitex/server"
 	"log"
+	"net"
 )
 
-func main() {
-	svr := favorite.NewServer(new(FavoriteServiceImpl))
+func Init() {
+	dal.Init()
+}
 
-	err := svr.Run()
+func main() {
+	addr, err := net.ResolveTCPAddr("tcp", ":8890")
+	if err != nil {
+		panic(err)
+	}
+	Init()
+
+	svr := favorite.NewServer(new(FavoriteServiceImpl),
+		server.WithServiceAddr(addr), // address
+		//server.WithLimit(&limit.Option{MaxConnections: 1000, MaxQPS: 100}), // limit
+		//server.WithMuxTransport(),                                          // Multiplex
+		//server.WithRegistry(r),
+	)
+
+	err = svr.Run()
 
 	if err != nil {
 		log.Println(err.Error())

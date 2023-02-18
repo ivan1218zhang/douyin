@@ -2,16 +2,19 @@ package service
 
 import (
 	"context"
+	"douyin/cmd/api/biz/rpc"
+	userdal "douyin/cmd/user/dal"
+	"douyin/cmd/video/dal"
 	"douyin/kitex_gen/video"
-	"douyin/pkg/db"
 	"log"
 	"testing"
 	"time"
 )
 
 func TestMGetVideoService_MGetVideo(t *testing.T) {
-	db.Init()
-
+	dal.Init()
+	userdal.Init()
+	rpc.Init()
 	//db.DB.AutoMigrate(&repository.Video{})
 	/*
 		v := repository.Video{

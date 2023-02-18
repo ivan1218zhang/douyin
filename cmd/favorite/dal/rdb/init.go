@@ -1,6 +1,7 @@
 package rdb
 
 import (
+	"douyin/pkg/constants"
 	"log"
 	"sync"
 
@@ -20,9 +21,9 @@ func GetRDB() *redis.Client {
 
 func initRDB() {
 	redisClient = redis.NewClient(&redis.Options{
-		Addr:     "1.15.222.156:6380", // redis地址
-		Password: "123456",            // redis密码，没有则留空
-		DB:       7,                   // 默认数据库，默认是0
+		Addr:     constants.RedisAddress, // redis地址
+		Password: "123456",               // redis密码，没有则留空
+		DB:       7,                      // 默认数据库，默认是0
 	})
 
 	//redisClient.FlushDB()

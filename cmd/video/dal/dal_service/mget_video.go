@@ -22,6 +22,7 @@ func getVideoByID(id int64) repository.Video {
 
 func mGetVideoIDByTime(latestTime int64) ([]int64, error) {
 
+	return nil, nil
 }
 
 func MGetVideo(latestTime int64) {

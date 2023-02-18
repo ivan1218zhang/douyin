@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"douyin/kitex_gen/common"
-	"douyin/pkg/db"
 	"douyin/pkg/repository"
 	"time"
 )
@@ -11,7 +10,7 @@ import (
 // MGetPublish query list of video info
 func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 	var res []*common.Video
-	err := db.DB.WithContext(ctx).Where("author_id = ?", userID).Find(&res).Error
+	err := DB.WithContext(ctx).Where("author_id = ?", userID).Find(&res).Error
 	if err != nil {
 		return res, err
 	}
@@ -20,13 +19,13 @@ func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 
 // CreateVideo create video
 func CreateVideo(ctx context.Context, video *repository.Video) error {
-	return db.DB.WithContext(ctx).Create(video).Error
+	return DB.WithContext(ctx).Create(video).Error
 }
 
 // GetVideo get video by id
 func GetVideo(ctx context.Context, id int64) (repository.Video, error) {
 	var v repository.Video
-	err := db.DB.WithContext(ctx).First(&v, id).Error
+	err := DB.WithContext(ctx).First(&v, id).Error
 	return v, err
 }
 
@@ -34,9 +33,9 @@ func GetVideo(ctx context.Context, id int64) (repository.Video, error) {
 func MGetVideo(ctx context.Context, latestTime int64) (vs []*repository.Video, err error) {
 	vs = []*repository.Video{}
 	if latestTime != 0 {
-		err = db.DB.WithContext(ctx).Where("created_at < ?", time.Unix(latestTime, 0)).Order("created_at DESC").Limit(10).Find(&vs).Error
+		err = DB.WithContext(ctx).Where("created_at < ?", time.Unix(latestTime, 0)).Order("created_at DESC").Limit(10).Find(&vs).Error
 	} else {
-		err = db.DB.WithContext(ctx).Order("created_at DESC").Limit(10).Find(&vs).Error
+		err = DB.WithContext(ctx).Order("created_at DESC").Limit(10).Find(&vs).Error
 	}
 
 	return
@@ -44,7 +43,7 @@ func MGetVideo(ctx context.Context, latestTime int64) (vs []*repository.Video, e
 
 func GetVideoCreatedAt(ctx context.Context, videoId int64) (int64, error) {
 	var res *repository.User
-	err := db.DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").FirstOrCreate(res).Error
+	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").FirstOrCreate(res).Error
 	if res == nil {
 		return time.Now().UnixMilli(), err
 	}

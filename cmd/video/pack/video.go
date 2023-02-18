@@ -12,10 +12,8 @@ func Video(v *repository.Video) *common.Video {
 	}
 
 	return &common.Video{
-		Id: v.ID,
-		Author: &common.User{
-			Id: int64(v.AuthorId),
-		},
+		Id:       v.ID,
+		AuthorId: v.AuthorId,
 		PlayUrl:  v.PlayUrl,
 		CoverUrl: v.CoverUrl,
 	}
