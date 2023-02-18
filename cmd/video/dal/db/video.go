@@ -41,3 +41,12 @@ func GetVideoCreatedAt(ctx context.Context, videoId int64) (int64, error) {
 	}
 	return res.CreatedAt.UnixMilli(), err
 }
+
+// MGetVideoById multiple get list of Video info by ID
+func MGetVideoById(ctx context.Context, idList []int64) ([]*common.Video, error) {
+	var res []*common.Video
+	if err := DB.WithContext(ctx).Table("video").Where("id in ? ", idList).Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
+}

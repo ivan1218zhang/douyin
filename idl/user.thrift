@@ -14,6 +14,7 @@ struct CreateUserResp{
 
 struct GetUserReq{
     1:i64 id
+    2:i64 user_id
 }
 
 struct GetUserResp{
@@ -33,6 +34,7 @@ struct CheckUserResp {
 
 struct MGetUserReq{
     1:list<i64> id_list
+    2:i64 user_id
 }
 
 struct MGetUserResp{

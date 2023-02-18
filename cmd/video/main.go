@@ -2,6 +2,7 @@ package main
 
 import (
 	"douyin/cmd/video/dal"
+	"douyin/cmd/video/rpc"
 	video "douyin/kitex_gen/video/videoservice"
 	"douyin/pkg/conf"
 	"log"
@@ -13,6 +14,7 @@ func Init() {
 	dal.Init()
 	// 创建存放视频的文件夹
 	_ = os.MkdirAll(conf.CDN.LocalPath, os.ModePerm)
+	rpc.Init()
 }
 
 func main() {

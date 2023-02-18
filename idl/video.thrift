@@ -32,8 +32,19 @@ struct MGetPublishResp{
     2:list<common.Video> video_list
 }
 
+struct MGetVideoByIdReq{
+    1:list<i64> id_list
+    2:i64 user_id
+}
+
+struct MGetVideoByIdResp{
+    1:common.BaseResp base_resp
+    2:list<common.Video> video_list
+}
+
 service VideoService {
     MGetVideoResp MGetVideo(1:MGetVideoReq req)
     PublishResp Publish(1:PublishReq req)
     MGetPublishResp MGetPublish(1:MGetPublishReq req)
+    MGetVideoByIdResp MGetVideoById(1:MGetVideoByIdReq req)
 }
