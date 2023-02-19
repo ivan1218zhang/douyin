@@ -1,6 +1,7 @@
 package rdb
 
 import (
+	"log"
 	"strconv"
 )
 
@@ -15,20 +16,23 @@ func CountFavorite(videoID int64) (int, error) {
 	return num, err
 }
 
-func MCountFavorite(videoIDs []int64) ([]int64, error) {
+func MCountFavorite(videoIDs []int64) ([]int, error) {
 	rdb := GetRDB()
 	keys := make([]string, len(videoIDs))
 	for i := range keys {
-		keys[i] = "video_favorite_" + strconv.FormatInt(videoIDs[i], 10)
+		keys[i] = "video_favorite_count" + strconv.FormatInt(videoIDs[i], 10)
 	}
 	numsIn, err := rdb.MGet(keys...).Result()
 	if err != nil {
 		return nil, err
 	}
 
-	nums := make([]int64, len(videoIDs))
+	nums := make([]int, len(videoIDs))
 	for i := range nums {
-		nums[i] = numsIn[i].(int64)
+		if numsIn[i] != nil {
+			nums[i], _ = strconv.Atoi(numsIn[i].(string))
+		}
+
 	}
 
 	return nums, err
@@ -41,7 +45,7 @@ func SetFavorite(userID int64, videoID int64) error {
 	if err := rdb.SAdd("user_favorite_"+strconv.FormatInt(userID, 10), videoID).Err(); err != nil {
 		return err
 	}
-	rdb.Incr("video_favorite_" + strconv.FormatInt(videoID, 10))
+	rdb.Incr("video_favorite_count" + strconv.FormatInt(videoID, 10))
 
 	return nil
 }
@@ -53,7 +57,10 @@ func DelFavorite(userID int64, videoID int64) error {
 	if err := rdb.SRem("user_favorite_"+strconv.FormatInt(userID, 10), videoID).Err(); err != nil {
 		return err
 	}
-	rdb.Decr("video_favorite_" + strconv.FormatInt(videoID, 10))
+	err := rdb.Decr("video_favorite_count" + strconv.FormatInt(videoID, 10)).Err()
+	if err != nil {
+		log.Print(err)
+	}
 
 	return nil
 }

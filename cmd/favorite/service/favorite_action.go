@@ -17,17 +17,12 @@ func NewFavoriteActionService(ctx context.Context) *FavoriteActionService {
 
 // FavoriteAction req.ActionType == 1 set favorite , 2 del favorite
 func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionReq) error {
+	var err error
 	if req.ActionType == 1 {
-		err := rdb.SetFavorite(req.UserId, req.VideoId)
-		if err != nil {
-			return err
-		}
+		err = rdb.SetFavorite(req.UserId, req.VideoId)
 	} else {
-		err := rdb.DelFavorite(req.UserId, req.VideoId)
-		if err != nil {
-			return err
-		}
+		err = rdb.DelFavorite(req.UserId, req.VideoId)
 	}
 
-	return nil
+	return err
 }

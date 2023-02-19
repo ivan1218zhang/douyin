@@ -16,7 +16,7 @@ func NewMCountFavoriteService(ctx context.Context) *MCountFavoriteService {
 }
 
 // MCountFavorite count favorite number of given video IDs
-func (s *MCountFavoriteService) MCountFavorite(req *favorite.MCountFavoriteReq) ([]int64, error) {
+func (s *MCountFavoriteService) MCountFavorite(req *favorite.MCountFavoriteReq) ([]int, error) {
 	counts, err := rdb.MCountFavorite(req.VideoIdList)
 	return counts, err
 }

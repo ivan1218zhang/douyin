@@ -26,7 +26,7 @@ func initRDB() {
 		DB:       7,                      // 默认数据库，默认是0
 	})
 
-	//redisClient.FlushDB()
+	redisClient.FlushDB()
 
 	//通过 *redis.Client.Ping() 来检查是否成功连接到了redis服务器
 	_, err := redisClient.Ping().Result()
