@@ -58,5 +58,15 @@ func (s *VideoServiceImpl) MGetPublish(ctx context.Context, req *video.MGetPubli
 // MGetVideoById implements the VideoServiceImpl interface.
 func (s *VideoServiceImpl) MGetVideoById(ctx context.Context, req *video.MGetVideoByIdReq) (resp *video.MGetVideoByIdResp, err error) {
 	// TODO: Your code here...
-	return
+	videos, err := service.NewMGetVideoService(ctx).MGetVideoById(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	if len(videos) > 0 {
+
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.VideoList = videos
+	return resp, nil
 }
