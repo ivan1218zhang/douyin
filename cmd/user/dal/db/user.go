@@ -31,13 +31,22 @@ func QueryUser(ctx context.Context, userName string) ([]*repository.User, error)
 }
 
 func MGetUsers(ctx context.Context, userIDs []int64) ([]*repository.User, error) {
-	res := make([]*repository.User, 0)
+	res := make([]*repository.User, len(userIDs))
+	models := make([]*repository.User, 0)
 	if len(userIDs) == 0 {
 		return res, nil
 	}
 
-	if err := DB.WithContext(ctx).Where("id in ?", userIDs).Find(&res).Error; err != nil {
+	if err := DB.WithContext(ctx).Where("id in ?", userIDs).Find(&models).Error; err != nil {
 		return nil, err
+	}
+	// 保证原来顺序
+	resMap := map[int64]*repository.User{}
+	for i := 0; i < len(models); i++ {
+		resMap[models[i].ID] = models[i]
+	}
+	for i := 0; i < len(userIDs); i++ {
+		res[i] = resMap[userIDs[i]]
 	}
 	return res, nil
 }
