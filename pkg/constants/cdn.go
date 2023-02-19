@@ -1,4 +1,4 @@
-package conf
+package constants
 
 import "github.com/qiniu/go-sdk/v7/storage"
 

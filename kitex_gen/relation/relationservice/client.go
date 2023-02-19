@@ -21,6 +21,8 @@ type Client interface {
 	MCountFollower(ctx context.Context, req *relation.MCountFollowerReq, callOptions ...callopt.Option) (r *relation.MCountFollowerResp, err error)
 	MIsFollow(ctx context.Context, req *relation.MIsFollowReq, callOptions ...callopt.Option) (r *relation.MIsFollowResp, err error)
 	MGetFriend(ctx context.Context, req *relation.MGetFriendReq, callOptions ...callopt.Option) (r *relation.MGetFriendResp, err error)
+	GetRelation(ctx context.Context, req *relation.GetRelationReq, callOptions ...callopt.Option) (r *relation.GetRelationResp, err error)
+	MGetRelation(ctx context.Context, req *relation.MGetRelationReq, callOptions ...callopt.Option) (r *relation.MGetRelationResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -100,4 +102,14 @@ func (p *kRelationServiceClient) MIsFollow(ctx context.Context, req *relation.MI
 func (p *kRelationServiceClient) MGetFriend(ctx context.Context, req *relation.MGetFriendReq, callOptions ...callopt.Option) (r *relation.MGetFriendResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.MGetFriend(ctx, req)
+}
+
+func (p *kRelationServiceClient) GetRelation(ctx context.Context, req *relation.GetRelationReq, callOptions ...callopt.Option) (r *relation.GetRelationResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetRelation(ctx, req)
+}
+
+func (p *kRelationServiceClient) MGetRelation(ctx context.Context, req *relation.MGetRelationReq, callOptions ...callopt.Option) (r *relation.MGetRelationResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.MGetRelation(ctx, req)
 }

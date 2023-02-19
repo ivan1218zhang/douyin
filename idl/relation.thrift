@@ -33,7 +33,7 @@ struct CountFollowReq{
 
 struct CountFollowResp{
     1:common.BaseResp base_resp
-    2:i64 follow_count
+    2:i32 follow_count
 }
 
 struct CountFollowerReq{
@@ -42,7 +42,7 @@ struct CountFollowerReq{
 
 struct CountFollowerResp{
     1:common.BaseResp base_resp
-    2:i64 follower_count
+    2:i32 follower_count
 }
 
 struct IsFollowReq{
@@ -61,7 +61,7 @@ struct MCountFollowReq{
 
 struct MCountFollowResp{
     1:common.BaseResp base_resp
-    2:list<i64> follow_count_list
+    2:list<i32> follow_count_list
 }
 
 struct MCountFollowerReq{
@@ -70,7 +70,7 @@ struct MCountFollowerReq{
 
 struct MCountFollowerResp{
     1:common.BaseResp base_resp
-    2:list<i64> follower_count_list
+    2:list<i32> follower_count_list
 }
 
 struct MIsFollowReq{
@@ -92,6 +92,30 @@ struct MGetFriendResp{
     2:list<common.User> user_list
 }
 
+struct GetRelationReq{
+    1:i64 user_id
+    2:i64 to_user_id
+}
+
+struct GetRelationResp{
+    1:common.BaseResp base_resp
+    2:i32 follow_count
+    3:i32 follower_count
+    4:bool is_follow
+}
+
+struct MGetRelationReq{
+    1:list<i64> user_id_list
+    2:list<i64> to_user_id_list
+}
+
+struct MGetRelationResp{
+    1:common.BaseResp base_resp
+    2:list<i32> follow_count_list
+    3:list<i32> follower_count_list
+    4:list<bool> is_follow_list
+}
+
 service RelationService {
     RelationActionResp RelationAction(1:RelationActionReq req)
     MGetFollowResp MGetFollow(1:MGetFollowReq req)
@@ -103,4 +127,6 @@ service RelationService {
     MCountFollowerResp MCountFollower(1:MCountFollowerReq req)
     MIsFollowResp MIsFollow(1:MIsFollowReq req)
     MGetFriendResp MGetFriend(1:MGetFriendReq req)
+    GetRelationResp GetRelation(1:GetRelationReq req)
+    MGetRelationResp MGetRelation(1:MGetRelationReq req)
 }

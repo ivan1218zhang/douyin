@@ -246,3 +246,49 @@ func MGetFollower(ctx context.Context, c *app.RequestContext) {
 
 	c.JSON(consts.StatusOK, resp)
 }
+
+// MGetFriend .
+// @router /douyin/relation/friend/list/ [GET]
+func MGetFriend(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MGetFriendReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.MGetFriendResp)
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// MessageAction .
+// @router /douyin/message/action/ [POST]
+func MessageAction(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MessageActionReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.MessageActionResp)
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// MGetChatMessage .
+// @router /douyin/message/chat/ [GET]
+func MGetChatMessage(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MGetChatMessageReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+	resp := new(api.MGetChatMessageResp)
+	c.JSON(consts.StatusOK, resp)
+}

@@ -29,6 +29,8 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"MCountFollower": kitex.NewMethodInfo(mCountFollowerHandler, newRelationServiceMCountFollowerArgs, newRelationServiceMCountFollowerResult, false),
 		"MIsFollow":      kitex.NewMethodInfo(mIsFollowHandler, newRelationServiceMIsFollowArgs, newRelationServiceMIsFollowResult, false),
 		"MGetFriend":     kitex.NewMethodInfo(mGetFriendHandler, newRelationServiceMGetFriendArgs, newRelationServiceMGetFriendResult, false),
+		"GetRelation":    kitex.NewMethodInfo(getRelationHandler, newRelationServiceGetRelationArgs, newRelationServiceGetRelationResult, false),
+		"MGetRelation":   kitex.NewMethodInfo(mGetRelationHandler, newRelationServiceMGetRelationArgs, newRelationServiceMGetRelationResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "relation",
@@ -224,6 +226,42 @@ func newRelationServiceMGetFriendResult() interface{} {
 	return relation.NewRelationServiceMGetFriendResult()
 }
 
+func getRelationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceGetRelationArgs)
+	realResult := result.(*relation.RelationServiceGetRelationResult)
+	success, err := handler.(relation.RelationService).GetRelation(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceGetRelationArgs() interface{} {
+	return relation.NewRelationServiceGetRelationArgs()
+}
+
+func newRelationServiceGetRelationResult() interface{} {
+	return relation.NewRelationServiceGetRelationResult()
+}
+
+func mGetRelationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceMGetRelationArgs)
+	realResult := result.(*relation.RelationServiceMGetRelationResult)
+	success, err := handler.(relation.RelationService).MGetRelation(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceMGetRelationArgs() interface{} {
+	return relation.NewRelationServiceMGetRelationArgs()
+}
+
+func newRelationServiceMGetRelationResult() interface{} {
+	return relation.NewRelationServiceMGetRelationResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -329,6 +367,26 @@ func (p *kClient) MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (
 	_args.Req = req
 	var _result relation.RelationServiceMGetFriendResult
 	if err = p.c.Call(ctx, "MGetFriend", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetRelation(ctx context.Context, req *relation.GetRelationReq) (r *relation.GetRelationResp, err error) {
+	var _args relation.RelationServiceGetRelationArgs
+	_args.Req = req
+	var _result relation.RelationServiceGetRelationResult
+	if err = p.c.Call(ctx, "GetRelation", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) MGetRelation(ctx context.Context, req *relation.MGetRelationReq) (r *relation.MGetRelationResp, err error) {
+	var _args relation.RelationServiceMGetRelationArgs
+	_args.Req = req
+	var _result relation.RelationServiceMGetRelationResult
+	if err = p.c.Call(ctx, "MGetRelation", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

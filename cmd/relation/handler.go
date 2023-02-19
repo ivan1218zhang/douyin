@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"douyin/cmd/relation/pack"
+	"douyin/cmd/relation/service"
 	"douyin/kitex_gen/relation"
+	"douyin/pkg/errno"
 )
 
 // RelationServiceImpl implements the last service interface defined in the IDL.
@@ -64,6 +67,26 @@ func (s *RelationServiceImpl) MIsFollow(ctx context.Context, req *relation.MIsFo
 
 // MGetFriend implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (resp *relation.MGetFriendResp, err error) {
+	// TODO: Your code here...
+	users, err := service.NewGetFriendService(ctx).MGetFriend(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		resp.UserList = users
+		return resp, err
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.UserList = users
+	return resp, err
+}
+
+// GetRelation implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) GetRelation(ctx context.Context, req *relation.GetRelationReq) (resp *relation.GetRelationResp, err error) {
+	// TODO: Your code here...
+	return
+}
+
+// MGetRelation implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) MGetRelation(ctx context.Context, req *relation.MGetRelationReq) (resp *relation.MGetRelationResp, err error) {
 	// TODO: Your code here...
 	return
 }

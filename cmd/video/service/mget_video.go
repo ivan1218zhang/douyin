@@ -2,14 +2,12 @@ package service
 
 import (
 	"context"
-	"douyin/cmd/api/biz/rpc"
 	"douyin/cmd/video/dal/db"
-	"douyin/cmd/video/pack"
+	"douyin/cmd/video/rpc"
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/video"
-	"log"
-	"sync"
+	"time"
 )
 
 type MGetVideoService struct {
@@ -23,55 +21,53 @@ func NewMGetVideoService(ctx context.Context) *MGetVideoService {
 
 // MGetVideo multiple get list of video info
 func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, int64, error) {
-	videoModels, err := db.MGetVideo(s.ctx, req.LatestTime)
+	// 视频
+	videos, err := db.MGetVideo(s.ctx, req.LatestTime)
 	if err != nil {
-		return nil, 0, err
+		return nil, time.Now().UnixMilli(), err
 	}
-	videos := pack.Videos(videoModels)
-	wg := sync.WaitGroup{}
-	log.Print(len(videos))
-
-	for i := range videos {
-
-		wg.Add(1)
-		go func(index int, v *common.Video) {
-			defer wg.Done()
-			if v == nil {
-				return
-			}
-			resp, err := rpc.GetUser(s.ctx, &user.GetUserReq{Id: v.AuthorId})
-			if err != nil {
-				log.Print(err)
-				return
-			}
-
-			v.Author = &common.User{}
-			u := resp.User
-			v.Author.Id = u.ID
-			v.Author.Name = u.Name
-			v.Author.FollowerCount = u.FollowerCount
-			v.Author.FollowCount = u.FollowCount
-
-		}(i, videos[i])
+	// 获取next_time
+	id := videos[len(videos)-1].Id
+	nextTime, err := db.GetVideoCreatedAt(s.ctx, id)
+	// TODO 从user微服务模块中得到用户信息
+	idList := make([]int64, len(videos))
+	for i := 0; i < len(idList); i++ {
+		idList[i] = videos[i].AuthorId
 	}
+	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
+		IdList: nil,
+		UserId: 0,
+	})
+	if err != nil {
+		return nil, time.Now().UnixMilli(), err
+	}
+	for i := 0; i < len(videos); i++ {
+		videos[i].Author = users[i]
+	}
+	return videos, nextTime, nil
+}
 
-	/*
-
-		wg.Add(2)
-		go func() {
-			defer wg.Done()
-			uIds := pack.UserIds(videos)
-			users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: uIds})
-			if err != nil {
-				log.Print(err)
-			}
-
-			for i := range videos {
-				videos[i].Author = users[i]
-			}
-		}()
-
-	*/
-	wg.Wait()
-	return videos, videoModels[len(videos)-1].CreatedAt.Unix() - 1, nil
+// MGetVideoById multiple get list of video info by id
+func (s *MGetVideoService) MGetVideoById(req *video.MGetVideoByIdReq) ([]*common.Video, error) {
+	// 视频
+	videos, err := db.MGetVideoById(s.ctx, req.IdList)
+	if err != nil {
+		return nil, err
+	}
+	// TODO 从user微服务模块中得到用户信息
+	idList := make([]int64, len(videos))
+	for i := 0; i < len(idList); i++ {
+		idList[i] = videos[i].AuthorId
+	}
+	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
+		IdList: idList,
+		UserId: 0,
+	})
+	if err != nil {
+		return nil, err
+	}
+	for i := 0; i < len(videos); i++ {
+		videos[i].Author = users[i]
+	}
+	return videos, nil
 }

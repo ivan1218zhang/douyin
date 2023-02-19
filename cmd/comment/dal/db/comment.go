@@ -23,3 +23,12 @@ func CreateComment(ctx context.Context, comment *repository.Comment) (*repositor
 func DeleteComment(ctx context.Context, commentId int64) error {
 	return DB.WithContext(ctx).Delete(&repository.Comment{ID: commentId}).Error
 }
+
+func GetCommentCountByVideoID(ctx context.Context, videoId int64) (int64, error) {
+	var count int64
+	err := DB.WithContext(ctx).Model(&repository.Comment{}).Where("video_id = ?", videoId).Count(&count).Error
+	if err != nil {
+		return -1, err
+	}
+	return count, nil
+}

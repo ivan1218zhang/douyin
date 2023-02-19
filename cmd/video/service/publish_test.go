@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
+	"douyin/cmd/video/dal/db"
 	"douyin/kitex_gen/video"
-	"douyin/pkg/conf"
-	"douyin/pkg/db"
+	"douyin/pkg/constants"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -13,17 +13,13 @@ import (
 
 func TestPublishService_Publish(t *testing.T) {
 	// 创建视频保存的文件夹
-	err := os.MkdirAll(conf.CDN.LocalPath, os.ModePerm)
+	err := os.MkdirAll(constants.CDN.LocalPath, os.ModePerm)
 	if err != nil {
 		panic(err)
 		return
 	}
 	// 初始化数据库
-	err = db.Init()
-	if err != nil {
-		panic(err)
-		return
-	}
+	db.Init()
 	// 读取测试视频
 	file, err := os.Open("D:/test.mp4")
 	defer func(file *os.File) {
