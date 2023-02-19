@@ -6,6 +6,7 @@ require (
 	github.com/apache/thrift v0.17.0
 	github.com/cloudwego/hertz v0.5.1
 	github.com/cloudwego/kitex v0.4.4
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/hertz-contrib/logger/accesslog v0.0.0-20230206071608-2de215a9fd50
 	github.com/qiniu/go-sdk/v7 v7.14.0
 	go.mongodb.org/mongo-driver v1.11.2

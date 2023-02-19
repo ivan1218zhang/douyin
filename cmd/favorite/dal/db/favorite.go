@@ -2,12 +2,11 @@ package db
 
 import (
 	"context"
-	"douyin/pkg/db"
 	"douyin/pkg/repository"
 )
 
 func CreateFavorite(ctx context.Context, userID int64, videoID int64) error {
-	err := db.DB.WithContext(ctx).Create(&repository.Favorite{
+	err := DB.WithContext(ctx).Create(&repository.Favorite{
 		UserId:  userID,
 		VideoId: videoID,
 	}).Error
@@ -16,7 +15,7 @@ func CreateFavorite(ctx context.Context, userID int64, videoID int64) error {
 }
 
 func DeleteFavorite(ctx context.Context, userID int64, videoID int64) error {
-	result := db.DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Delete(&repository.Favorite{})
+	result := DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Delete(&repository.Favorite{})
 	if result.Error != nil {
 		return result.Error
 	}
@@ -26,7 +25,7 @@ func DeleteFavorite(ctx context.Context, userID int64, videoID int64) error {
 
 func IsFavorite(ctx context.Context, userID int64, videoID int64) (bool, error) {
 	var count int64
-	err := db.DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Count(&count).Error
+	err := DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Count(&count).Error
 	if err != nil {
 		//log error
 		return false, err
@@ -41,7 +40,7 @@ func IsFavorite(ctx context.Context, userID int64, videoID int64) (bool, error) 
 /*
 	func MIsFavorite(ctx context.Context, userID int64, videoID []int64) (bool, error) {
 		var count int64
-		err := db.DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Count(&count).Error
+		err := DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Count(&count).Error
 		if err != nil {
 			//log error
 			return false, err
@@ -55,7 +54,7 @@ func IsFavorite(ctx context.Context, userID int64, videoID int64) (bool, error) 
 */
 func MGetFavoriteByUserID(ctx context.Context, userID int64) ([]repository.Favorite, error) {
 	var fs []repository.Favorite
-	if err := db.DB.WithContext(ctx).Where("user_id = ?", userID).Find(&fs).Error; err != nil {
+	if err := DB.WithContext(ctx).Where("user_id = ?", userID).Find(&fs).Error; err != nil {
 		return nil, err
 	}
 
