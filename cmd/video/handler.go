@@ -63,9 +63,6 @@ func (s *VideoServiceImpl) MGetVideoById(ctx context.Context, req *video.MGetVid
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
-	if len(videos) > 0 {
-
-	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.VideoList = videos
 	return resp, nil
