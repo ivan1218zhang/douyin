@@ -2,6 +2,7 @@ package db
 
 import (
 	"douyin/pkg/constants"
+	"douyin/pkg/repository"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormopentracing "gorm.io/plugin/opentracing"
@@ -23,7 +24,7 @@ func Init() {
 		panic(err)
 	}
 
-	//DB.AutoMigrate(&repository.User{}, &repository.FollowedUser{}, &repository.FollowerUser{})
+	DB.AutoMigrate(&repository.Relation{})
 	if err = DB.Use(gormopentracing.New()); err != nil {
 		panic(err)
 	}

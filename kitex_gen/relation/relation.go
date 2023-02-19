@@ -4885,7 +4885,7 @@ func (p *GetRelationResp) Field4DeepEqual(src bool) bool {
 }
 
 type MGetRelationReq struct {
-	UserIdList   []int64 `thrift:"user_id_list,1" json:"user_id_list"`
+	UserId       int64   `thrift:"user_id,1" json:"user_id"`
 	ToUserIdList []int64 `thrift:"to_user_id_list,2" json:"to_user_id_list"`
 }
 
@@ -4893,22 +4893,22 @@ func NewMGetRelationReq() *MGetRelationReq {
 	return &MGetRelationReq{}
 }
 
-func (p *MGetRelationReq) GetUserIdList() (v []int64) {
-	return p.UserIdList
+func (p *MGetRelationReq) GetUserId() (v int64) {
+	return p.UserId
 }
 
 func (p *MGetRelationReq) GetToUserIdList() (v []int64) {
 	return p.ToUserIdList
 }
-func (p *MGetRelationReq) SetUserIdList(val []int64) {
-	p.UserIdList = val
+func (p *MGetRelationReq) SetUserId(val int64) {
+	p.UserId = val
 }
 func (p *MGetRelationReq) SetToUserIdList(val []int64) {
 	p.ToUserIdList = val
 }
 
 var fieldIDToName_MGetRelationReq = map[int16]string{
-	1: "user_id_list",
+	1: "user_id",
 	2: "to_user_id_list",
 }
 
@@ -4932,7 +4932,7 @@ func (p *MGetRelationReq) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.LIST {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -4982,23 +4982,10 @@ ReadStructEndError:
 }
 
 func (p *MGetRelationReq) ReadField1(iprot thrift.TProtocol) error {
-	_, size, err := iprot.ReadListBegin()
-	if err != nil {
+	if v, err := iprot.ReadI64(); err != nil {
 		return err
-	}
-	p.UserIdList = make([]int64, 0, size)
-	for i := 0; i < size; i++ {
-		var _elem int64
-		if v, err := iprot.ReadI64(); err != nil {
-			return err
-		} else {
-			_elem = v
-		}
-
-		p.UserIdList = append(p.UserIdList, _elem)
-	}
-	if err := iprot.ReadListEnd(); err != nil {
-		return err
+	} else {
+		p.UserId = v
 	}
 	return nil
 }
@@ -5059,18 +5046,10 @@ WriteStructEndError:
 }
 
 func (p *MGetRelationReq) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id_list", thrift.LIST, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.I64, len(p.UserIdList)); err != nil {
-		return err
-	}
-	for _, v := range p.UserIdList {
-		if err := oprot.WriteI64(v); err != nil {
-			return err
-		}
-	}
-	if err := oprot.WriteListEnd(); err != nil {
+	if err := oprot.WriteI64(p.UserId); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -5121,7 +5100,7 @@ func (p *MGetRelationReq) DeepEqual(ano *MGetRelationReq) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.UserIdList) {
+	if !p.Field1DeepEqual(ano.UserId) {
 		return false
 	}
 	if !p.Field2DeepEqual(ano.ToUserIdList) {
@@ -5130,16 +5109,10 @@ func (p *MGetRelationReq) DeepEqual(ano *MGetRelationReq) bool {
 	return true
 }
 
-func (p *MGetRelationReq) Field1DeepEqual(src []int64) bool {
+func (p *MGetRelationReq) Field1DeepEqual(src int64) bool {
 
-	if len(p.UserIdList) != len(src) {
+	if p.UserId != src {
 		return false
-	}
-	for i, v := range p.UserIdList {
-		_src := src[i]
-		if v != _src {
-			return false
-		}
 	}
 	return true
 }

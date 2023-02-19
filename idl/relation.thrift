@@ -105,7 +105,7 @@ struct GetRelationResp{
 }
 
 struct MGetRelationReq{
-    1:list<i64> user_id_list
+    1:i64 user_id
     2:list<i64> to_user_id_list
 }
 

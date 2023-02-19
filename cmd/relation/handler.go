@@ -82,11 +82,29 @@ func (s *RelationServiceImpl) MGetFriend(ctx context.Context, req *relation.MGet
 // GetRelation implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) GetRelation(ctx context.Context, req *relation.GetRelationReq) (resp *relation.GetRelationResp, err error) {
 	// TODO: Your code here...
-	return
+	followCount, followerCount, isFollow, err := service.NewGetRelationService(ctx).GetRelation(req)
+	resp.FollowCount = followCount
+	resp.FollowerCount = followerCount
+	resp.IsFollow = isFollow
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, err
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, err
 }
 
 // MGetRelation implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetRelation(ctx context.Context, req *relation.MGetRelationReq) (resp *relation.MGetRelationResp, err error) {
 	// TODO: Your code here...
-	return
+	followCountList, followerCountList, isFollowList, err := service.NewMGetRelationService(ctx).MGetRelation(req)
+	resp.FollowCountList = followCountList
+	resp.FollowerCountList = followerCountList
+	resp.IsFollowList = isFollowList
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, err
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, err
 }

@@ -1,9 +1,13 @@
 package repository
 
+import "douyin/pkg/constants"
+
 type Relation struct {
 	Id         int64
 	UserId     int64
-	User       User
 	FollowerId int64
-	Follower   User
+}
+
+func (u *Relation) TableName() string {
+	return constants.RelationTableName
 }

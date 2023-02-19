@@ -1,6 +1,6 @@
 package dal
 
-import "douyin/cmd/video/dal/db"
+import "douyin/cmd/relation/dal/db"
 
 // Init init dal
 func Init() {

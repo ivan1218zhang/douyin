@@ -11,6 +11,7 @@ const (
 	DefaultLimit                         = 10
 	VideoTableName                       = "video"
 	UserTableName                        = "user"
+	RelationTableName                    = "relation"
 	UserServiceMachineID         int64   = 1
 	VideoServiceMachineID        int64   = 2
 	CommentServiceMachineID      int64   = 3
