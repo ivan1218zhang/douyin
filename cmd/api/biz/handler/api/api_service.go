@@ -289,8 +289,6 @@ func MGetChatMessage(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
 	resp := new(api.MGetChatMessageResp)
-
 	c.JSON(consts.StatusOK, resp)
 }

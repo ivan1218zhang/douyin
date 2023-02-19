@@ -2,25 +2,25 @@ package util
 
 import (
 	"context"
-	"douyin/pkg/conf"
+	"douyin/pkg/constants"
 	"fmt"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
 	"github.com/qiniu/go-sdk/v7/storage"
 )
 
 func UploadCdn(filename string) error {
-	localFile := conf.CDN.LocalPath + filename
+	localFile := constants.CDN.LocalPath + filename
 	key := filename
 
 	putPolicy := storage.PutPolicy{
-		Scope: conf.CDN.Bucket,
+		Scope: constants.CDN.Bucket,
 	}
-	mac := qbox.NewMac(conf.CDN.AccessKey, conf.CDN.SecretKey)
+	mac := qbox.NewMac(constants.CDN.AccessKey, constants.CDN.SecretKey)
 	upToken := putPolicy.UploadToken(mac)
 
 	cfg := storage.Config{}
 	// 空间对应的机房
-	cfg.Zone = conf.CDN.Zone
+	cfg.Zone = constants.CDN.Zone
 	// 是否使用https域名
 	cfg.UseHTTPS = false
 	// 上传是否使用CDN上传加速

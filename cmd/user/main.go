@@ -3,6 +3,7 @@ package main
 import (
 	"douyin/cmd/user/dal"
 	user "douyin/kitex_gen/user/userservice"
+	"douyin/pkg/constants"
 	"log"
 	"net"
 
@@ -18,7 +19,7 @@ func main() {
 	//if err != nil {
 	//	panic(err)
 	//}
-	addr, err := net.ResolveTCPAddr("tcp", ":8889")
+	addr, err := net.ResolveTCPAddr("tcp", constants.UserServiceWithHostPorts)
 	if err != nil {
 		panic(err)
 	}
