@@ -78,3 +78,15 @@ func (s *RelationServiceImpl) MGetFriend(ctx context.Context, req *relation.MGet
 	resp.UserList = users
 	return resp, err
 }
+
+// GetRelation implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) GetRelation(ctx context.Context, req *relation.GetRelationReq) (resp *relation.GetRelationResp, err error) {
+	// TODO: Your code here...
+	return
+}
+
+// MGetRelation implements the RelationServiceImpl interface.
+func (s *RelationServiceImpl) MGetRelation(ctx context.Context, req *relation.MGetRelationReq) (resp *relation.MGetRelationResp, err error) {
+	// TODO: Your code here...
+	return
+}
