@@ -17,7 +17,7 @@ func initUser() {
 	c, err := userservice.NewClient(
 		"user",
 		client.WithHostPorts("0.0.0.0:8889"),
-		client.WithRPCTimeout(3*time.Second),
+		client.WithRPCTimeout(30*time.Second),
 	)
 	if err != nil {
 		panic(err)

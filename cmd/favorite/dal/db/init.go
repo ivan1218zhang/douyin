@@ -27,5 +27,5 @@ func Init() {
 		panic(err)
 	}
 
-	Snowflake = util.NewSnowFlake(constants.VideoServiceMachineID)
+	Snowflake = util.NewSnowFlake(constants.FavoriteServiceMachineID)
 }
