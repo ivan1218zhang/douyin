@@ -5,6 +5,17 @@ import (
 	"douyin/pkg/repository"
 )
 
+func AddRelation(ctx context.Context, userId int64, toUserId int64) error {
+	return DB.WithContext(ctx).Table("relation").Create(&repository.Relation{
+		UserId:     toUserId,
+		FollowerId: userId,
+	}).Error
+}
+
+func DeleteRelation(ctx context.Context, userId int64, toUserId int64) error {
+	return DB.WithContext(ctx).Table("relation").Where("user_id = ? and follower_id = ?", toUserId, userId).Delete(&repository.Relation{}).Error
+}
+
 // MGetFollowedUser query list of FollowedUser
 func MGetFollowedUser(ctx context.Context, userID int64) ([]int64, error) {
 	var res []int64

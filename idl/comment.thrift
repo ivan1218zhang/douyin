@@ -25,15 +25,6 @@ struct MGetCommentResp{
     2:list<common.Comment> comment_list
 }
 
-struct CountCommentReq{
-    1:i64 video_id
-}
-
-struct CountCommentResp{
-    1:common.BaseResp base_resp
-    2:i64 comment_count
-}
-
 struct MCountCommentReq{
     1:list<i64> video_id_list
 }
@@ -45,7 +36,6 @@ struct MCountCommentResp{
 
 service CommentService {
     CommentActionResp CommentAction(1:CommentActionReq req)
-    CountCommentResp CountComment(1:CountCommentReq req)
     MCountCommentResp MCountComment(1:MCountCommentReq req)
     MGetCommentResp MGetComment(1:MGetCommentReq req)
 }

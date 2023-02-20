@@ -11,12 +11,6 @@ import (
 // FavoriteServiceImpl implements the last service interface defined in the IDL.
 type FavoriteServiceImpl struct{}
 
-// IsFavorite implements the FavoriteServiceImpl interface.
-func (s *FavoriteServiceImpl) IsFavorite(ctx context.Context, req *favorite.IsFavoriteReq) (resp *favorite.IsFavoriteResp, err error) {
-	// TODO: Your code here...
-	return
-}
-
 // MIsFavorite implements the FavoriteServiceImpl interface.
 func (s *FavoriteServiceImpl) MIsFavorite(ctx context.Context, req *favorite.MIsFavoriteReq) (resp *favorite.MIsFavoriteResp, err error) {
 	resp = new(favorite.MIsFavoriteResp)
@@ -27,12 +21,6 @@ func (s *FavoriteServiceImpl) MIsFavorite(ctx context.Context, req *favorite.MIs
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.IsFavoriteList = isFavors
-	return
-}
-
-// CountFavorite implements the FavoriteServiceImpl interface.
-func (s *FavoriteServiceImpl) CountFavorite(ctx context.Context, req *favorite.CountFavoriteReq) (resp *favorite.CountFavoriteResp, err error) {
-	// TODO: Your code here...
 	return
 }
 

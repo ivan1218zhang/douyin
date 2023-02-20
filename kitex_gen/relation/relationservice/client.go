@@ -14,12 +14,6 @@ type Client interface {
 	RelationAction(ctx context.Context, req *relation.RelationActionReq, callOptions ...callopt.Option) (r *relation.RelationActionResp, err error)
 	MGetFollow(ctx context.Context, req *relation.MGetFollowReq, callOptions ...callopt.Option) (r *relation.MGetFollowResp, err error)
 	MGetFollower(ctx context.Context, req *relation.MGetFollowerReq, callOptions ...callopt.Option) (r *relation.MGetFollowerResp, err error)
-	CountFollow(ctx context.Context, req *relation.CountFollowReq, callOptions ...callopt.Option) (r *relation.CountFollowResp, err error)
-	CountFollower(ctx context.Context, req *relation.CountFollowerReq, callOptions ...callopt.Option) (r *relation.CountFollowerResp, err error)
-	IsFollow(ctx context.Context, req *relation.IsFollowReq, callOptions ...callopt.Option) (r *relation.IsFollowResp, err error)
-	MCountFollow(ctx context.Context, req *relation.MCountFollowReq, callOptions ...callopt.Option) (r *relation.MCountFollowResp, err error)
-	MCountFollower(ctx context.Context, req *relation.MCountFollowerReq, callOptions ...callopt.Option) (r *relation.MCountFollowerResp, err error)
-	MIsFollow(ctx context.Context, req *relation.MIsFollowReq, callOptions ...callopt.Option) (r *relation.MIsFollowResp, err error)
 	MGetFriend(ctx context.Context, req *relation.MGetFriendReq, callOptions ...callopt.Option) (r *relation.MGetFriendResp, err error)
 	GetRelation(ctx context.Context, req *relation.GetRelationReq, callOptions ...callopt.Option) (r *relation.GetRelationResp, err error)
 	MGetRelation(ctx context.Context, req *relation.MGetRelationReq, callOptions ...callopt.Option) (r *relation.MGetRelationResp, err error)
@@ -67,36 +61,6 @@ func (p *kRelationServiceClient) MGetFollow(ctx context.Context, req *relation.M
 func (p *kRelationServiceClient) MGetFollower(ctx context.Context, req *relation.MGetFollowerReq, callOptions ...callopt.Option) (r *relation.MGetFollowerResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.MGetFollower(ctx, req)
-}
-
-func (p *kRelationServiceClient) CountFollow(ctx context.Context, req *relation.CountFollowReq, callOptions ...callopt.Option) (r *relation.CountFollowResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.CountFollow(ctx, req)
-}
-
-func (p *kRelationServiceClient) CountFollower(ctx context.Context, req *relation.CountFollowerReq, callOptions ...callopt.Option) (r *relation.CountFollowerResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.CountFollower(ctx, req)
-}
-
-func (p *kRelationServiceClient) IsFollow(ctx context.Context, req *relation.IsFollowReq, callOptions ...callopt.Option) (r *relation.IsFollowResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.IsFollow(ctx, req)
-}
-
-func (p *kRelationServiceClient) MCountFollow(ctx context.Context, req *relation.MCountFollowReq, callOptions ...callopt.Option) (r *relation.MCountFollowResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.MCountFollow(ctx, req)
-}
-
-func (p *kRelationServiceClient) MCountFollower(ctx context.Context, req *relation.MCountFollowerReq, callOptions ...callopt.Option) (r *relation.MCountFollowerResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.MCountFollower(ctx, req)
-}
-
-func (p *kRelationServiceClient) MIsFollow(ctx context.Context, req *relation.MIsFollowReq, callOptions ...callopt.Option) (r *relation.MIsFollowResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.MIsFollow(ctx, req)
 }
 
 func (p *kRelationServiceClient) MGetFriend(ctx context.Context, req *relation.MGetFriendReq, callOptions ...callopt.Option) (r *relation.MGetFriendResp, err error) {
