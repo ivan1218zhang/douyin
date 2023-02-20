@@ -4,7 +4,6 @@ import (
 	"context"
 	"douyin/kitex_gen/common"
 	"encoding/json"
-	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -15,7 +14,6 @@ func GetCommentsForVideo(ctx context.Context, videoID int64) ([]*common.Comment,
 
 	// Try to fetch comments from Redis cache
 	cacheKey := "video_comments:" + strconv.FormatInt(videoID, 10)
-	fmt.Println(cacheKey)
 	cacheData, err := RedisClient.Get(ctx, cacheKey).Bytes()
 	if err == nil {
 		// Comments were found in cache, return them
