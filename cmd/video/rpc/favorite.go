@@ -36,3 +36,14 @@ func MCountFavorite(ctx context.Context, req *favorite.MCountFavoriteReq) ([]int
 	}
 	return resp.FavoriteCountList, err
 }
+
+func MIsFavorite(ctx context.Context, req *favorite.MIsFavoriteReq) ([]bool, error) {
+	resp, err := favoriteClient.MIsFavorite(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	}
+	return resp.IsFavoriteList, err
+}

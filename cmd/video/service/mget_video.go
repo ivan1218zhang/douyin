@@ -84,10 +84,15 @@ func (s *MGetVideoService) MGetVideoById(req *video.MGetVideoByIdReq) ([]*common
 	if err != nil {
 		return nil, err
 	}
+	isfavorites, err := rpc.MIsFavorite(s.ctx, &favorite.MIsFavoriteReq{UserId: req.UserId, VideoIdList: videoIDList})
+	if err != nil {
+		return nil, err
+	}
 	for i := 0; i < len(videos); i++ {
 		videos[i].Author = users[i]
 		videos[i].FavoriteCount = favoriteCount[i]
 		videos[i].CommentCount = commentCount[i]
+		videos[i].IsFavorite = isfavorites[i]
 	}
 	return videos, nil
 }
