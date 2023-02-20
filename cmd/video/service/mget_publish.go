@@ -30,7 +30,7 @@ func (s *MGetPublishService) MGetPublishList(req *video.MGetPublishReq) ([]*comm
 		idList[i] = videos[i].AuthorId
 	}
 	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
-		IdList: nil,
+		IdList: idList,
 		UserId: 0,
 	})
 	if err != nil {

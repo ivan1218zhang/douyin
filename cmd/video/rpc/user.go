@@ -5,6 +5,7 @@ import (
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/user/userservice"
+	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/client"
 	"time"
 )
@@ -14,7 +15,7 @@ var userClient userservice.Client
 func initUser() {
 	c, err := userservice.NewClient(
 		"user",
-		client.WithHostPorts("0.0.0.0:8889"),
+		client.WithHostPorts(constants.UserServiceWithHostPorts),
 		client.WithRPCTimeout(3*time.Second),
 	)
 	if err != nil {

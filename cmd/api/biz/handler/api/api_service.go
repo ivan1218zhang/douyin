@@ -30,7 +30,7 @@ func MGetVideo(ctx context.Context, c *app.RequestContext) {
 
 	resp, err := rpc.MGetVideo(ctx, &video.MGetVideoReq{
 		LatestTime: req.LatestTime,
-		UserId:     0,
+		UserId:     1,
 	})
 
 	c.JSON(consts.StatusOK, resp)
@@ -66,7 +66,10 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(api.LoginResp)
+	resp, err := rpc.CheckUser(ctx, &user.CheckUserReq{
+		Username: req.Username,
+		Password: req.Password,
+	})
 
 	c.JSON(consts.StatusOK, resp)
 }
