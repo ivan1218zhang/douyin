@@ -989,6 +989,7 @@ func (p *PublishResp) Field1DeepEqual(src *common.BaseResp) bool {
 
 type MGetPublishReq struct {
 	UserId int64 `thrift:"user_id,1" json:"user_id"`
+	Id     int64 `thrift:"id,2" json:"id"`
 }
 
 func NewMGetPublishReq() *MGetPublishReq {
@@ -998,12 +999,20 @@ func NewMGetPublishReq() *MGetPublishReq {
 func (p *MGetPublishReq) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *MGetPublishReq) GetId() (v int64) {
+	return p.Id
+}
 func (p *MGetPublishReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *MGetPublishReq) SetId(val int64) {
+	p.Id = val
 }
 
 var fieldIDToName_MGetPublishReq = map[int16]string{
 	1: "user_id",
+	2: "id",
 }
 
 func (p *MGetPublishReq) Read(iprot thrift.TProtocol) (err error) {
@@ -1028,6 +1037,16 @@ func (p *MGetPublishReq) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -1074,6 +1093,15 @@ func (p *MGetPublishReq) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *MGetPublishReq) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.Id = v
+	}
+	return nil
+}
+
 func (p *MGetPublishReq) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("MGetPublishReq"); err != nil {
@@ -1082,6 +1110,10 @@ func (p *MGetPublishReq) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
 			goto WriteFieldError
 		}
 
@@ -1120,6 +1152,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
+func (p *MGetPublishReq) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.Id); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
 func (p *MGetPublishReq) String() string {
 	if p == nil {
 		return "<nil>"
@@ -1136,12 +1185,22 @@ func (p *MGetPublishReq) DeepEqual(ano *MGetPublishReq) bool {
 	if !p.Field1DeepEqual(ano.UserId) {
 		return false
 	}
+	if !p.Field2DeepEqual(ano.Id) {
+		return false
+	}
 	return true
 }
 
 func (p *MGetPublishReq) Field1DeepEqual(src int64) bool {
 
 	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *MGetPublishReq) Field2DeepEqual(src int64) bool {
+
+	if p.Id != src {
 		return false
 	}
 	return true

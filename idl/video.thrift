@@ -25,6 +25,7 @@ struct PublishResp{
 
 struct MGetPublishReq{
     1:i64 user_id
+    2:i64 id
 }
 
 struct MGetPublishResp{
