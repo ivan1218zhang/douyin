@@ -17,6 +17,7 @@ struct CommentActionResp{
 
 struct MGetCommentReq{
     1:i64 video_id
+    2:i64 user_id
 }
 
 struct MGetCommentResp{
