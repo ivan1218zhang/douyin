@@ -16,7 +16,7 @@ func NewMCountCommentService(ctx context.Context) *MCountCommentService {
 }
 
 func (s *MCountCommentService) MCountComment(req *comment.MCountCommentReq) ([]int64, error) {
-	counts := make([]int64, 0)
+	counts := make([]int64, len(req.VideoIdList))
 
 	for i, id := range req.VideoIdList {
 		count, err := redis.GetCommentCount(s.ctx, id)

@@ -4,7 +4,9 @@ import (
 	"context"
 	"douyin/cmd/user/dal/db"
 	"douyin/cmd/user/pack"
+	"douyin/cmd/user/rpc"
 	"douyin/kitex_gen/common"
+	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/user"
 )
 
@@ -21,5 +23,24 @@ func (s *MGetUserService) MGetUser(req *user.MGetUserReq) (user []*common.User, 
 	if err != nil {
 		return nil, err
 	}
-	return pack.Users(modelUsers), nil
+	// rpc获取社交信息
+	idList := make([]int64, len(modelUsers))
+
+	userList := pack.Users(modelUsers)
+	for i, u := range modelUsers {
+		idList[i] = u.ID
+	}
+
+	res, err := rpc.MGetRelation(s.ctx, &relation.MGetRelationReq{UserId: req.UserId, ToUserIdList: idList})
+	if err != nil {
+		return nil, err
+	}
+
+	for i, u := range userList {
+		u.FollowCount = int64(res.FollowCountList[i])
+		u.FollowerCount = int64(res.FollowerCountList[i])
+		u.IsFollow = res.IsFollowList[i]
+	}
+
+	return userList, nil
 }
