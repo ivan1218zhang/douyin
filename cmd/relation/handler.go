@@ -14,7 +14,13 @@ type RelationServiceImpl struct{}
 // RelationAction implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.RelationActionReq) (resp *relation.RelationActionResp, err error) {
 	// TODO: Your code here...
-	return
+	err = service.NewRelationActionService(ctx).RelationAction(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, err
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, err
 }
 
 // MGetFollow implements the RelationServiceImpl interface.
