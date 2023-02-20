@@ -45,13 +45,11 @@ func saveVideoCdn(videoName string, coverName string, data []byte) {
 	err := ioutil.WriteFile(constants.CDN.LocalPath+videoName, data, 0644)
 	if err != nil {
 		panic(err)
-		return
 	}
 	//视频存七牛云
 	err = util.UploadCdn(videoName)
 	if err != nil {
 		panic(err)
-		return
 	}
 	// TODO 容灾处理
 }
