@@ -2,6 +2,7 @@ package main
 
 import (
 	"douyin/cmd/relation/dal"
+	"douyin/cmd/relation/rpc"
 	relation "douyin/kitex_gen/relation/relationservice"
 	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/server"
@@ -16,6 +17,7 @@ func main() {
 	}
 	svr := relation.NewServer(new(RelationServiceImpl), server.WithServiceAddr(addr))
 	dal.Init()
+	rpc.Init()
 	err = svr.Run()
 
 	if err != nil {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"douyin/cmd/comment/rpc"
 	comment "douyin/kitex_gen/comment/commentservice"
 	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/server"
@@ -9,6 +10,7 @@ import (
 )
 
 func main() {
+	rpc.Init()
 	addr, err := net.ResolveTCPAddr("tcp", constants.CommentServiceWithHostPorts)
 	if err != nil {
 		panic(err)

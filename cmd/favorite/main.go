@@ -2,6 +2,7 @@ package main
 
 import (
 	"douyin/cmd/favorite/dal"
+	"douyin/cmd/favorite/rpc"
 	favorite "douyin/kitex_gen/favorite/favoriteservice"
 	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/server"
@@ -11,6 +12,7 @@ import (
 
 func Init() {
 	dal.Init()
+	rpc.Init()
 }
 
 func main() {

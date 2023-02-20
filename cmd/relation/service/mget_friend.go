@@ -3,8 +3,10 @@ package service
 import (
 	"context"
 	"douyin/cmd/relation/dal/db"
+	"douyin/cmd/relation/rpc"
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/relation"
+	"douyin/kitex_gen/user"
 )
 
 type MGetFriendService struct {
@@ -16,40 +18,29 @@ func NewGetFriendService(ctx context.Context) *MGetFriendService {
 	return &MGetFriendService{ctx: ctx}
 }
 
-type void struct {
-}
-
 // MGetFriend multiple get list of friend
 func (s *MGetFriendService) MGetFriend(req *relation.MGetFriendReq) ([]*common.User, error) {
-
-	var res []*common.User
-	// 获取关注用户id
-	followedUser, err := db.MGetFollowedUser(s.ctx, req.UserId)
+	followers, err := db.MGetFollowerUser(s.ctx, req.UserId)
 	if err != nil {
-		return res, err
+		return nil, err
 	}
-	// 获取关注者用户id
-	followerUser, err := db.MGetFollowerUser(s.ctx, req.UserId)
+	follows, err := db.MGetFollowedUser(s.ctx, req.UserId)
 	if err != nil {
-		return res, err
+		return nil, err
 	}
-	var userID []int64
-	var member void
-	// 取交集
-	set := make(map[int64]void)
-	for i := range followedUser {
-		set[followedUser[i]] = member
+	set := map[int64]interface{}{}
+	for i := 0; i < len(follows); i++ {
+		set[follows[i]] = 0
 	}
-	for i := range followedUser {
-		_, exists := set[followerUser[i]]
-		if exists == true {
-			userID = append(userID, followerUser[i])
+	res := make([]int64, 0)
+	for i := 0; i < len(followers); i++ {
+		if set[followers[i]] != nil {
+			res = append(res, followers[i])
 		}
 	}
-	res, err = db.MGetUsers(s.ctx, userID)
-	if err != nil {
-		return res, err
-	}
-	return res, err
-
+	resp, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
+		IdList: res,
+		UserId: req.UserId,
+	})
+	return resp.UserList, err
 }
