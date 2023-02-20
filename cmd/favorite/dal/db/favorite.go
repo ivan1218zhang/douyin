@@ -57,7 +57,31 @@ func MGetFavoriteByUserID(ctx context.Context, userID int64) ([]repository.Favor
 	if err := DB.WithContext(ctx).Where("user_id = ?", userID).Find(&fs).Error; err != nil {
 		return nil, err
 	}
-
 	return fs, nil
+}
 
+type countResult struct {
+	Id    int64
+	Count int64
+}
+
+func MCountFavorite(ctx context.Context, idList []int64) ([]int64, error) {
+	var res []int64
+	var models []*countResult
+	err := DB.WithContext(ctx).Table("favorite").Where("video_id in ?", idList).Select("count(1)").Group("video_id").Find(&res).Error
+	if err != nil {
+		return res, err
+	}
+	resMap := map[int64]*countResult{}
+	for i := 0; i < len(models); i++ {
+		resMap[models[i].Id] = models[i]
+	}
+	for i := 0; i < len(idList); i++ {
+		if resMap[idList[i]] != nil {
+			res[i] = resMap[idList[i]].Count
+		} else {
+			res[i] = 0
+		}
+	}
+	return res, nil
 }

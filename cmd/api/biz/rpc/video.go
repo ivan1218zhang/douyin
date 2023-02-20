@@ -6,6 +6,7 @@ import (
 	"douyin/cmd/api/biz/pack"
 	"douyin/kitex_gen/video"
 	"douyin/kitex_gen/video/videoservice"
+	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/client"
 )
 
@@ -14,7 +15,7 @@ var videoClient videoservice.Client
 func initVideo() {
 	c, err := videoservice.NewClient(
 		"video",
-		client.WithHostPorts("127.0.0.1:8888"),
+		client.WithHostPorts(constants.VideoServiceWithHostPorts),
 	)
 	if err != nil {
 		panic(err)
@@ -32,7 +33,7 @@ func MGetVideo(ctx context.Context, req *video.MGetVideoReq) (*api.MGetVideoResp
 		StatusCode:    resp.BaseResp.StatusCode,
 		StatusMessage: resp.BaseResp.StatusMessage,
 		VideoList:     pack.VideoList(resp.VideoList),
-		NextTime:      0,
+		NextTime:      resp.NextTime,
 	}, nil
 }
 

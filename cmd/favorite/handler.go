@@ -38,17 +38,15 @@ func (s *FavoriteServiceImpl) CountFavorite(ctx context.Context, req *favorite.C
 
 // MCountFavorite implements the FavoriteServiceImpl interface.
 func (s *FavoriteServiceImpl) MCountFavorite(ctx context.Context, req *favorite.MCountFavoriteReq) (resp *favorite.MCountFavoriteResp, err error) {
-	/*
-		resp = new(favorite.MCountFavoriteResp)
-		counts, err := service.NewMCountFavoriteService(ctx).MCountFavorite(req)
-		if err != nil {
-			resp.BaseResp = pack.BuildBaseResp(err)
-			return resp, nil
-		}
-		resp.BaseResp = pack.BuildBaseResp(errno.Success)
-		resp.FavoriteCountList = counts
 
-	*/
+	resp = new(favorite.MCountFavoriteResp)
+	counts, err := service.NewMCountFavoriteService(ctx).MCountFavorite(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.FavoriteCountList = counts
 	return
 }
 

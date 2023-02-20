@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"douyin/cmd/favorite/dal/rdb"
+	"douyin/cmd/favorite/dal/db"
 	"douyin/kitex_gen/favorite"
 )
 
@@ -19,10 +19,9 @@ func NewFavoriteActionService(ctx context.Context) *FavoriteActionService {
 func (s *FavoriteActionService) FavoriteAction(req *favorite.FavoriteActionReq) error {
 	var err error
 	if req.ActionType == 1 {
-		err = rdb.SetFavorite(req.UserId, req.VideoId)
+		err = db.CreateFavorite(s.ctx, req.UserId, req.VideoId)
 	} else {
-		err = rdb.DelFavorite(req.UserId, req.VideoId)
+		err = db.DeleteFavorite(s.ctx, req.UserId, req.VideoId)
 	}
-
 	return err
 }

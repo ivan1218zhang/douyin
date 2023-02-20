@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"douyin/cmd/favorite/dal/rdb"
+	"douyin/cmd/favorite/dal/db"
 	"douyin/kitex_gen/favorite"
 )
 
@@ -16,7 +16,7 @@ func NewMCountFavoriteService(ctx context.Context) *MCountFavoriteService {
 }
 
 // MCountFavorite count favorite number of given video IDs
-func (s *MCountFavoriteService) MCountFavorite(req *favorite.MCountFavoriteReq) ([]int, error) {
-	counts, err := rdb.MCountFavorite(req.VideoIdList)
+func (s *MCountFavoriteService) MCountFavorite(req *favorite.MCountFavoriteReq) ([]int64, error) {
+	counts, err := db.MCountFavorite(s.ctx, req.VideoIdList)
 	return counts, err
 }

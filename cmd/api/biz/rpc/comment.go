@@ -6,6 +6,7 @@ import (
 	"douyin/cmd/api/biz/pack"
 	"douyin/kitex_gen/comment"
 	"douyin/kitex_gen/comment/commentservice"
+	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/client"
 	"time"
 )
@@ -15,7 +16,7 @@ var commentClient commentservice.Client
 func initComment() {
 	c, err := commentservice.NewClient(
 		"comment",
-		client.WithHostPorts("0.0.0.0:8891"),
+		client.WithHostPorts(constants.CommentServiceWithHostPorts),
 		client.WithRPCTimeout(3*time.Second),
 	)
 	if err != nil {

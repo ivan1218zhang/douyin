@@ -3,6 +3,7 @@ package main
 import (
 	"douyin/cmd/favorite/dal"
 	favorite "douyin/kitex_gen/favorite/favoriteservice"
+	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/server"
 	"log"
 	"net"
@@ -13,7 +14,7 @@ func Init() {
 }
 
 func main() {
-	addr, err := net.ResolveTCPAddr("tcp", ":8890")
+	addr, err := net.ResolveTCPAddr("tcp", constants.FavoriteServiceWithHostPorts)
 	if err != nil {
 		panic(err)
 	}

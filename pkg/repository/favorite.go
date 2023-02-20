@@ -4,12 +4,17 @@ import (
 	"douyin/pkg/constants"
 	"encoding"
 	"encoding/json"
+	"gorm.io/gorm"
+	"time"
 )
 
 type Favorite struct {
-	Id      int64
-	UserId  int64
-	VideoId int64
+	Id        int64
+	UserId    int64
+	VideoId   int64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 }
 
 func (f *Favorite) TableName() string {

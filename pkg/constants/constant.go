@@ -17,11 +17,11 @@ const (
 	VideoServiceMachineID        int64   = 2
 	CommentServiceMachineID      int64   = 3
 	FavoriteServiceMachineID     int64   = 4
-	ApiServiceWithHostPorts              = ":8080"
-	UserServiceWithHostPorts             = ":8081"
-	VideoServiceWithHostPorts            = ":8082"
-	FavoriteServiceWithHostPorts         = ":8083"
-	CommentServiceWithHostPorts          = ":8084"
-	RelationServiceWithHostPorts         = ":8085"
-	MessageServiceWithHostPorts          = ":8086"
+	ApiServiceWithHostPorts              = "0.0.0.0:8080"
+	UserServiceWithHostPorts             = "0.0.0.0:8081"
+	VideoServiceWithHostPorts            = "0.0.0.0:8082"
+	FavoriteServiceWithHostPorts         = "0.0.0.0:8083"
+	CommentServiceWithHostPorts          = "0.0.0.0:8084"
+	RelationServiceWithHostPorts         = "0.0.0.0:8085"
+	MessageServiceWithHostPorts          = "0.0.0.0:8086"
 )

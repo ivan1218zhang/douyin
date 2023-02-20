@@ -6,6 +6,7 @@ import (
 	"douyin/cmd/api/biz/pack"
 	"douyin/kitex_gen/favorite"
 	"douyin/kitex_gen/favorite/favoriteservice"
+	"douyin/pkg/constants"
 	"github.com/cloudwego/kitex/client"
 	"time"
 )
@@ -15,7 +16,7 @@ var favoriteClient favoriteservice.Client
 func initFavorite() {
 	c, err := favoriteservice.NewClient(
 		"favorite",
-		client.WithHostPorts("0.0.0.0:8890"),
+		client.WithHostPorts(constants.FavoriteServiceWithHostPorts),
 		client.WithRPCTimeout(3*time.Second),
 	)
 	if err != nil {
