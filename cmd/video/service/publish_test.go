@@ -16,7 +16,6 @@ func TestPublishService_Publish(t *testing.T) {
 	err := os.MkdirAll(constants.CDN.LocalPath, os.ModePerm)
 	if err != nil {
 		panic(err)
-		return
 	}
 	// 初始化数据库
 	db.Init()
@@ -34,7 +33,6 @@ func TestPublishService_Publish(t *testing.T) {
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		panic(err)
-		return
 	}
 	// 生成请求
 	req := &video.PublishReq{

@@ -39,6 +39,7 @@ func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
 	}
 	return res, nil
 }
+
 /*
 // MGetVideo multiple get list of Video info
 func MGetVideo(ctx context.Context, latestTime int64) (vs []*repository.Video, err error) {
@@ -51,10 +52,10 @@ func MGetVideo(ctx context.Context, latestTime int64) (vs []*repository.Video, e
 
 	return
 }
- */
+*/
 func GetVideoCreatedAt(ctx context.Context, videoId int64) (int64, error) {
 	var res *repository.User
-	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").First(res).Error
+	err := DB.WithContext(ctx).Table("video").Where("id = ?", videoId).Select("created_at").First(&res).Error
 	if res == nil {
 		return time.Now().UnixMilli(), err
 	}
