@@ -47,8 +47,19 @@ func (s *CommentServiceImpl) CountComment(ctx context.Context, req *comment.Coun
 
 // MCountComment implements the CommentServiceImpl interface.
 func (s *CommentServiceImpl) MCountComment(ctx context.Context, req *comment.MCountCommentReq) (resp *comment.MCountCommentResp, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(comment.MCountCommentResp)
+
+	counts, err := service.NewMCountCommentService(ctx).MCountComment(req)
+
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.SetCommentCountList(counts)
+
+	return resp, nil
 }
 
 // MGetComment implements the CommentServiceImpl interface.

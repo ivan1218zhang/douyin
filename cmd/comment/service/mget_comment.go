@@ -5,8 +5,10 @@ import (
 	"douyin/cmd/comment/dal/db"
 	"douyin/cmd/comment/dal/redis"
 	"douyin/cmd/comment/pack"
+	"douyin/cmd/comment/rpc"
 	"douyin/kitex_gen/comment"
 	"douyin/kitex_gen/common"
+	"douyin/kitex_gen/user"
 )
 
 type MGetCommentService struct {
@@ -28,7 +30,21 @@ func (s *MGetCommentService) MGetComment(req *comment.MGetCommentReq) ([]*common
 		return nil, err
 	}
 	comments = pack.Comments(cs)
-	//TODO 根据UserID获取用户信息
+	//根据UserID获取用户信息
+	idList := make([]int64, len(comments))
+	for i, c := range comments {
+		idList[i] = c.UserId
+	}
+
+	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: idList, UserId: 1})
+
+	if err == nil {
+		return nil, err
+	}
+
+	for i, c := range comments {
+		c.User = users[i]
+	}
 
 	// 存入缓存中
 	if err := redis.SetComments(s.ctx, req.VideoId, comments); err != nil {
