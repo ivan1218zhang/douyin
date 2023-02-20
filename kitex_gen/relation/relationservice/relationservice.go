@@ -22,12 +22,6 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"RelationAction": kitex.NewMethodInfo(relationActionHandler, newRelationServiceRelationActionArgs, newRelationServiceRelationActionResult, false),
 		"MGetFollow":     kitex.NewMethodInfo(mGetFollowHandler, newRelationServiceMGetFollowArgs, newRelationServiceMGetFollowResult, false),
 		"MGetFollower":   kitex.NewMethodInfo(mGetFollowerHandler, newRelationServiceMGetFollowerArgs, newRelationServiceMGetFollowerResult, false),
-		"CountFollow":    kitex.NewMethodInfo(countFollowHandler, newRelationServiceCountFollowArgs, newRelationServiceCountFollowResult, false),
-		"CountFollower":  kitex.NewMethodInfo(countFollowerHandler, newRelationServiceCountFollowerArgs, newRelationServiceCountFollowerResult, false),
-		"IsFollow":       kitex.NewMethodInfo(isFollowHandler, newRelationServiceIsFollowArgs, newRelationServiceIsFollowResult, false),
-		"MCountFollow":   kitex.NewMethodInfo(mCountFollowHandler, newRelationServiceMCountFollowArgs, newRelationServiceMCountFollowResult, false),
-		"MCountFollower": kitex.NewMethodInfo(mCountFollowerHandler, newRelationServiceMCountFollowerArgs, newRelationServiceMCountFollowerResult, false),
-		"MIsFollow":      kitex.NewMethodInfo(mIsFollowHandler, newRelationServiceMIsFollowArgs, newRelationServiceMIsFollowResult, false),
 		"MGetFriend":     kitex.NewMethodInfo(mGetFriendHandler, newRelationServiceMGetFriendArgs, newRelationServiceMGetFriendResult, false),
 		"GetRelation":    kitex.NewMethodInfo(getRelationHandler, newRelationServiceGetRelationArgs, newRelationServiceGetRelationResult, false),
 		"MGetRelation":   kitex.NewMethodInfo(mGetRelationHandler, newRelationServiceMGetRelationArgs, newRelationServiceMGetRelationResult, false),
@@ -98,114 +92,6 @@ func newRelationServiceMGetFollowerArgs() interface{} {
 
 func newRelationServiceMGetFollowerResult() interface{} {
 	return relation.NewRelationServiceMGetFollowerResult()
-}
-
-func countFollowHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*relation.RelationServiceCountFollowArgs)
-	realResult := result.(*relation.RelationServiceCountFollowResult)
-	success, err := handler.(relation.RelationService).CountFollow(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newRelationServiceCountFollowArgs() interface{} {
-	return relation.NewRelationServiceCountFollowArgs()
-}
-
-func newRelationServiceCountFollowResult() interface{} {
-	return relation.NewRelationServiceCountFollowResult()
-}
-
-func countFollowerHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*relation.RelationServiceCountFollowerArgs)
-	realResult := result.(*relation.RelationServiceCountFollowerResult)
-	success, err := handler.(relation.RelationService).CountFollower(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newRelationServiceCountFollowerArgs() interface{} {
-	return relation.NewRelationServiceCountFollowerArgs()
-}
-
-func newRelationServiceCountFollowerResult() interface{} {
-	return relation.NewRelationServiceCountFollowerResult()
-}
-
-func isFollowHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*relation.RelationServiceIsFollowArgs)
-	realResult := result.(*relation.RelationServiceIsFollowResult)
-	success, err := handler.(relation.RelationService).IsFollow(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newRelationServiceIsFollowArgs() interface{} {
-	return relation.NewRelationServiceIsFollowArgs()
-}
-
-func newRelationServiceIsFollowResult() interface{} {
-	return relation.NewRelationServiceIsFollowResult()
-}
-
-func mCountFollowHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*relation.RelationServiceMCountFollowArgs)
-	realResult := result.(*relation.RelationServiceMCountFollowResult)
-	success, err := handler.(relation.RelationService).MCountFollow(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newRelationServiceMCountFollowArgs() interface{} {
-	return relation.NewRelationServiceMCountFollowArgs()
-}
-
-func newRelationServiceMCountFollowResult() interface{} {
-	return relation.NewRelationServiceMCountFollowResult()
-}
-
-func mCountFollowerHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*relation.RelationServiceMCountFollowerArgs)
-	realResult := result.(*relation.RelationServiceMCountFollowerResult)
-	success, err := handler.(relation.RelationService).MCountFollower(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newRelationServiceMCountFollowerArgs() interface{} {
-	return relation.NewRelationServiceMCountFollowerArgs()
-}
-
-func newRelationServiceMCountFollowerResult() interface{} {
-	return relation.NewRelationServiceMCountFollowerResult()
-}
-
-func mIsFollowHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*relation.RelationServiceMIsFollowArgs)
-	realResult := result.(*relation.RelationServiceMIsFollowResult)
-	success, err := handler.(relation.RelationService).MIsFollow(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newRelationServiceMIsFollowArgs() interface{} {
-	return relation.NewRelationServiceMIsFollowArgs()
-}
-
-func newRelationServiceMIsFollowResult() interface{} {
-	return relation.NewRelationServiceMIsFollowResult()
 }
 
 func mGetFriendHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -297,66 +183,6 @@ func (p *kClient) MGetFollower(ctx context.Context, req *relation.MGetFollowerRe
 	_args.Req = req
 	var _result relation.RelationServiceMGetFollowerResult
 	if err = p.c.Call(ctx, "MGetFollower", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) CountFollow(ctx context.Context, req *relation.CountFollowReq) (r *relation.CountFollowResp, err error) {
-	var _args relation.RelationServiceCountFollowArgs
-	_args.Req = req
-	var _result relation.RelationServiceCountFollowResult
-	if err = p.c.Call(ctx, "CountFollow", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) CountFollower(ctx context.Context, req *relation.CountFollowerReq) (r *relation.CountFollowerResp, err error) {
-	var _args relation.RelationServiceCountFollowerArgs
-	_args.Req = req
-	var _result relation.RelationServiceCountFollowerResult
-	if err = p.c.Call(ctx, "CountFollower", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) IsFollow(ctx context.Context, req *relation.IsFollowReq) (r *relation.IsFollowResp, err error) {
-	var _args relation.RelationServiceIsFollowArgs
-	_args.Req = req
-	var _result relation.RelationServiceIsFollowResult
-	if err = p.c.Call(ctx, "IsFollow", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) MCountFollow(ctx context.Context, req *relation.MCountFollowReq) (r *relation.MCountFollowResp, err error) {
-	var _args relation.RelationServiceMCountFollowArgs
-	_args.Req = req
-	var _result relation.RelationServiceMCountFollowResult
-	if err = p.c.Call(ctx, "MCountFollow", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) MCountFollower(ctx context.Context, req *relation.MCountFollowerReq) (r *relation.MCountFollowerResp, err error) {
-	var _args relation.RelationServiceMCountFollowerArgs
-	_args.Req = req
-	var _result relation.RelationServiceMCountFollowerResult
-	if err = p.c.Call(ctx, "MCountFollower", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) MIsFollow(ctx context.Context, req *relation.MIsFollowReq) (r *relation.MIsFollowResp, err error) {
-	var _args relation.RelationServiceMIsFollowArgs
-	_args.Req = req
-	var _result relation.RelationServiceMIsFollowResult
-	if err = p.c.Call(ctx, "MIsFollow", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

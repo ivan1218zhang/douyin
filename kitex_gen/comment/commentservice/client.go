@@ -12,7 +12,6 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	CommentAction(ctx context.Context, req *comment.CommentActionReq, callOptions ...callopt.Option) (r *comment.CommentActionResp, err error)
-	CountComment(ctx context.Context, req *comment.CountCommentReq, callOptions ...callopt.Option) (r *comment.CountCommentResp, err error)
 	MCountComment(ctx context.Context, req *comment.MCountCommentReq, callOptions ...callopt.Option) (r *comment.MCountCommentResp, err error)
 	MGetComment(ctx context.Context, req *comment.MGetCommentReq, callOptions ...callopt.Option) (r *comment.MGetCommentResp, err error)
 }
@@ -49,11 +48,6 @@ type kCommentServiceClient struct {
 func (p *kCommentServiceClient) CommentAction(ctx context.Context, req *comment.CommentActionReq, callOptions ...callopt.Option) (r *comment.CommentActionResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CommentAction(ctx, req)
-}
-
-func (p *kCommentServiceClient) CountComment(ctx context.Context, req *comment.CountCommentReq, callOptions ...callopt.Option) (r *comment.CountCommentResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.CountComment(ctx, req)
 }
 
 func (p *kCommentServiceClient) MCountComment(ctx context.Context, req *comment.MCountCommentReq, callOptions ...callopt.Option) (r *comment.MCountCommentResp, err error) {

@@ -20,7 +20,6 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*comment.CommentService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CommentAction": kitex.NewMethodInfo(commentActionHandler, newCommentServiceCommentActionArgs, newCommentServiceCommentActionResult, false),
-		"CountComment":  kitex.NewMethodInfo(countCommentHandler, newCommentServiceCountCommentArgs, newCommentServiceCountCommentResult, false),
 		"MCountComment": kitex.NewMethodInfo(mCountCommentHandler, newCommentServiceMCountCommentArgs, newCommentServiceMCountCommentResult, false),
 		"MGetComment":   kitex.NewMethodInfo(mGetCommentHandler, newCommentServiceMGetCommentArgs, newCommentServiceMGetCommentResult, false),
 	}
@@ -54,24 +53,6 @@ func newCommentServiceCommentActionArgs() interface{} {
 
 func newCommentServiceCommentActionResult() interface{} {
 	return comment.NewCommentServiceCommentActionResult()
-}
-
-func countCommentHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*comment.CommentServiceCountCommentArgs)
-	realResult := result.(*comment.CommentServiceCountCommentResult)
-	success, err := handler.(comment.CommentService).CountComment(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newCommentServiceCountCommentArgs() interface{} {
-	return comment.NewCommentServiceCountCommentArgs()
-}
-
-func newCommentServiceCountCommentResult() interface{} {
-	return comment.NewCommentServiceCountCommentResult()
 }
 
 func mCountCommentHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -125,16 +106,6 @@ func (p *kClient) CommentAction(ctx context.Context, req *comment.CommentActionR
 	_args.Req = req
 	var _result comment.CommentServiceCommentActionResult
 	if err = p.c.Call(ctx, "CommentAction", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) CountComment(ctx context.Context, req *comment.CountCommentReq) (r *comment.CountCommentResp, err error) {
-	var _args comment.CommentServiceCountCommentArgs
-	_args.Req = req
-	var _result comment.CommentServiceCountCommentResult
-	if err = p.c.Call(ctx, "CountComment", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

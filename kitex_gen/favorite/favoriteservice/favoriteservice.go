@@ -19,9 +19,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "FavoriteService"
 	handlerType := (*favorite.FavoriteService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"IsFavorite":        kitex.NewMethodInfo(isFavoriteHandler, newFavoriteServiceIsFavoriteArgs, newFavoriteServiceIsFavoriteResult, false),
 		"MIsFavorite":       kitex.NewMethodInfo(mIsFavoriteHandler, newFavoriteServiceMIsFavoriteArgs, newFavoriteServiceMIsFavoriteResult, false),
-		"CountFavorite":     kitex.NewMethodInfo(countFavoriteHandler, newFavoriteServiceCountFavoriteArgs, newFavoriteServiceCountFavoriteResult, false),
 		"MCountFavorite":    kitex.NewMethodInfo(mCountFavoriteHandler, newFavoriteServiceMCountFavoriteArgs, newFavoriteServiceMCountFavoriteResult, false),
 		"FavoriteAction":    kitex.NewMethodInfo(favoriteActionHandler, newFavoriteServiceFavoriteActionArgs, newFavoriteServiceFavoriteActionResult, false),
 		"MGetFavoriteVideo": kitex.NewMethodInfo(mGetFavoriteVideoHandler, newFavoriteServiceMGetFavoriteVideoArgs, newFavoriteServiceMGetFavoriteVideoResult, false),
@@ -40,24 +38,6 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	return svcInfo
 }
 
-func isFavoriteHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*favorite.FavoriteServiceIsFavoriteArgs)
-	realResult := result.(*favorite.FavoriteServiceIsFavoriteResult)
-	success, err := handler.(favorite.FavoriteService).IsFavorite(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newFavoriteServiceIsFavoriteArgs() interface{} {
-	return favorite.NewFavoriteServiceIsFavoriteArgs()
-}
-
-func newFavoriteServiceIsFavoriteResult() interface{} {
-	return favorite.NewFavoriteServiceIsFavoriteResult()
-}
-
 func mIsFavoriteHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*favorite.FavoriteServiceMIsFavoriteArgs)
 	realResult := result.(*favorite.FavoriteServiceMIsFavoriteResult)
@@ -74,24 +54,6 @@ func newFavoriteServiceMIsFavoriteArgs() interface{} {
 
 func newFavoriteServiceMIsFavoriteResult() interface{} {
 	return favorite.NewFavoriteServiceMIsFavoriteResult()
-}
-
-func countFavoriteHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*favorite.FavoriteServiceCountFavoriteArgs)
-	realResult := result.(*favorite.FavoriteServiceCountFavoriteResult)
-	success, err := handler.(favorite.FavoriteService).CountFavorite(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newFavoriteServiceCountFavoriteArgs() interface{} {
-	return favorite.NewFavoriteServiceCountFavoriteArgs()
-}
-
-func newFavoriteServiceCountFavoriteResult() interface{} {
-	return favorite.NewFavoriteServiceCountFavoriteResult()
 }
 
 func mCountFavoriteHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -158,31 +120,11 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) IsFavorite(ctx context.Context, req *favorite.IsFavoriteReq) (r *favorite.IsFavoriteResp, err error) {
-	var _args favorite.FavoriteServiceIsFavoriteArgs
-	_args.Req = req
-	var _result favorite.FavoriteServiceIsFavoriteResult
-	if err = p.c.Call(ctx, "IsFavorite", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
 func (p *kClient) MIsFavorite(ctx context.Context, req *favorite.MIsFavoriteReq) (r *favorite.MIsFavoriteResp, err error) {
 	var _args favorite.FavoriteServiceMIsFavoriteArgs
 	_args.Req = req
 	var _result favorite.FavoriteServiceMIsFavoriteResult
 	if err = p.c.Call(ctx, "MIsFavorite", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) CountFavorite(ctx context.Context, req *favorite.CountFavoriteReq) (r *favorite.CountFavoriteResp, err error) {
-	var _args favorite.FavoriteServiceCountFavoriteArgs
-	_args.Req = req
-	var _result favorite.FavoriteServiceCountFavoriteResult
-	if err = p.c.Call(ctx, "CountFavorite", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
