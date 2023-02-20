@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"douyin/cmd/favorite/dal/rdb"
+	"douyin/cmd/favorite/dal/db"
 	"douyin/kitex_gen/favorite"
 )
 
@@ -16,6 +16,6 @@ func NewMIsFavoriteService(ctx context.Context) *MIsFavoriteService {
 }
 
 func (s *MIsFavoriteService) MIsFavorite(req *favorite.MIsFavoriteReq) ([]bool, error) {
-	isFav, err := rdb.MIsFavorite(req.UserId, req.VideoIdList)
+	isFav, err := db.MIsFavorite(s.ctx, req.UserId, req.VideoIdList)
 	return isFav, err
 }

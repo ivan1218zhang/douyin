@@ -65,14 +65,12 @@ func (s *FavoriteServiceImpl) FavoriteAction(ctx context.Context, req *favorite.
 // MGetFavoriteVideo implements the FavoriteServiceImpl interface.
 func (s *FavoriteServiceImpl) MGetFavoriteVideo(ctx context.Context, req *favorite.MGetFavoriteVideoReq) (resp *favorite.MGetFavoriteVideoResp, err error) {
 	resp = new(favorite.MGetFavoriteVideoResp)
-	_, err = service.NewMGetFavoriteVideoService(ctx).MGetFavoriteVideo(req)
+	videos, err := service.NewMGetFavoriteVideoService(ctx).MGetFavoriteVideo(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-
-	//TODO:GETVIDEOS
-
+	resp.VideoList = videos
 	return
 }

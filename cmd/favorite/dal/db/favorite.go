@@ -23,18 +23,26 @@ func DeleteFavorite(ctx context.Context, userID int64, videoID int64) error {
 	return nil
 }
 
-func IsFavorite(ctx context.Context, userID int64, videoID int64) (bool, error) {
-	var count int64
-	err := DB.WithContext(ctx).Where("user_id = ? and video_id = ?", userID, videoID).Count(&count).Error
+func MIsFavorite(ctx context.Context, userID int64, videoIdList []int64) ([]bool, error) {
+	var res []bool
+	var models []*countResult
+	err := DB.WithContext(ctx).Where("user_id = ? and video_id in ?", userID, videoIdList).Group("video_id").Find(&models).Error
 	if err != nil {
 		//log error
-		return false, err
+		return nil, err
 	}
-	if count == 1 {
-		return true, nil
-	} else {
-		return false, nil
+	resMap := map[int64]*countResult{}
+	for i := 0; i < len(models); i++ {
+		resMap[models[i].Id] = models[i]
 	}
+	for i := 0; i < len(videoIdList); i++ {
+		if resMap[videoIdList[i]] != nil {
+			res[i] = resMap[videoIdList[i]].Count > 0
+		} else {
+			res[i] = false
+		}
+	}
+	return res, nil
 }
 
 /*
@@ -68,7 +76,7 @@ type countResult struct {
 func MCountFavorite(ctx context.Context, idList []int64) ([]int64, error) {
 	var res []int64
 	var models []*countResult
-	err := DB.WithContext(ctx).Table("favorite").Where("video_id in ?", idList).Select("count(1)").Group("video_id").Find(&res).Error
+	err := DB.WithContext(ctx).Table("favorite").Where("video_id in ?", idList).Select("count(1) as count, video_id as id").Group("video_id").Find(&res).Error
 	if err != nil {
 		return res, err
 	}
