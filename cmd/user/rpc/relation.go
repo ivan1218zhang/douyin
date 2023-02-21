@@ -4,6 +4,7 @@ import (
 	"context"
 	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/relation/relationservice"
+	"douyin/pkg/constants"
 	"douyin/pkg/errno"
 	"time"
 
@@ -15,7 +16,7 @@ var relationClient relationservice.Client
 func initRelation() {
 	c, err := relationservice.NewClient(
 		"relation",
-		client.WithHostPorts("0.0.0.0:8892"),
+		client.WithHostPorts(constants.RelationServiceWithHostPorts),
 		client.WithRPCTimeout(3*time.Second),
 	)
 	if err != nil {

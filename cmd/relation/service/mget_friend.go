@@ -42,5 +42,8 @@ func (s *MGetFriendService) MGetFriend(req *relation.MGetFriendReq) ([]*common.U
 		IdList: res,
 		UserId: req.UserId,
 	})
+	if err != nil {
+		return nil, err
+	}
 	return resp.UserList, err
 }

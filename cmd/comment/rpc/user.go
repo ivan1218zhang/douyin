@@ -5,6 +5,7 @@ import (
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/user/userservice"
+	"douyin/pkg/constants"
 	"douyin/pkg/errno"
 	"time"
 
@@ -16,7 +17,7 @@ var userClient userservice.Client
 func initUser() {
 	c, err := userservice.NewClient(
 		"user",
-		client.WithHostPorts("0.0.0.0:8889"),
+		client.WithHostPorts(constants.UserServiceWithHostPorts),
 		client.WithRPCTimeout(3*time.Second),
 	)
 	if err != nil {
@@ -35,4 +36,16 @@ func MGetUser(ctx context.Context, req *user.MGetUserReq) ([]*common.User, error
 		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
 	}
 	return resp.UserList, nil
+}
+
+// GetUser 用户信息
+func GetUser(ctx context.Context, req *user.GetUserReq) (*common.User, error) {
+	resp, err := userClient.GetUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	}
+	return resp.User, nil
 }

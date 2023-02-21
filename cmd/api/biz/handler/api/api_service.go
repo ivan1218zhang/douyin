@@ -7,6 +7,7 @@ import (
 	"douyin/cmd/api/biz/rpc"
 	"douyin/kitex_gen/comment"
 	"douyin/kitex_gen/favorite"
+	"douyin/kitex_gen/message"
 	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/video"
@@ -261,7 +262,7 @@ func MGetFriend(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(api.MGetFriendResp)
+	resp, err := rpc.MGetFriend(ctx, &relation.MGetFriendReq{UserId: 0})
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -277,7 +278,12 @@ func MessageAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(api.MessageActionResp)
+	resp, err := rpc.MessageAction(ctx, &message.MessageActionReq{
+		UserId:     0,
+		ToUserId:   req.ToUserID,
+		ActionType: req.ActionType,
+		Content:    req.Content,
+	})
 
 	c.JSON(consts.StatusOK, resp)
 }

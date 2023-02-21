@@ -4,8 +4,10 @@ import (
 	"context"
 	"douyin/cmd/comment/dal/db"
 	"douyin/cmd/comment/pack"
+	"douyin/cmd/comment/rpc"
 	"douyin/kitex_gen/comment"
 	"douyin/kitex_gen/common"
+	"douyin/kitex_gen/user"
 	"douyin/pkg/errno"
 	"douyin/pkg/repository"
 )
@@ -15,7 +17,7 @@ type CommentActionService struct {
 }
 
 func NewCommentActionService(ctx context.Context) *CommentActionService {
-	return &CommentActionService{}
+	return &CommentActionService{ctx: ctx}
 }
 func (s *CommentActionService) CommentAction(req *comment.CommentActionReq) (*common.Comment, error) {
 	switch req.ActionType {
@@ -46,6 +48,10 @@ func publishComment(ctx context.Context, comment repository.Comment) (*common.Co
 	}
 	c := pack.Comment(comment1)
 	// TODO:根据UserId获取用户信息
-
+	u, err := rpc.GetUser(ctx, &user.GetUserReq{
+		Id:     comment.UserId,
+		UserId: comment.UserId,
+	})
+	c.User = u
 	return c, nil
 }

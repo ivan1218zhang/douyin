@@ -33,9 +33,9 @@ func (s *MGetPublishService) MGetPublishList(req *video.MGetPublishReq) ([]*comm
 		idList[i] = videos[i].AuthorId
 		videoIDList[i] = videos[i].Id
 	}
-	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
-		IdList: nil,
-		UserId: 0,
+	user, err := rpc.GetUser(s.ctx, &user.GetUserReq{
+		Id:     req.Id,
+		UserId: req.UserId,
 	})
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (s *MGetPublishService) MGetPublishList(req *video.MGetPublishReq) ([]*comm
 		return nil, err
 	}
 	for i := 0; i < len(videos); i++ {
-		videos[i].Author = users[i]
+		videos[i].Author = user
 		videos[i].FavoriteCount = favoriteCount[i]
 		videos[i].CommentCount = commentCount[i]
 		videos[i].IsFavorite = isfavorites[i]

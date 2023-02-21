@@ -50,6 +50,7 @@ func (s *RelationServiceImpl) MGetFollower(ctx context.Context, req *relation.MG
 // MGetFriend implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (resp *relation.MGetFriendResp, err error) {
 	// TODO: Your code here...
+	resp = new(relation.MGetFriendResp)
 	users, err := service.NewGetFriendService(ctx).MGetFriend(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
@@ -64,6 +65,7 @@ func (s *RelationServiceImpl) MGetFriend(ctx context.Context, req *relation.MGet
 // GetRelation implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) GetRelation(ctx context.Context, req *relation.GetRelationReq) (resp *relation.GetRelationResp, err error) {
 	// TODO: Your code here...
+	resp = new(relation.GetRelationResp)
 	followCount, followerCount, isFollow, err := service.NewGetRelationService(ctx).GetRelation(req)
 	resp.FollowCount = followCount
 	resp.FollowerCount = followerCount
@@ -79,6 +81,7 @@ func (s *RelationServiceImpl) GetRelation(ctx context.Context, req *relation.Get
 // MGetRelation implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetRelation(ctx context.Context, req *relation.MGetRelationReq) (resp *relation.MGetRelationResp, err error) {
 	// TODO: Your code here...
+	resp = new(relation.MGetRelationResp)
 	followCountList, followerCountList, isFollowList, err := service.NewMGetRelationService(ctx).MGetRelation(req)
 	resp.FollowCountList = followCountList
 	resp.FollowerCountList = followerCountList
