@@ -14,6 +14,7 @@ type RelationServiceImpl struct{}
 // RelationAction implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.RelationActionReq) (resp *relation.RelationActionResp, err error) {
 	// TODO: Your code here...
+	resp = new(relation.RelationActionResp)
 	err = service.NewRelationActionService(ctx).RelationAction(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
@@ -25,6 +26,7 @@ func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.
 
 // MGetFollow implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetFollow(ctx context.Context, req *relation.MGetFollowReq) (resp *relation.MGetFollowResp, err error) {
+	resp = new(relation.MGetFollowResp)
 	users, err := service.NewGetFollowedService(ctx).GetFollowedUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
@@ -37,6 +39,7 @@ func (s *RelationServiceImpl) MGetFollow(ctx context.Context, req *relation.MGet
 
 // MGetFollower implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetFollower(ctx context.Context, req *relation.MGetFollowerReq) (resp *relation.MGetFollowerResp, err error) {
+	resp = new(relation.MGetFollowerResp)
 	users, err := service.NewGetFollowerService(ctx).GetFollowerUser(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)

@@ -38,7 +38,7 @@ func (s *MGetCommentService) MGetComment(req *comment.MGetCommentReq) ([]*common
 
 	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: idList, UserId: 1})
 
-	if err == nil {
+	if err != nil {
 		return nil, err
 	}
 

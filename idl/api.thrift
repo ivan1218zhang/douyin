@@ -96,7 +96,7 @@ struct CommentActionReq {
     1:string token
     2:i64 video_id
     3:i32 action_type
-    4:string comment_context
+    4:string comment_text
     5:i64 comment_id
 }
 

@@ -24,14 +24,10 @@ func (s *MGetUserService) MGetUser(req *user.MGetUserReq) (user []*common.User, 
 		return nil, err
 	}
 	// rpc获取社交信息
-	idList := make([]int64, len(modelUsers))
 
 	userList := pack.Users(modelUsers)
-	for i, u := range modelUsers {
-		idList[i] = u.ID
-	}
 
-	res, err := rpc.MGetRelation(s.ctx, &relation.MGetRelationReq{UserId: req.UserId, ToUserIdList: idList})
+	res, err := rpc.MGetRelation(s.ctx, &relation.MGetRelationReq{UserId: req.UserId, ToUserIdList: req.IdList})
 	if err != nil {
 		return nil, err
 	}

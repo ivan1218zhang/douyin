@@ -34,6 +34,7 @@ func CommentAction(ctx context.Context, req *comment.CommentActionReq) (*api.Com
 	return &api.CommentActionResp{
 		StatusCode:    resp.BaseResp.StatusCode,
 		StatusMessage: resp.BaseResp.StatusMessage,
+		Comment:       pack.Comment(resp.Comment),
 	}, nil
 }
 

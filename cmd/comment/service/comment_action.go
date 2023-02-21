@@ -22,7 +22,7 @@ func NewCommentActionService(ctx context.Context) *CommentActionService {
 func (s *CommentActionService) CommentAction(req *comment.CommentActionReq) (*common.Comment, error) {
 	switch req.ActionType {
 	case 1:
-		return publishComment(s.ctx, repository.Comment{
+		return publishComment(s.ctx, &repository.Comment{
 			UserId:  req.UserId,
 			VideoId: req.VideoId,
 			Content: req.CommentText,
@@ -41,8 +41,8 @@ func deleteComment(ctx context.Context, commentId int64) (*common.Comment, error
 	return nil, nil
 }
 
-func publishComment(ctx context.Context, comment repository.Comment) (*common.Comment, error) {
-	comment1, err := db.CreateComment(ctx, &comment)
+func publishComment(ctx context.Context, comment *repository.Comment) (*common.Comment, error) {
+	comment1, err := db.CreateComment(ctx, comment)
 	if err != nil {
 		return nil, err
 	}

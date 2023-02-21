@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"douyin/cmd/relation/dal/db"
-	"douyin/cmd/video/rpc"
+	"douyin/cmd/relation/rpc"
 	"douyin/kitex_gen/common"
 	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/user"
@@ -22,9 +22,9 @@ func (s *GetFollowedService) GetFollowedUser(req *relation.MGetFollowReq) ([]*co
 	if err != nil {
 		return nil, err
 	}
-	userList, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: res, UserId: req.Id})
+	resp, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: res, UserId: req.Id})
 	if err != nil {
 		return nil, err
 	}
-	return userList, nil
+	return resp.UserList, nil
 }

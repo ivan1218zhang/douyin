@@ -234,7 +234,7 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 		UserId:      id,
 		VideoId:     req.VideoID,
 		ActionType:  req.ActionType,
-		CommentText: req.CommentContext,
+		CommentText: req.CommentText,
 		CommentId:   req.CommentID,
 	})
 	if err != nil {

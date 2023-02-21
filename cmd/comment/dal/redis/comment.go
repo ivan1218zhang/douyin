@@ -46,7 +46,7 @@ func SetComments(ctx context.Context, videoID int64, comments []*common.Comment)
 	if err != nil {
 		return err
 	}
-	expiryTime := time.Duration(rand.Intn(9)+1) * time.Minute
+	expiryTime := time.Duration(rand.Intn(9)+1) * time.Second
 	err = RedisClient.Set(ctx, cacheKey, cacheData, expiryTime).Err()
 	if err != nil {
 		return err
@@ -57,7 +57,7 @@ func SetComments(ctx context.Context, videoID int64, comments []*common.Comment)
 func SetCommentCount(ctx context.Context, videoID int64, count int64) error {
 	cacheKey := "comment_count:" + strconv.FormatInt(videoID, 10)
 
-	expiryTime := time.Duration(rand.Intn(9)+1) * time.Minute
+	expiryTime := time.Duration(rand.Intn(9)+1) * time.Second
 	err := RedisClient.Set(ctx, cacheKey, count, expiryTime).Err()
 	if err != nil {
 		return err

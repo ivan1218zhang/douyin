@@ -3463,11 +3463,11 @@ func (p *MGetFavoriteResp) String() string {
 }
 
 type CommentActionReq struct {
-	Token          string `thrift:"token,1" form:"token" json:"token" query:"token"`
-	VideoID        int64  `thrift:"video_id,2" form:"video_id" json:"video_id" query:"video_id"`
-	ActionType     int32  `thrift:"action_type,3" form:"action_type" json:"action_type" query:"action_type"`
-	CommentContext string `thrift:"comment_context,4" form:"comment_context" json:"comment_context" query:"comment_context"`
-	CommentID      int64  `thrift:"comment_id,5" form:"comment_id" json:"comment_id" query:"comment_id"`
+	Token       string `thrift:"token,1" form:"token" json:"token" query:"token"`
+	VideoID     int64  `thrift:"video_id,2" form:"video_id" json:"video_id" query:"video_id"`
+	ActionType  int32  `thrift:"action_type,3" form:"action_type" json:"action_type" query:"action_type"`
+	CommentText string `thrift:"comment_text,4" form:"comment_text" json:"comment_text" query:"comment_text"`
+	CommentID   int64  `thrift:"comment_id,5" form:"comment_id" json:"comment_id" query:"comment_id"`
 }
 
 func NewCommentActionReq() *CommentActionReq {
@@ -3487,7 +3487,7 @@ func (p *CommentActionReq) GetActionType() (v int32) {
 }
 
 func (p *CommentActionReq) GetCommentContext() (v string) {
-	return p.CommentContext
+	return p.CommentText
 }
 
 func (p *CommentActionReq) GetCommentID() (v int64) {
@@ -3632,7 +3632,7 @@ func (p *CommentActionReq) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.CommentContext = v
+		p.CommentText = v
 	}
 	return nil
 }
@@ -3746,7 +3746,7 @@ func (p *CommentActionReq) writeField4(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("comment_context", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.CommentContext); err != nil {
+	if err := oprot.WriteString(p.CommentText); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
