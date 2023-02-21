@@ -20,11 +20,11 @@ func NewGetFriendService(ctx context.Context) *MGetFriendService {
 
 // MGetFriend multiple get list of friend
 func (s *MGetFriendService) MGetFriend(req *relation.MGetFriendReq) ([]*common.User, error) {
-	followers, err := db.MGetFollowerUser(s.ctx, req.UserId)
+	followers, err := db.GetFollowerUser(s.ctx, req.UserId)
 	if err != nil {
 		return nil, err
 	}
-	follows, err := db.MGetFollowedUser(s.ctx, req.UserId)
+	follows, err := db.GetFollowedUser(s.ctx, req.UserId)
 	if err != nil {
 		return nil, err
 	}

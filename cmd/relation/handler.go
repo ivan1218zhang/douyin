@@ -25,14 +25,26 @@ func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.
 
 // MGetFollow implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetFollow(ctx context.Context, req *relation.MGetFollowReq) (resp *relation.MGetFollowResp, err error) {
-	// TODO: Your code here...
-	return
+	users, err := service.NewGetFollowedService(ctx).GetFollowedUser(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, err
+	}
+	resp.SetUserList(users)
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, err
 }
 
 // MGetFollower implements the RelationServiceImpl interface.
 func (s *RelationServiceImpl) MGetFollower(ctx context.Context, req *relation.MGetFollowerReq) (resp *relation.MGetFollowerResp, err error) {
-	// TODO: Your code here...
-	return
+	users, err := service.NewGetFollowerService(ctx).GetFollowerUser(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, err
+	}
+	resp.SetUserList(users)
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, err
 }
 
 // MGetFriend implements the RelationServiceImpl interface.

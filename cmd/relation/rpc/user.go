@@ -5,8 +5,9 @@ import (
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/user/userservice"
 	"douyin/pkg/constants"
-	"github.com/cloudwego/kitex/client"
 	"time"
+
+	"github.com/cloudwego/kitex/client"
 )
 
 var userClient userservice.Client

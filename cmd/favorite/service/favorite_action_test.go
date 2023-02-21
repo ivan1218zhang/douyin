@@ -113,7 +113,7 @@ func TestFavoriteActionService_FavoriteAction(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if favorVideoIds[0] != 3 {
+	if favorVideoIds[0].FavoriteCount != 3 {
 		log.Fatalln("test favorVideo failed")
 	}
 

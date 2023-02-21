@@ -16,11 +16,10 @@ func DeleteRelation(ctx context.Context, userId int64, toUserId int64) error {
 	return DB.WithContext(ctx).Table("relation").Where("user_id = ? and follower_id = ?", toUserId, userId).Delete(&repository.Relation{}).Error
 }
 
-// MGetFollowedUser query list of FollowedUser
-func MGetFollowedUser(ctx context.Context, userID int64) ([]int64, error) {
+func GetFollowedUser(ctx context.Context, userID int64) ([]int64, error) {
 	var res []int64
 
-	err := DB.WithContext(ctx).Model(&repository.FollowedUser{}).Where("user_id = ?", userID).Pluck("followed_user_id", &res).Error
+	err := DB.WithContext(ctx).Table("relation").Where("follower_id = ?", userID).Pluck("user_id", &res).Error
 	if err != nil {
 		return res, err
 	}
@@ -28,10 +27,9 @@ func MGetFollowedUser(ctx context.Context, userID int64) ([]int64, error) {
 	return res, nil
 }
 
-// MGetFollowerUser query list of FollowedUser
-func MGetFollowerUser(ctx context.Context, userID int64) ([]int64, error) {
+func GetFollowerUser(ctx context.Context, userID int64) ([]int64, error) {
 	var res []int64
-	err := DB.WithContext(ctx).Model(&repository.FollowerUser{}).Where("user_id = ?", userID).Pluck("follower_user_id", &res).Error
+	err := DB.WithContext(ctx).Table("relation").Where("user_id = ?", userID).Pluck("follower_id", &res).Error
 	if err != nil {
 		return res, err
 	}
