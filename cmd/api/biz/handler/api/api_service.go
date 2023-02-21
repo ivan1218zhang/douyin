@@ -4,6 +4,7 @@ package api
 
 import (
 	"context"
+	"douyin/cmd/api/biz/mw"
 	"douyin/cmd/api/biz/rpc"
 	"douyin/kitex_gen/comment"
 	"douyin/kitex_gen/favorite"
@@ -28,12 +29,18 @@ func MGetVideo(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		id = -1
+		err = nil
+	}
 	resp, err := rpc.MGetVideo(ctx, &video.MGetVideoReq{
 		LatestTime: req.LatestTime,
-		UserId:     1,
+		UserId:     id,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -52,7 +59,14 @@ func Register(ctx context.Context, c *app.RequestContext) {
 		Username: req.Username,
 		Password: req.Password,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	token, err := mw.JwtGetToken(resp.UserID)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	resp.Token = token
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -71,7 +85,15 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		Username: req.Username,
 		Password: req.Password,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+	token, err := mw.JwtGetToken(resp.UserID)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	resp.Token = token
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -85,9 +107,15 @@ func GetUser(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
-	resp, err := rpc.GetUser(ctx, &user.GetUserReq{Id: req.UserID})
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		id = -1
+		err = nil
+	}
+	resp, err := rpc.GetUser(ctx, &user.GetUserReq{Id: id, UserId: req.UserID})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -101,16 +129,22 @@ func Publish(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	file, err := c.FormFile("data")
 	source, err := file.Open()
 	defer source.Close()
 	data, err := ioutil.ReadAll(source)
 	resp, err := rpc.Publish(ctx, &video.PublishReq{
-		UserId: 0,
+		UserId: id,
 		Title:  req.Title,
 		Data:   data,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -124,8 +158,15 @@ func MGetPublish(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	resp, err := rpc.MGetPublish(ctx, &video.MGetPublishReq{UserId: req.UserID})
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		id = -1
+		err = nil
+	}
+	resp, err := rpc.MGetPublish(ctx, &video.MGetPublishReq{UserId: req.UserID, Id: id})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -139,12 +180,18 @@ func FavoriteAction(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	resp, err := rpc.FavoriteAction(ctx, &favorite.FavoriteActionReq{
-		UserId:     0,
+		UserId:     id,
 		VideoId:    req.VideoID,
 		ActionType: req.ActionType,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -158,8 +205,14 @@ func MGetFavorite(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	resp, err := rpc.MGetFavorite(ctx, &favorite.MGetFavoriteVideoReq{UserId: 0})
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	resp, err := rpc.MGetFavorite(ctx, &favorite.MGetFavoriteVideoReq{UserId: id})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -173,14 +226,20 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	resp, err := rpc.CommentAction(ctx, &comment.CommentActionReq{
-		UserId:      0,
+		UserId:      id,
 		VideoId:     req.VideoID,
 		ActionType:  req.ActionType,
 		CommentText: req.CommentContext,
 		CommentId:   req.CommentID,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -194,8 +253,15 @@ func MGetComment(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	resp, err := rpc.MGetComment(ctx, &comment.MGetCommentReq{VideoId: req.VideoID})
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		id = -1
+		err = nil
+	}
+	resp, err := rpc.MGetComment(ctx, &comment.MGetCommentReq{VideoId: req.VideoID, UserId: id})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -209,13 +275,18 @@ func RelationAction(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	resp, err := rpc.RelationAction(ctx, &relation.RelationActionReq{
-		UserId:     0,
+		UserId:     id,
 		ToUserId:   req.ToUserID,
 		ActionType: req.ActionType,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -229,9 +300,15 @@ func MGetFollow(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
-	resp, err := rpc.MGetFollow(ctx, &relation.MGetFollowReq{UserId: 0})
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		id = -1
+		err = nil
+	}
+	resp, err := rpc.MGetFollow(ctx, &relation.MGetFollowReq{UserId: req.UserID, Id: id})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -245,9 +322,15 @@ func MGetFollower(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
-	resp, err := rpc.MGetFollower(ctx, &relation.MGetFollowerReq{UserId: 0})
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		id = -1
+		err = nil
+	}
+	resp, err := rpc.MGetFollower(ctx, &relation.MGetFollowerReq{UserId: req.UserID, Id: id})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -261,9 +344,14 @@ func MGetFriend(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
-	resp, err := rpc.MGetFriend(ctx, &relation.MGetFriendReq{UserId: 0})
-
+	_, err = mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	resp, err := rpc.MGetFriend(ctx, &relation.MGetFriendReq{UserId: req.UserID})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -277,14 +365,19 @@ func MessageAction(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	resp, err := rpc.MessageAction(ctx, &message.MessageActionReq{
-		UserId:     0,
+		UserId:     id,
 		ToUserId:   req.ToUserID,
 		ActionType: req.ActionType,
 		Content:    req.Content,
 	})
-
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -298,6 +391,16 @@ func MGetChatMessage(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	resp := new(api.MGetChatMessageResp)
+	id, err := mw.JwtGetUserId(req.Token)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	resp, err := rpc.MGetChatMessage(ctx, &message.MessageChatReq{
+		UserId:     id,
+		FromUserId: req.ToUserID,
+	})
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 	c.JSON(consts.StatusOK, resp)
 }

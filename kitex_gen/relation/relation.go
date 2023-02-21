@@ -457,6 +457,7 @@ func (p *RelationActionResp) Field1DeepEqual(src *common.BaseResp) bool {
 
 type MGetFollowReq struct {
 	UserId int64 `thrift:"user_id,1" json:"user_id"`
+	Id     int64 `thrift:"id,2" json:"id"`
 }
 
 func NewMGetFollowReq() *MGetFollowReq {
@@ -466,12 +467,20 @@ func NewMGetFollowReq() *MGetFollowReq {
 func (p *MGetFollowReq) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *MGetFollowReq) GetId() (v int64) {
+	return p.Id
+}
 func (p *MGetFollowReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *MGetFollowReq) SetId(val int64) {
+	p.Id = val
 }
 
 var fieldIDToName_MGetFollowReq = map[int16]string{
 	1: "user_id",
+	2: "id",
 }
 
 func (p *MGetFollowReq) Read(iprot thrift.TProtocol) (err error) {
@@ -496,6 +505,16 @@ func (p *MGetFollowReq) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -542,6 +561,15 @@ func (p *MGetFollowReq) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *MGetFollowReq) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.Id = v
+	}
+	return nil
+}
+
 func (p *MGetFollowReq) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("MGetFollowReq"); err != nil {
@@ -550,6 +578,10 @@ func (p *MGetFollowReq) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
 			goto WriteFieldError
 		}
 
@@ -588,6 +620,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
+func (p *MGetFollowReq) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.Id); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
 func (p *MGetFollowReq) String() string {
 	if p == nil {
 		return "<nil>"
@@ -604,12 +653,22 @@ func (p *MGetFollowReq) DeepEqual(ano *MGetFollowReq) bool {
 	if !p.Field1DeepEqual(ano.UserId) {
 		return false
 	}
+	if !p.Field2DeepEqual(ano.Id) {
+		return false
+	}
 	return true
 }
 
 func (p *MGetFollowReq) Field1DeepEqual(src int64) bool {
 
 	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *MGetFollowReq) Field2DeepEqual(src int64) bool {
+
+	if p.Id != src {
 		return false
 	}
 	return true
@@ -869,6 +928,7 @@ func (p *MGetFollowResp) Field2DeepEqual(src []*common.User) bool {
 
 type MGetFollowerReq struct {
 	UserId int64 `thrift:"user_id,1" json:"user_id"`
+	Id     int64 `thrift:"id,2" json:"id"`
 }
 
 func NewMGetFollowerReq() *MGetFollowerReq {
@@ -878,12 +938,20 @@ func NewMGetFollowerReq() *MGetFollowerReq {
 func (p *MGetFollowerReq) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *MGetFollowerReq) GetId() (v int64) {
+	return p.Id
+}
 func (p *MGetFollowerReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *MGetFollowerReq) SetId(val int64) {
+	p.Id = val
 }
 
 var fieldIDToName_MGetFollowerReq = map[int16]string{
 	1: "user_id",
+	2: "id",
 }
 
 func (p *MGetFollowerReq) Read(iprot thrift.TProtocol) (err error) {
@@ -908,6 +976,16 @@ func (p *MGetFollowerReq) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -954,6 +1032,15 @@ func (p *MGetFollowerReq) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *MGetFollowerReq) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.Id = v
+	}
+	return nil
+}
+
 func (p *MGetFollowerReq) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("MGetFollowerReq"); err != nil {
@@ -962,6 +1049,10 @@ func (p *MGetFollowerReq) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
 			goto WriteFieldError
 		}
 
@@ -1000,6 +1091,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
+func (p *MGetFollowerReq) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.Id); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
 func (p *MGetFollowerReq) String() string {
 	if p == nil {
 		return "<nil>"
@@ -1016,12 +1124,22 @@ func (p *MGetFollowerReq) DeepEqual(ano *MGetFollowerReq) bool {
 	if !p.Field1DeepEqual(ano.UserId) {
 		return false
 	}
+	if !p.Field2DeepEqual(ano.Id) {
+		return false
+	}
 	return true
 }
 
 func (p *MGetFollowerReq) Field1DeepEqual(src int64) bool {
 
 	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *MGetFollowerReq) Field2DeepEqual(src int64) bool {
+
+	if p.Id != src {
 		return false
 	}
 	return true

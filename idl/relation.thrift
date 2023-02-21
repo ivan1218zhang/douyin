@@ -13,6 +13,7 @@ struct RelationActionResp{
 
 struct MGetFollowReq{
     1:i64 user_id
+    2:i64 id
 }
 struct MGetFollowResp{
     1:common.BaseResp base_resp
@@ -21,6 +22,7 @@ struct MGetFollowResp{
 
 struct MGetFollowerReq{
     1:i64 user_id
+    2:i64 id
 }
 
 struct MGetFollowerResp{

@@ -36,7 +36,6 @@ func CreateUser(ctx context.Context, req *user.CreateUserReq) (*api.RegisterResp
 		StatusCode:    resp.BaseResp.StatusCode,
 		StatusMessage: resp.BaseResp.StatusMessage,
 		UserID:        resp.UserId,
-		Token:         strconv.FormatInt(resp.UserId, 10),
 	}, nil
 }
 
