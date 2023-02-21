@@ -52,6 +52,24 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 	for i := 0; i < len(videos); i++ {
 		videos[i].Author = users[i]
 	}
+	favoriteCount, err := rpc.MCountFavorite(s.ctx, &favorite.MCountFavoriteReq{VideoIdList: idList})
+	if err != nil {
+		return nil, 0, err
+	}
+	commentCount, err := rpc.MCountComment(s.ctx, &comment.MCountCommentReq{VideoIdList: idList})
+	if err != nil {
+		return nil, 0, err
+	}
+	isfavorites, err := rpc.MIsFavorite(s.ctx, &favorite.MIsFavoriteReq{UserId: req.UserId, VideoIdList: idList})
+	if err != nil {
+		return nil, 0, err
+	}
+	for i := 0; i < len(videos); i++ {
+		videos[i].Author = users[i]
+		videos[i].FavoriteCount = favoriteCount[i]
+		videos[i].CommentCount = commentCount[i]
+		videos[i].IsFavorite = isfavorites[i]
+	}
 	return videos, nextTime, nil
 }
 

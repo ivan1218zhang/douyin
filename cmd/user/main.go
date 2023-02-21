@@ -2,6 +2,7 @@ package main
 
 import (
 	"douyin/cmd/user/dal"
+	"douyin/cmd/user/rpc"
 	user "douyin/kitex_gen/user/userservice"
 	"douyin/pkg/constants"
 	"log"
@@ -12,6 +13,7 @@ import (
 
 func Init() {
 	dal.Init()
+	rpc.Init()
 }
 
 func main() {

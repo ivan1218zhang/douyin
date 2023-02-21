@@ -32,3 +32,12 @@ func MGetUser(ctx context.Context, req *user.MGetUserReq) ([]*common.User, error
 	}
 	return resp.UserList, nil
 }
+
+// GetUser 用户信息
+func GetUser(ctx context.Context, req *user.GetUserReq) (*common.User, error) {
+	resp, err := userClient.GetUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp.User, nil
+}
