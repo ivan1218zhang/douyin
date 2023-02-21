@@ -22,7 +22,7 @@ func (s *GetFollowerService) GetFollowerUser(req *relation.MGetFollowerReq) ([]*
 	if err != nil {
 		return nil, err
 	}
-	userList, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: res, UserId: req.UserId})
+	userList, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: res, UserId: req.Id})
 	if err != nil {
 		return nil, err
 	}
