@@ -18,7 +18,14 @@ func NewRelationActionService(ctx context.Context) *RelationActionService {
 func (r *RelationActionService) RelationAction(req *relation.RelationActionReq) error {
 	var err error
 	if req.ActionType == 1 {
-		err = db.AddRelation(r.ctx, req.UserId, req.ToUserId)
+		var isfollow bool
+		isfollow, err = db.IsFollow(r.ctx, req.UserId, req.ToUserId)
+		if err != nil {
+			return err
+		}
+		if !isfollow {
+			err = db.AddRelation(r.ctx, req.UserId, req.ToUserId)
+		}
 	}
 	if req.ActionType == 2 {
 		err = db.DeleteRelation(r.ctx, req.UserId, req.ToUserId)
