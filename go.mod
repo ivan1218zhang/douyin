@@ -5,12 +5,12 @@ go 1.18
 require (
 	github.com/apache/thrift v0.17.0
 	github.com/cloudwego/hertz v0.5.1
-	github.com/cloudwego/hertz-examples/bizdemo/hertz_jwt v0.0.0-20230209072341-d761ed3f33d9
 	github.com/cloudwego/kitex v0.4.4
+	github.com/disintegration/imaging v1.6.2
 	github.com/go-redis/redis v6.15.9+incompatible
-	github.com/hertz-contrib/jwt v1.0.2
-	github.com/hertz-contrib/logger/accesslog v0.0.0-20230206071608-2de215a9fd50
+	github.com/golang-jwt/jwt/v4 v4.4.1
 	github.com/qiniu/go-sdk/v7 v7.14.0
+	github.com/u2takey/ffmpeg-go v0.4.1
 	go.mongodb.org/mongo-driver v1.11.2
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
@@ -20,9 +20,12 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.38.20 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.1 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/u2takey/go-utils v0.3.1 // indirect
+	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 )
 
 require (

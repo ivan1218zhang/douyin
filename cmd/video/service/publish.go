@@ -46,8 +46,18 @@ func saveVideoCdn(videoName string, coverName string, data []byte) {
 	if err != nil {
 		panic(err)
 	}
+	// 截取封面
+	err = util.SavePicture(videoName, coverName)
+	if err != nil {
+		panic(err)
+	}
 	//视频存七牛云
 	err = util.UploadCdn(videoName)
+	if err != nil {
+		panic(err)
+	}
+	//封面存七牛云
+	err = util.UploadCdn(coverName)
 	if err != nil {
 		panic(err)
 	}
