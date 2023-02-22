@@ -15,7 +15,7 @@ func Init() {
 	// Create a new Redis client.
 	RedisClient = redis.NewClient(&redis.Options{
 		Addr:     constants.RedisAddress,
-		Password: "",
+		Password: "123456",
 		DB:       0,
 	})
 

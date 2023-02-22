@@ -28,6 +28,7 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 	if err != nil {
 		return nil, time.Now().UnixMilli(), err
 	}
+
 	// 获取next_time
 	nextTime := time.Now().UnixMilli()
 	if len(videos) > 1 {
@@ -37,6 +38,7 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 			return nil, nextTime, err
 		}
 	}
+
 	// TODO 从user微服务模块中得到用户信息
 	idList := make([]int64, len(videos))
 	for i := 0; i < len(idList); i++ {
@@ -46,6 +48,7 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 	for i := 0; i < len(idList); i++ {
 		videoIdList[i] = videos[i].Id
 	}
+
 	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{
 		IdList: idList,
 		UserId: req.UserId,
@@ -56,18 +59,22 @@ func (s *MGetVideoService) MGetVideo(req *video.MGetVideoReq) ([]*common.Video, 
 	for i := 0; i < len(videos); i++ {
 		videos[i].Author = users[i]
 	}
+
 	favoriteCount, err := rpc.MCountFavorite(s.ctx, &favorite.MCountFavoriteReq{VideoIdList: videoIdList})
 	if err != nil {
 		return nil, 0, err
 	}
+
 	commentCount, err := rpc.MCountComment(s.ctx, &comment.MCountCommentReq{VideoIdList: videoIdList})
 	if err != nil {
 		return nil, 0, err
 	}
+
 	isfavorites, err := rpc.MIsFavorite(s.ctx, &favorite.MIsFavoriteReq{UserId: req.UserId, VideoIdList: videoIdList})
 	if err != nil {
 		return nil, 0, err
 	}
+
 	for i := 0; i < len(videos); i++ {
 		videos[i].Author = users[i]
 		videos[i].FavoriteCount = favoriteCount[i]

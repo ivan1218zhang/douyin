@@ -5,6 +5,7 @@ import (
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/user/userservice"
 	"douyin/pkg/constants"
+	"fmt"
 	"time"
 
 	"github.com/cloudwego/kitex/client"
@@ -30,6 +31,8 @@ func MGetUser(ctx context.Context, req *user.MGetUserReq) (*user.MGetUserResp, e
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(resp.UserList)
+	fmt.Println("done")
 	return &user.MGetUserResp{
 		BaseResp: resp.BaseResp,
 		UserList: resp.UserList,

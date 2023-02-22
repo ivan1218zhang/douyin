@@ -4,6 +4,7 @@ import (
 	"context"
 	"douyin/kitex_gen/common"
 	"douyin/pkg/repository"
+	"fmt"
 	"gorm.io/gorm/clause"
 	"time"
 )
@@ -34,6 +35,7 @@ func GetVideo(ctx context.Context, id int64) (repository.Video, error) {
 func MGetVideo(ctx context.Context, latestTime int64) ([]*common.Video, error) {
 	var res []*common.Video
 	tm := time.Unix(0, latestTime*int64(time.Millisecond))
+	fmt.Println(tm)
 	if err := DB.WithContext(ctx).Table("video").Where("created_at < ?", tm.Format("2006-01-02 15:04:05")).Order(clause.OrderByColumn{Column: clause.Column{Name: "created_at"}, Desc: true}).Find(&res).Error; err != nil {
 		return res, err
 	}

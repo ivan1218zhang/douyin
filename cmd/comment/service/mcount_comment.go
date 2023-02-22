@@ -23,11 +23,13 @@ func (s *MCountCommentService) MCountComment(req *comment.MCountCommentReq) ([]i
 		if err == nil {
 			counts[i] = count
 		}
+
 		count, err = db.GetCommentCountByVideoID(s.ctx, id)
 		if err == nil {
 			redis.SetCommentCount(s.ctx, id, count)
 			counts[i] = count
 		}
+
 	}
 	return counts, nil
 }
