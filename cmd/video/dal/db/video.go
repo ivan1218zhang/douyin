@@ -12,7 +12,7 @@ import (
 // MGetPublish query list of video info
 func MGetPublish(ctx context.Context, userID int64) ([]*common.Video, error) {
 	var res []*common.Video
-	err := DB.WithContext(ctx).Table("video").Where("author_id = ?", userID).Find(&res).Error
+	err := DB.WithContext(ctx).Table("video").Where("author_id = ?", userID).Limit(30).Find(&res).Error
 	if err != nil {
 		return res, err
 	}

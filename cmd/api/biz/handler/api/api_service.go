@@ -14,7 +14,7 @@ import (
 	"douyin/kitex_gen/video"
 	"io/ioutil"
 
-	api "douyin/cmd/api/biz/model/api"
+	"douyin/cmd/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -207,7 +207,7 @@ func MGetFavorite(ctx context.Context, c *app.RequestContext) {
 	}
 	id, err := mw.JwtGetUserId(req.Token)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		id = -1
 	}
 	resp, err := rpc.MGetFavorite(ctx, &favorite.MGetFavoriteVideoReq{UserId: id})
 	if err != nil {
