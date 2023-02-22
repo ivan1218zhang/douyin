@@ -11,9 +11,9 @@ type User struct {
 	ID        int64
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
-	UserName  string
-	Password  string
+	DeletedAt gorm.DeletedAt
+	UserName  string `gorm:"type:varchar(20);Index:idx_user_username"`
+	Password  string `gorm:"type:varchar(20)"`
 }
 
 func (u *User) TableName() string {

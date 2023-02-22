@@ -10,8 +10,8 @@ import (
 
 type Favorite struct {
 	Id        int64
-	UserId    int64
-	VideoId   int64
+	UserId    int64 `gorm:"Index:idx_favorite,priority:11"`
+	VideoId   int64 `gorm:"Index:idx_favorite,priority:12"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt

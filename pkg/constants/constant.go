@@ -1,7 +1,7 @@
 package constants
 
 const (
-	MySQLDefaultDSN = "root:root@tcp(1.15.222.156:3307)/douyin?charset=utf8&parseTime=True&loc=Local"
+	MySQLDefaultDSN = "root:root@tcp(1.15.222.156:3307)/douyin-zyf?charset=utf8&parseTime=True&loc=Local"
 	MongoDefaultDSN = "mongodb://root:rootlc@8.130.33.1:27017"
 	EtcdAddress     = "0.0.0.0:2379"
 	RedisAddress    = "1.15.222.156:6380"

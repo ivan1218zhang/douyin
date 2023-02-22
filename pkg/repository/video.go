@@ -10,14 +10,14 @@ import (
 )
 
 type Video struct {
-	ID        int64
+	ID        int64     `gorm:"primarykey"`
 	CreatedAt time.Time `gorm:"index"`
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
-	Title     string
-	AuthorId  int64 `gorm:"index"`
-	PlayUrl   string
-	CoverUrl  string
+	DeletedAt gorm.DeletedAt
+	Title     string `gorm:"type:varchar(50)"`
+	AuthorId  int64  `gorm:"index"`
+	PlayUrl   string `gorm:"type:varchar(100)"`
+	CoverUrl  string `gorm:"type:varchar(100)"`
 }
 
 func (v *Video) TableName() string {
