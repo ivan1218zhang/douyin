@@ -24,7 +24,7 @@ func (g *GetRelationService) GetRelation(req *relation.GetRelationReq) (int32, i
 	if err != nil {
 		return followCount, 0, false, err
 	}
-	isFollow, err := db.IsFollow(g.ctx, req.ToUserId, req.UserId)
+	isFollow, err := db.IsFollow(g.ctx, req.UserId, req.ToUserId)
 	if err != nil {
 		return followCount, followerCount, false, err
 	}

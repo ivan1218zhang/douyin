@@ -59,7 +59,7 @@ func CountFollower(ctx context.Context, userId int64) (int32, error) {
 // IsFollow 判断当前用户是否关注目标用户
 func IsFollow(ctx context.Context, userId int64, toUserId int64) (bool, error) {
 	var res int64
-	err := DB.WithContext(ctx).Table("relation").Where("user_id = ? and follower_id = ? and deleted_at is null", userId, toUserId).Count(&res).Error
+	err := DB.WithContext(ctx).Table("relation").Where("user_id = ? and follower_id = ? and deleted_at is null", toUserId, userId).Count(&res).Error
 	if err != nil {
 		return false, err
 	}
