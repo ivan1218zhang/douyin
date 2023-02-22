@@ -17,7 +17,7 @@ func initComment() {
 	c, err := commentservice.NewClient(
 		"comment",
 		client.WithHostPorts(constants.CommentServiceWithHostPorts),
-		client.WithRPCTimeout(3*time.Second),
+		client.WithRPCTimeout(10*time.Second),
 	)
 	if err != nil {
 		panic(err)

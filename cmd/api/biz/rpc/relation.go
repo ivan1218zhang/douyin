@@ -63,15 +63,42 @@ func MGetFollower(ctx context.Context, req *relation.MGetFollowerReq) (*api.MGet
 	}, nil
 }
 
+type FriendUser struct {
+	Id            int64  `thrift:"id,1" json:"id"`
+	Name          string `thrift:"name,2" json:"name"`
+	FollowCount   int64  `thrift:"follow_count,3" json:"follow_count"`
+	FollowerCount int64  `thrift:"follower_count,4" json:"follower_count"`
+	IsFollow      bool   `thrift:"is_follow,5" json:"is_follow"`
+	Message       string `json:"message"`
+	MSGType       int64  `json:"msgType"`
+}
+type MGetFriendResp1 struct {
+	StatusCode     int64        `thrift:"status_code,1" json:"status_code"`
+	StatusMessage  string       `thrift:"status_message,2" json:"status_message"`
+	FriendUserList []FriendUser `json:"user_list"`
+}
+
 // MGetFriend 朋友列表
-func MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (*api.MGetFriendResp, error) {
+func MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (*MGetFriendResp1, error) {
 	resp, err := relationClient.MGetFriend(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return &api.MGetFriendResp{
-		StatusCode:    resp.BaseResp.StatusCode,
-		StatusMessage: resp.BaseResp.StatusMessage,
-		UserList:      pack.UserList(resp.UserList),
+
+	FriendUserList := make([]FriendUser, len(resp.UserList))
+	for i := range resp.UserList {
+		FriendUserList[i].Id = resp.UserList[i].Id
+		FriendUserList[i].FollowCount = resp.UserList[i].FollowCount
+		FriendUserList[i].Name = resp.UserList[i].Name
+		FriendUserList[i].IsFollow = resp.UserList[i].IsFollow
+		FriendUserList[i].FollowerCount = resp.UserList[i].FollowerCount
+		FriendUserList[i].Message = "没有发消息"
+		FriendUserList[i].MSGType = 0
+	}
+
+	return &MGetFriendResp1{
+		StatusCode:     resp.BaseResp.StatusCode,
+		StatusMessage:  resp.BaseResp.StatusMessage,
+		FriendUserList: FriendUserList,
 	}, nil
 }

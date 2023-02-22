@@ -301,6 +301,7 @@ func MGetFollow(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	id, err := mw.JwtGetUserId(req.Token)
+
 	if err != nil {
 		id = -1
 		err = nil
@@ -316,6 +317,7 @@ func MGetFollow(ctx context.Context, c *app.RequestContext) {
 // @router /douyin/relation/follower/list/ [GET]
 func MGetFollower(ctx context.Context, c *app.RequestContext) {
 	var err error
+
 	var req api.MGetFollowerReq
 	err = c.BindAndValidate(&req)
 	if err != nil {
@@ -352,6 +354,7 @@ func MGetFriend(ctx context.Context, c *app.RequestContext) {
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 	}
+
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -385,22 +388,29 @@ func MessageAction(ctx context.Context, c *app.RequestContext) {
 // @router /douyin/message/chat/ [GET]
 func MGetChatMessage(ctx context.Context, c *app.RequestContext) {
 	var err error
+
 	var req api.MGetChatMessageReq
+
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
+
 	id, err := mw.JwtGetUserId(req.Token)
+
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 	}
+
 	resp, err := rpc.MGetChatMessage(ctx, &message.MessageChatReq{
 		UserId:     id,
 		FromUserId: req.ToUserID,
 	})
+
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 	}
+
 	c.JSON(consts.StatusOK, resp)
 }

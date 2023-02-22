@@ -39,10 +39,14 @@ func MessageAction(ctx context.Context, req *message.MessageActionReq) (*api.Mes
 
 // MGetChatMessage 获取消息
 func MGetChatMessage(ctx context.Context, req *message.MessageChatReq) (*api.MGetChatMessageResp, error) {
-	resp, err := messageClient.GetmessageChat(ctx, req)
+	resp, err := messageClient.GetMessageChat(ctx, req)
+
 	if err != nil {
+
 		return nil, err
+
 	}
+
 	return &api.MGetChatMessageResp{
 		StatusCode:    resp.BaseResp.StatusCode,
 		StatusMessage: resp.BaseResp.StatusMessage,

@@ -64,13 +64,16 @@ func GetMessageList(ctx context.Context, from int64, to int64) ([]*TempMessage, 
 	}
 	var err error
 	var cur *mongo.Cursor
+
 	one := userCollection.FindOne(ctx, bson.M{"userid": to})
 	if one.Err() != nil {
+
 		cur, err = messageCollection.Find(ctx, bson.M{"index": index}, options.Find().SetSort(bson.D{{"_id", 1}}))
 		if err != nil {
 			return res, err
 		}
 	} else {
+
 		var tempUser user
 		err = one.Decode(&tempUser)
 		if err != nil {
@@ -79,7 +82,7 @@ func GetMessageList(ctx context.Context, from int64, to int64) ([]*TempMessage, 
 
 		objID, _ := primitive.ObjectIDFromHex(tempUser.ObjectID)
 
-		filter := bson.D{{"index", index}, {"_id", bson.M{"$gt": objID}}}
+		filter := bson.D{{"fromuserid", from}, {"touserid", to}, {"_id", bson.M{"$gt": objID}}}
 		cur, err = messageCollection.Find(ctx, filter, options.Find().SetSort(bson.D{{"_id", 1}}))
 		if err != nil {
 			return res, err

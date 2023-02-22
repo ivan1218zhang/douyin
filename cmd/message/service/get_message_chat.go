@@ -6,17 +6,17 @@ import (
 	"douyin/kitex_gen/message"
 )
 
-type getMessageChatService struct {
+type GetMessageChatService struct {
 	ctx context.Context
 }
 
 // NewGetMessageChatService get message list service
-func NewGetMessageChatService(ctx context.Context) *getMessageChatService {
-	return &getMessageChatService{ctx: ctx}
+func NewGetMessageChatService(ctx context.Context) *GetMessageChatService {
+	return &GetMessageChatService{ctx: ctx}
 }
 
 // GetMessageChat get message list
-func (s *getMessageChatService) GetMessageChat(req *message.MessageChatReq) ([]*message.Message, error) {
+func (s *GetMessageChatService) GetMessageChat(req *message.MessageChatReq) ([]*message.Message, error) {
 	var res []*message.Message
 	cur, err := db.GetMessageList(s.ctx, req.FromUserId, req.UserId)
 	if err != nil {
