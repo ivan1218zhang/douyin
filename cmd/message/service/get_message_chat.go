@@ -4,6 +4,7 @@ import (
 	"context"
 	"douyin/cmd/message/dal/db"
 	"douyin/kitex_gen/message"
+	"fmt"
 )
 
 type GetMessageChatService struct {
@@ -18,6 +19,8 @@ func NewGetMessageChatService(ctx context.Context) *GetMessageChatService {
 // GetMessageChat get message list
 func (s *GetMessageChatService) GetMessageChat(req *message.MessageChatReq) ([]*message.Message, error) {
 	var res []*message.Message
+	fmt.Println(req.UserId)
+	fmt.Println(req.FromUserId)
 	cur, err := db.GetMessageList(s.ctx, req.FromUserId, req.UserId)
 	if err != nil {
 		return res, err
@@ -31,7 +34,9 @@ func (s *GetMessageChatService) GetMessageChat(req *message.MessageChatReq) ([]*
 		temp.FromUserId = cur[i].FromUserID
 		res = append(res, &temp)
 	}
-
+	for i := range res {
+		fmt.Println(res[i])
+	}
 	return res, nil
 
 }

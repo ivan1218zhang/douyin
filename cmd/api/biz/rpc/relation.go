@@ -4,6 +4,7 @@ import (
 	"context"
 	"douyin/cmd/api/biz/model/api"
 	"douyin/cmd/api/biz/pack"
+	"douyin/kitex_gen/message"
 	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/relation/relationservice"
 	"douyin/pkg/constants"
@@ -84,7 +85,6 @@ func MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (*MGetFriendRe
 	if err != nil {
 		return nil, err
 	}
-
 	FriendUserList := make([]FriendUser, len(resp.UserList))
 	for i := range resp.UserList {
 		FriendUserList[i].Id = resp.UserList[i].Id
@@ -92,8 +92,24 @@ func MGetFriend(ctx context.Context, req *relation.MGetFriendReq) (*MGetFriendRe
 		FriendUserList[i].Name = resp.UserList[i].Name
 		FriendUserList[i].IsFollow = resp.UserList[i].IsFollow
 		FriendUserList[i].FollowerCount = resp.UserList[i].FollowerCount
-		FriendUserList[i].Message = "没有发消息"
-		FriendUserList[i].MSGType = 0
+		req1 := new(message.GetLatestMessageReq)
+		req1.UserId = req.UserId
+		req1.FromUserId = resp.UserList[i].Id
+
+		resp1, err := messageClient.GetLatestMessage(ctx, req1)
+		if err != nil {
+			return nil, err
+		}
+		if resp1 != nil {
+			FriendUserList[i].Message = resp1.Message.Content
+		} else {
+			FriendUserList[i].Message = "你们还没有发过消息呢"
+		}
+		if resp1.Message.FromUserId == req.UserId {
+			FriendUserList[i].MSGType = 1
+		} else {
+			FriendUserList[i].MSGType = 0
+		}
 	}
 
 	return &MGetFriendResp1{

@@ -7,6 +7,7 @@ import (
 	"douyin/kitex_gen/message"
 	"douyin/kitex_gen/message/messageservice"
 	"douyin/pkg/constants"
+	"fmt"
 	"github.com/cloudwego/kitex/client"
 	"time"
 )
@@ -26,8 +27,8 @@ func initMessage() {
 }
 
 // MessageAction 发消息
-func MessageAction(ctx context.Context, req *message.MessageActionReq) (*api.MessageActionResp, error) {
-	resp, err := messageClient.MessageAction(ctx, req)
+func MessageAction(ctx context.Context, req *message.MassageActionReq) (*api.MessageActionResp, error) {
+	resp, err := messageClient.MassageAction(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -39,8 +40,8 @@ func MessageAction(ctx context.Context, req *message.MessageActionReq) (*api.Mes
 
 // MGetChatMessage 获取消息
 func MGetChatMessage(ctx context.Context, req *message.MessageChatReq) (*api.MGetChatMessageResp, error) {
-	resp, err := messageClient.GetMessageChat(ctx, req)
-
+	resp, err := messageClient.GetMassageChat(ctx, req)
+	fmt.Println(resp)
 	if err != nil {
 
 		return nil, err
@@ -50,6 +51,19 @@ func MGetChatMessage(ctx context.Context, req *message.MessageChatReq) (*api.MGe
 	return &api.MGetChatMessageResp{
 		StatusCode:    resp.BaseResp.StatusCode,
 		StatusMessage: resp.BaseResp.StatusMessage,
-		MessageList:   pack.MessageList(resp.MessageList),
+		MessageList:   pack.MessageList(resp.MassageList),
 	}, nil
+}
+
+//GetLatestMessage Get Latest Message
+func GetLatestMessage(ctx context.Context, req *message.GetLatestMessageReq) (*message.GetLatestMessageResp, error) {
+	resp, err := messageClient.GetLatestMessage(ctx, req)
+
+	if err != nil {
+
+		return resp, err
+
+	}
+
+	return resp, nil
 }
