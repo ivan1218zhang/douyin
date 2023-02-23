@@ -13,7 +13,7 @@ type User struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
 	UserName  string `gorm:"type:varchar(20);Index:idx_user_username"`
-	Password  string `gorm:"type:varchar(20)"`
+	Password  string `gorm:"type:varchar(60)"`
 }
 
 func (u *User) TableName() string {
