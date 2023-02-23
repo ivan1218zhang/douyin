@@ -131,7 +131,7 @@ func (p *MessageChatReq) ReadField2(iprot thrift.TProtocol) error {
 
 func (p *MessageChatReq) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("messageChatReq"); err != nil {
+	if err = oprot.WriteStructBegin("MessageChatReq"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -438,7 +438,7 @@ func (p *Message) ReadField5(iprot thrift.TProtocol) error {
 
 func (p *Message) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("message"); err != nil {
+	if err = oprot.WriteStructBegin("Message"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -635,7 +635,7 @@ func (p *Message) Field5DeepEqual(src int64) bool {
 
 type MessageChatResp struct {
 	BaseResp    *common.BaseResp `thrift:"base_resp,1" frugal:"1,default,common.BaseResp" json:"base_resp"`
-	MessageList []*Message       `thrift:"message_list,2" frugal:"2,default,list<Message>" json:"message_list"`
+	MassageList []*Message       `thrift:"massage_list,2" frugal:"2,default,list<Message>" json:"massage_list"`
 }
 
 func NewMessageChatResp() *MessageChatResp {
@@ -655,19 +655,19 @@ func (p *MessageChatResp) GetBaseResp() (v *common.BaseResp) {
 	return p.BaseResp
 }
 
-func (p *MessageChatResp) GetMessageList() (v []*Message) {
-	return p.MessageList
+func (p *MessageChatResp) GetMassageList() (v []*Message) {
+	return p.MassageList
 }
 func (p *MessageChatResp) SetBaseResp(val *common.BaseResp) {
 	p.BaseResp = val
 }
-func (p *MessageChatResp) SetMessageList(val []*Message) {
-	p.MessageList = val
+func (p *MessageChatResp) SetMassageList(val []*Message) {
+	p.MassageList = val
 }
 
 var fieldIDToName_MessageChatResp = map[int16]string{
 	1: "base_resp",
-	2: "message_list",
+	2: "massage_list",
 }
 
 func (p *MessageChatResp) IsSetBaseResp() bool {
@@ -756,14 +756,14 @@ func (p *MessageChatResp) ReadField2(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.MessageList = make([]*Message, 0, size)
+	p.MassageList = make([]*Message, 0, size)
 	for i := 0; i < size; i++ {
 		_elem := NewMessage()
 		if err := _elem.Read(iprot); err != nil {
 			return err
 		}
 
-		p.MessageList = append(p.MessageList, _elem)
+		p.MassageList = append(p.MassageList, _elem)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return err
@@ -773,7 +773,7 @@ func (p *MessageChatResp) ReadField2(iprot thrift.TProtocol) error {
 
 func (p *MessageChatResp) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("messageChatResp"); err != nil {
+	if err = oprot.WriteStructBegin("MessageChatResp"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -822,13 +822,13 @@ WriteFieldEndError:
 }
 
 func (p *MessageChatResp) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("message_list", thrift.LIST, 2); err != nil {
+	if err = oprot.WriteFieldBegin("massage_list", thrift.LIST, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.MessageList)); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.MassageList)); err != nil {
 		return err
 	}
-	for _, v := range p.MessageList {
+	for _, v := range p.MassageList {
 		if err := v.Write(oprot); err != nil {
 			return err
 		}
@@ -862,7 +862,7 @@ func (p *MessageChatResp) DeepEqual(ano *MessageChatResp) bool {
 	if !p.Field1DeepEqual(ano.BaseResp) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.MessageList) {
+	if !p.Field2DeepEqual(ano.MassageList) {
 		return false
 	}
 	return true
@@ -877,10 +877,10 @@ func (p *MessageChatResp) Field1DeepEqual(src *common.BaseResp) bool {
 }
 func (p *MessageChatResp) Field2DeepEqual(src []*Message) bool {
 
-	if len(p.MessageList) != len(src) {
+	if len(p.MassageList) != len(src) {
 		return false
 	}
-	for i, v := range p.MessageList {
+	for i, v := range p.MassageList {
 		_src := src[i]
 		if !v.DeepEqual(_src) {
 			return false
@@ -889,57 +889,519 @@ func (p *MessageChatResp) Field2DeepEqual(src []*Message) bool {
 	return true
 }
 
-type MessageActionReq struct {
+type GetLatestMessageReq struct {
+	UserId     int64 `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
+	FromUserId int64 `thrift:"from_user_id,2" frugal:"2,default,i64" json:"from_user_id"`
+}
+
+func NewGetLatestMessageReq() *GetLatestMessageReq {
+	return &GetLatestMessageReq{}
+}
+
+func (p *GetLatestMessageReq) InitDefault() {
+	*p = GetLatestMessageReq{}
+}
+
+func (p *GetLatestMessageReq) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *GetLatestMessageReq) GetFromUserId() (v int64) {
+	return p.FromUserId
+}
+func (p *GetLatestMessageReq) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *GetLatestMessageReq) SetFromUserId(val int64) {
+	p.FromUserId = val
+}
+
+var fieldIDToName_GetLatestMessageReq = map[int16]string{
+	1: "user_id",
+	2: "from_user_id",
+}
+
+func (p *GetLatestMessageReq) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetLatestMessageReq[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetLatestMessageReq) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+
+func (p *GetLatestMessageReq) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.FromUserId = v
+	}
+	return nil
+}
+
+func (p *GetLatestMessageReq) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetLatestMessageReq"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetLatestMessageReq) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetLatestMessageReq) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("from_user_id", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.FromUserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetLatestMessageReq) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetLatestMessageReq(%+v)", *p)
+}
+
+func (p *GetLatestMessageReq) DeepEqual(ano *GetLatestMessageReq) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.UserId) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.FromUserId) {
+		return false
+	}
+	return true
+}
+
+func (p *GetLatestMessageReq) Field1DeepEqual(src int64) bool {
+
+	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *GetLatestMessageReq) Field2DeepEqual(src int64) bool {
+
+	if p.FromUserId != src {
+		return false
+	}
+	return true
+}
+
+type GetLatestMessageResp struct {
+	BaseResp *common.BaseResp `thrift:"base_resp,1" frugal:"1,default,common.BaseResp" json:"base_resp"`
+	Message  *Message         `thrift:"message,2" frugal:"2,default,Message" json:"message"`
+}
+
+func NewGetLatestMessageResp() *GetLatestMessageResp {
+	return &GetLatestMessageResp{}
+}
+
+func (p *GetLatestMessageResp) InitDefault() {
+	*p = GetLatestMessageResp{}
+}
+
+var GetLatestMessageResp_BaseResp_DEFAULT *common.BaseResp
+
+func (p *GetLatestMessageResp) GetBaseResp() (v *common.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return GetLatestMessageResp_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+var GetLatestMessageResp_Message_DEFAULT *Message
+
+func (p *GetLatestMessageResp) GetMessage() (v *Message) {
+	if !p.IsSetMessage() {
+		return GetLatestMessageResp_Message_DEFAULT
+	}
+	return p.Message
+}
+func (p *GetLatestMessageResp) SetBaseResp(val *common.BaseResp) {
+	p.BaseResp = val
+}
+func (p *GetLatestMessageResp) SetMessage(val *Message) {
+	p.Message = val
+}
+
+var fieldIDToName_GetLatestMessageResp = map[int16]string{
+	1: "base_resp",
+	2: "message",
+}
+
+func (p *GetLatestMessageResp) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetLatestMessageResp) IsSetMessage() bool {
+	return p.Message != nil
+}
+
+func (p *GetLatestMessageResp) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetLatestMessageResp[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetLatestMessageResp) ReadField1(iprot thrift.TProtocol) error {
+	p.BaseResp = common.NewBaseResp()
+	if err := p.BaseResp.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetLatestMessageResp) ReadField2(iprot thrift.TProtocol) error {
+	p.Message = NewMessage()
+	if err := p.Message.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetLatestMessageResp) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetLatestMessageResp"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetLatestMessageResp) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("base_resp", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.BaseResp.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetLatestMessageResp) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("message", thrift.STRUCT, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Message.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetLatestMessageResp) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetLatestMessageResp(%+v)", *p)
+}
+
+func (p *GetLatestMessageResp) DeepEqual(ano *GetLatestMessageResp) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.BaseResp) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Message) {
+		return false
+	}
+	return true
+}
+
+func (p *GetLatestMessageResp) Field1DeepEqual(src *common.BaseResp) bool {
+
+	if !p.BaseResp.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *GetLatestMessageResp) Field2DeepEqual(src *Message) bool {
+
+	if !p.Message.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type MassageActionReq struct {
 	UserId     int64  `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
 	ToUserId   int64  `thrift:"to_user_id,2" frugal:"2,default,i64" json:"to_user_id"`
 	ActionType int32  `thrift:"action_type,3" frugal:"3,default,i32" json:"action_type"`
 	Content    string `thrift:"content,4" frugal:"4,default,string" json:"content"`
 }
 
-func NewMessageActionReq() *MessageActionReq {
-	return &MessageActionReq{}
+func NewMassageActionReq() *MassageActionReq {
+	return &MassageActionReq{}
 }
 
-func (p *MessageActionReq) InitDefault() {
-	*p = MessageActionReq{}
+func (p *MassageActionReq) InitDefault() {
+	*p = MassageActionReq{}
 }
 
-func (p *MessageActionReq) GetUserId() (v int64) {
+func (p *MassageActionReq) GetUserId() (v int64) {
 	return p.UserId
 }
 
-func (p *MessageActionReq) GetToUserId() (v int64) {
+func (p *MassageActionReq) GetToUserId() (v int64) {
 	return p.ToUserId
 }
 
-func (p *MessageActionReq) GetActionType() (v int32) {
+func (p *MassageActionReq) GetActionType() (v int32) {
 	return p.ActionType
 }
 
-func (p *MessageActionReq) GetContent() (v string) {
+func (p *MassageActionReq) GetContent() (v string) {
 	return p.Content
 }
-func (p *MessageActionReq) SetUserId(val int64) {
+func (p *MassageActionReq) SetUserId(val int64) {
 	p.UserId = val
 }
-func (p *MessageActionReq) SetToUserId(val int64) {
+func (p *MassageActionReq) SetToUserId(val int64) {
 	p.ToUserId = val
 }
-func (p *MessageActionReq) SetActionType(val int32) {
+func (p *MassageActionReq) SetActionType(val int32) {
 	p.ActionType = val
 }
-func (p *MessageActionReq) SetContent(val string) {
+func (p *MassageActionReq) SetContent(val string) {
 	p.Content = val
 }
 
-var fieldIDToName_MessageActionReq = map[int16]string{
+var fieldIDToName_MassageActionReq = map[int16]string{
 	1: "user_id",
 	2: "to_user_id",
 	3: "action_type",
 	4: "content",
 }
 
-func (p *MessageActionReq) Read(iprot thrift.TProtocol) (err error) {
+func (p *MassageActionReq) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -1018,7 +1480,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageActionReq[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MassageActionReq[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -1028,7 +1490,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *MessageActionReq) ReadField1(iprot thrift.TProtocol) error {
+func (p *MassageActionReq) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -1037,7 +1499,7 @@ func (p *MessageActionReq) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *MessageActionReq) ReadField2(iprot thrift.TProtocol) error {
+func (p *MassageActionReq) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -1046,7 +1508,7 @@ func (p *MessageActionReq) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *MessageActionReq) ReadField3(iprot thrift.TProtocol) error {
+func (p *MassageActionReq) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI32(); err != nil {
 		return err
 	} else {
@@ -1055,7 +1517,7 @@ func (p *MessageActionReq) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *MessageActionReq) ReadField4(iprot thrift.TProtocol) error {
+func (p *MassageActionReq) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -1064,9 +1526,9 @@ func (p *MessageActionReq) ReadField4(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *MessageActionReq) Write(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionReq) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("messageActionReq"); err != nil {
+	if err = oprot.WriteStructBegin("MassageActionReq"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -1105,7 +1567,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *MessageActionReq) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionReq) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -1122,7 +1584,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *MessageActionReq) writeField2(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionReq) writeField2(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("to_user_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -1139,7 +1601,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
-func (p *MessageActionReq) writeField3(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionReq) writeField3(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("action_type", thrift.I32, 3); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -1156,7 +1618,7 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
-func (p *MessageActionReq) writeField4(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionReq) writeField4(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("content", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -1173,14 +1635,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
 }
 
-func (p *MessageActionReq) String() string {
+func (p *MassageActionReq) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("MessageActionReq(%+v)", *p)
+	return fmt.Sprintf("MassageActionReq(%+v)", *p)
 }
 
-func (p *MessageActionReq) DeepEqual(ano *MessageActionReq) bool {
+func (p *MassageActionReq) DeepEqual(ano *MassageActionReq) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -1201,28 +1663,28 @@ func (p *MessageActionReq) DeepEqual(ano *MessageActionReq) bool {
 	return true
 }
 
-func (p *MessageActionReq) Field1DeepEqual(src int64) bool {
+func (p *MassageActionReq) Field1DeepEqual(src int64) bool {
 
 	if p.UserId != src {
 		return false
 	}
 	return true
 }
-func (p *MessageActionReq) Field2DeepEqual(src int64) bool {
+func (p *MassageActionReq) Field2DeepEqual(src int64) bool {
 
 	if p.ToUserId != src {
 		return false
 	}
 	return true
 }
-func (p *MessageActionReq) Field3DeepEqual(src int32) bool {
+func (p *MassageActionReq) Field3DeepEqual(src int32) bool {
 
 	if p.ActionType != src {
 		return false
 	}
 	return true
 }
-func (p *MessageActionReq) Field4DeepEqual(src string) bool {
+func (p *MassageActionReq) Field4DeepEqual(src string) bool {
 
 	if strings.Compare(p.Content, src) != 0 {
 		return false
@@ -1230,39 +1692,39 @@ func (p *MessageActionReq) Field4DeepEqual(src string) bool {
 	return true
 }
 
-type MessageActionResp struct {
+type MassageActionResp struct {
 	BaseResp *common.BaseResp `thrift:"base_resp,1" frugal:"1,default,common.BaseResp" json:"base_resp"`
 }
 
-func NewMessageActionResp() *MessageActionResp {
-	return &MessageActionResp{}
+func NewMassageActionResp() *MassageActionResp {
+	return &MassageActionResp{}
 }
 
-func (p *MessageActionResp) InitDefault() {
-	*p = MessageActionResp{}
+func (p *MassageActionResp) InitDefault() {
+	*p = MassageActionResp{}
 }
 
-var MessageActionResp_BaseResp_DEFAULT *common.BaseResp
+var MassageActionResp_BaseResp_DEFAULT *common.BaseResp
 
-func (p *MessageActionResp) GetBaseResp() (v *common.BaseResp) {
+func (p *MassageActionResp) GetBaseResp() (v *common.BaseResp) {
 	if !p.IsSetBaseResp() {
-		return MessageActionResp_BaseResp_DEFAULT
+		return MassageActionResp_BaseResp_DEFAULT
 	}
 	return p.BaseResp
 }
-func (p *MessageActionResp) SetBaseResp(val *common.BaseResp) {
+func (p *MassageActionResp) SetBaseResp(val *common.BaseResp) {
 	p.BaseResp = val
 }
 
-var fieldIDToName_MessageActionResp = map[int16]string{
+var fieldIDToName_MassageActionResp = map[int16]string{
 	1: "base_resp",
 }
 
-func (p *MessageActionResp) IsSetBaseResp() bool {
+func (p *MassageActionResp) IsSetBaseResp() bool {
 	return p.BaseResp != nil
 }
 
-func (p *MessageActionResp) Read(iprot thrift.TProtocol) (err error) {
+func (p *MassageActionResp) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -1311,7 +1773,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageActionResp[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MassageActionResp[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -1321,7 +1783,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *MessageActionResp) ReadField1(iprot thrift.TProtocol) error {
+func (p *MassageActionResp) ReadField1(iprot thrift.TProtocol) error {
 	p.BaseResp = common.NewBaseResp()
 	if err := p.BaseResp.Read(iprot); err != nil {
 		return err
@@ -1329,9 +1791,9 @@ func (p *MessageActionResp) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *MessageActionResp) Write(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionResp) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("messageActionResp"); err != nil {
+	if err = oprot.WriteStructBegin("MassageActionResp"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -1358,7 +1820,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *MessageActionResp) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *MassageActionResp) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("base_resp", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -1375,14 +1837,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *MessageActionResp) String() string {
+func (p *MassageActionResp) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("MessageActionResp(%+v)", *p)
+	return fmt.Sprintf("MassageActionResp(%+v)", *p)
 }
 
-func (p *MessageActionResp) DeepEqual(ano *MessageActionResp) bool {
+func (p *MassageActionResp) DeepEqual(ano *MassageActionResp) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -1394,7 +1856,7 @@ func (p *MessageActionResp) DeepEqual(ano *MessageActionResp) bool {
 	return true
 }
 
-func (p *MessageActionResp) Field1DeepEqual(src *common.BaseResp) bool {
+func (p *MassageActionResp) Field1DeepEqual(src *common.BaseResp) bool {
 
 	if !p.BaseResp.DeepEqual(src) {
 		return false
@@ -1403,9 +1865,11 @@ func (p *MessageActionResp) Field1DeepEqual(src *common.BaseResp) bool {
 }
 
 type MessageService interface {
-	GetMessageChat(ctx context.Context, req *MessageChatReq) (r *MessageChatResp, err error)
+	GetMassageChat(ctx context.Context, req *MessageChatReq) (r *MessageChatResp, err error)
 
-	MessageAction(ctx context.Context, req *MessageActionReq) (r *MessageActionResp, err error)
+	MassageAction(ctx context.Context, req *MassageActionReq) (r *MassageActionResp, err error)
+
+	GetLatestMessage(ctx context.Context, req *GetLatestMessageReq) (r *GetLatestMessageResp, err error)
 }
 
 type MessageServiceClient struct {
@@ -1434,20 +1898,29 @@ func (p *MessageServiceClient) Client_() thrift.TClient {
 	return p.c
 }
 
-func (p *MessageServiceClient) GetMessageChat(ctx context.Context, req *MessageChatReq) (r *MessageChatResp, err error) {
-	var _args MessageServiceGetMessageChatArgs
+func (p *MessageServiceClient) GetMassageChat(ctx context.Context, req *MessageChatReq) (r *MessageChatResp, err error) {
+	var _args MessageServiceGetMassageChatArgs
 	_args.Req = req
-	var _result MessageServiceGetMessageChatResult
-	if err = p.Client_().Call(ctx, "GetMessageChat", &_args, &_result); err != nil {
+	var _result MessageServiceGetMassageChatResult
+	if err = p.Client_().Call(ctx, "GetMassageChat", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
 }
-func (p *MessageServiceClient) MessageAction(ctx context.Context, req *MessageActionReq) (r *MessageActionResp, err error) {
-	var _args MessageServiceMessageActionArgs
+func (p *MessageServiceClient) MassageAction(ctx context.Context, req *MassageActionReq) (r *MassageActionResp, err error) {
+	var _args MessageServiceMassageActionArgs
 	_args.Req = req
-	var _result MessageServiceMessageActionResult
-	if err = p.Client_().Call(ctx, "messageAction", &_args, &_result); err != nil {
+	var _result MessageServiceMassageActionResult
+	if err = p.Client_().Call(ctx, "MassageAction", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+func (p *MessageServiceClient) GetLatestMessage(ctx context.Context, req *GetLatestMessageReq) (r *GetLatestMessageResp, err error) {
+	var _args MessageServiceGetLatestMessageArgs
+	_args.Req = req
+	var _result MessageServiceGetLatestMessageResult
+	if err = p.Client_().Call(ctx, "GetLatestMessage", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -1473,8 +1946,9 @@ func (p *MessageServiceProcessor) ProcessorMap() map[string]thrift.TProcessorFun
 
 func NewMessageServiceProcessor(handler MessageService) *MessageServiceProcessor {
 	self := &MessageServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
-	self.AddToProcessorMap("GetMessageChat", &messageServiceProcessorGetMessageChat{handler: handler})
-	self.AddToProcessorMap("messageAction", &messageServiceProcessorMessageAction{handler: handler})
+	self.AddToProcessorMap("GetMassageChat", &messageServiceProcessorGetMassageChat{handler: handler})
+	self.AddToProcessorMap("MassageAction", &messageServiceProcessorMassageAction{handler: handler})
+	self.AddToProcessorMap("GetLatestMessage", &messageServiceProcessorGetLatestMessage{handler: handler})
 	return self
 }
 func (p *MessageServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -1495,16 +1969,16 @@ func (p *MessageServiceProcessor) Process(ctx context.Context, iprot, oprot thri
 	return false, x
 }
 
-type messageServiceProcessorGetMessageChat struct {
+type messageServiceProcessorGetMassageChat struct {
 	handler MessageService
 }
 
-func (p *messageServiceProcessorGetMessageChat) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-	args := MessageServiceGetMessageChatArgs{}
+func (p *messageServiceProcessorGetMassageChat) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := MessageServiceGetMassageChatArgs{}
 	if err = args.Read(iprot); err != nil {
 		iprot.ReadMessageEnd()
 		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-		oprot.WriteMessageBegin("GetMessageChat", thrift.EXCEPTION, seqId)
+		oprot.WriteMessageBegin("GetMassageChat", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -1513,11 +1987,11 @@ func (p *messageServiceProcessorGetMessageChat) Process(ctx context.Context, seq
 
 	iprot.ReadMessageEnd()
 	var err2 error
-	result := MessageServiceGetMessageChatResult{}
+	result := MessageServiceGetMassageChatResult{}
 	var retval *MessageChatResp
-	if retval, err2 = p.handler.GetMessageChat(ctx, args.Req); err2 != nil {
-		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetMessageChat: "+err2.Error())
-		oprot.WriteMessageBegin("GetMessageChat", thrift.EXCEPTION, seqId)
+	if retval, err2 = p.handler.GetMassageChat(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetMassageChat: "+err2.Error())
+		oprot.WriteMessageBegin("GetMassageChat", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -1525,7 +1999,7 @@ func (p *messageServiceProcessorGetMessageChat) Process(ctx context.Context, seq
 	} else {
 		result.Success = retval
 	}
-	if err2 = oprot.WriteMessageBegin("GetMessageChat", thrift.REPLY, seqId); err2 != nil {
+	if err2 = oprot.WriteMessageBegin("GetMassageChat", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -1543,16 +2017,16 @@ func (p *messageServiceProcessorGetMessageChat) Process(ctx context.Context, seq
 	return true, err
 }
 
-type messageServiceProcessorMessageAction struct {
+type messageServiceProcessorMassageAction struct {
 	handler MessageService
 }
 
-func (p *messageServiceProcessorMessageAction) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-	args := MessageServiceMessageActionArgs{}
+func (p *messageServiceProcessorMassageAction) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := MessageServiceMassageActionArgs{}
 	if err = args.Read(iprot); err != nil {
 		iprot.ReadMessageEnd()
 		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-		oprot.WriteMessageBegin("messageAction", thrift.EXCEPTION, seqId)
+		oprot.WriteMessageBegin("MassageAction", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -1561,11 +2035,11 @@ func (p *messageServiceProcessorMessageAction) Process(ctx context.Context, seqI
 
 	iprot.ReadMessageEnd()
 	var err2 error
-	result := MessageServiceMessageActionResult{}
-	var retval *MessageActionResp
-	if retval, err2 = p.handler.MessageAction(ctx, args.Req); err2 != nil {
-		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing messageAction: "+err2.Error())
-		oprot.WriteMessageBegin("messageAction", thrift.EXCEPTION, seqId)
+	result := MessageServiceMassageActionResult{}
+	var retval *MassageActionResp
+	if retval, err2 = p.handler.MassageAction(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing MassageAction: "+err2.Error())
+		oprot.WriteMessageBegin("MassageAction", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -1573,7 +2047,7 @@ func (p *messageServiceProcessorMessageAction) Process(ctx context.Context, seqI
 	} else {
 		result.Success = retval
 	}
-	if err2 = oprot.WriteMessageBegin("messageAction", thrift.REPLY, seqId); err2 != nil {
+	if err2 = oprot.WriteMessageBegin("MassageAction", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -1591,39 +2065,87 @@ func (p *messageServiceProcessorMessageAction) Process(ctx context.Context, seqI
 	return true, err
 }
 
-type MessageServiceGetMessageChatArgs struct {
+type messageServiceProcessorGetLatestMessage struct {
+	handler MessageService
+}
+
+func (p *messageServiceProcessorGetLatestMessage) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := MessageServiceGetLatestMessageArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetLatestMessage", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := MessageServiceGetLatestMessageResult{}
+	var retval *GetLatestMessageResp
+	if retval, err2 = p.handler.GetLatestMessage(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetLatestMessage: "+err2.Error())
+		oprot.WriteMessageBegin("GetLatestMessage", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetLatestMessage", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type MessageServiceGetMassageChatArgs struct {
 	Req *MessageChatReq `thrift:"req,1" frugal:"1,default,MessageChatReq" json:"req"`
 }
 
-func NewMessageServiceGetMessageChatArgs() *MessageServiceGetMessageChatArgs {
-	return &MessageServiceGetMessageChatArgs{}
+func NewMessageServiceGetMassageChatArgs() *MessageServiceGetMassageChatArgs {
+	return &MessageServiceGetMassageChatArgs{}
 }
 
-func (p *MessageServiceGetMessageChatArgs) InitDefault() {
-	*p = MessageServiceGetMessageChatArgs{}
+func (p *MessageServiceGetMassageChatArgs) InitDefault() {
+	*p = MessageServiceGetMassageChatArgs{}
 }
 
-var MessageServiceGetMessageChatArgs_Req_DEFAULT *MessageChatReq
+var MessageServiceGetMassageChatArgs_Req_DEFAULT *MessageChatReq
 
-func (p *MessageServiceGetMessageChatArgs) GetReq() (v *MessageChatReq) {
+func (p *MessageServiceGetMassageChatArgs) GetReq() (v *MessageChatReq) {
 	if !p.IsSetReq() {
-		return MessageServiceGetMessageChatArgs_Req_DEFAULT
+		return MessageServiceGetMassageChatArgs_Req_DEFAULT
 	}
 	return p.Req
 }
-func (p *MessageServiceGetMessageChatArgs) SetReq(val *MessageChatReq) {
+func (p *MessageServiceGetMassageChatArgs) SetReq(val *MessageChatReq) {
 	p.Req = val
 }
 
-var fieldIDToName_MessageServiceGetMessageChatArgs = map[int16]string{
+var fieldIDToName_MessageServiceGetMassageChatArgs = map[int16]string{
 	1: "req",
 }
 
-func (p *MessageServiceGetMessageChatArgs) IsSetReq() bool {
+func (p *MessageServiceGetMassageChatArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *MessageServiceGetMessageChatArgs) Read(iprot thrift.TProtocol) (err error) {
+func (p *MessageServiceGetMassageChatArgs) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -1672,7 +2194,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceGetMessageChatArgs[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceGetMassageChatArgs[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -1682,7 +2204,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *MessageServiceGetMessageChatArgs) ReadField1(iprot thrift.TProtocol) error {
+func (p *MessageServiceGetMassageChatArgs) ReadField1(iprot thrift.TProtocol) error {
 	p.Req = NewMessageChatReq()
 	if err := p.Req.Read(iprot); err != nil {
 		return err
@@ -1690,9 +2212,9 @@ func (p *MessageServiceGetMessageChatArgs) ReadField1(iprot thrift.TProtocol) er
 	return nil
 }
 
-func (p *MessageServiceGetMessageChatArgs) Write(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceGetMassageChatArgs) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("GetMessageChat_args"); err != nil {
+	if err = oprot.WriteStructBegin("GetMassageChat_args"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -1719,7 +2241,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *MessageServiceGetMessageChatArgs) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceGetMassageChatArgs) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -1736,14 +2258,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *MessageServiceGetMessageChatArgs) String() string {
+func (p *MessageServiceGetMassageChatArgs) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("MessageServiceGetMessageChatArgs(%+v)", *p)
+	return fmt.Sprintf("MessageServiceGetMassageChatArgs(%+v)", *p)
 }
 
-func (p *MessageServiceGetMessageChatArgs) DeepEqual(ano *MessageServiceGetMessageChatArgs) bool {
+func (p *MessageServiceGetMassageChatArgs) DeepEqual(ano *MessageServiceGetMassageChatArgs) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -1755,7 +2277,7 @@ func (p *MessageServiceGetMessageChatArgs) DeepEqual(ano *MessageServiceGetMessa
 	return true
 }
 
-func (p *MessageServiceGetMessageChatArgs) Field1DeepEqual(src *MessageChatReq) bool {
+func (p *MessageServiceGetMassageChatArgs) Field1DeepEqual(src *MessageChatReq) bool {
 
 	if !p.Req.DeepEqual(src) {
 		return false
@@ -1763,39 +2285,39 @@ func (p *MessageServiceGetMessageChatArgs) Field1DeepEqual(src *MessageChatReq) 
 	return true
 }
 
-type MessageServiceGetMessageChatResult struct {
+type MessageServiceGetMassageChatResult struct {
 	Success *MessageChatResp `thrift:"success,0,optional" frugal:"0,optional,MessageChatResp" json:"success,omitempty"`
 }
 
-func NewMessageServiceGetMessageChatResult() *MessageServiceGetMessageChatResult {
-	return &MessageServiceGetMessageChatResult{}
+func NewMessageServiceGetMassageChatResult() *MessageServiceGetMassageChatResult {
+	return &MessageServiceGetMassageChatResult{}
 }
 
-func (p *MessageServiceGetMessageChatResult) InitDefault() {
-	*p = MessageServiceGetMessageChatResult{}
+func (p *MessageServiceGetMassageChatResult) InitDefault() {
+	*p = MessageServiceGetMassageChatResult{}
 }
 
-var MessageServiceGetMessageChatResult_Success_DEFAULT *MessageChatResp
+var MessageServiceGetMassageChatResult_Success_DEFAULT *MessageChatResp
 
-func (p *MessageServiceGetMessageChatResult) GetSuccess() (v *MessageChatResp) {
+func (p *MessageServiceGetMassageChatResult) GetSuccess() (v *MessageChatResp) {
 	if !p.IsSetSuccess() {
-		return MessageServiceGetMessageChatResult_Success_DEFAULT
+		return MessageServiceGetMassageChatResult_Success_DEFAULT
 	}
 	return p.Success
 }
-func (p *MessageServiceGetMessageChatResult) SetSuccess(x interface{}) {
+func (p *MessageServiceGetMassageChatResult) SetSuccess(x interface{}) {
 	p.Success = x.(*MessageChatResp)
 }
 
-var fieldIDToName_MessageServiceGetMessageChatResult = map[int16]string{
+var fieldIDToName_MessageServiceGetMassageChatResult = map[int16]string{
 	0: "success",
 }
 
-func (p *MessageServiceGetMessageChatResult) IsSetSuccess() bool {
+func (p *MessageServiceGetMassageChatResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *MessageServiceGetMessageChatResult) Read(iprot thrift.TProtocol) (err error) {
+func (p *MessageServiceGetMassageChatResult) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -1844,7 +2366,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceGetMessageChatResult[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceGetMassageChatResult[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -1854,7 +2376,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *MessageServiceGetMessageChatResult) ReadField0(iprot thrift.TProtocol) error {
+func (p *MessageServiceGetMassageChatResult) ReadField0(iprot thrift.TProtocol) error {
 	p.Success = NewMessageChatResp()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
@@ -1862,9 +2384,9 @@ func (p *MessageServiceGetMessageChatResult) ReadField0(iprot thrift.TProtocol) 
 	return nil
 }
 
-func (p *MessageServiceGetMessageChatResult) Write(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceGetMassageChatResult) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("GetMessageChat_result"); err != nil {
+	if err = oprot.WriteStructBegin("GetMassageChat_result"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -1891,7 +2413,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *MessageServiceGetMessageChatResult) writeField0(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceGetMassageChatResult) writeField0(oprot thrift.TProtocol) (err error) {
 	if p.IsSetSuccess() {
 		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
 			goto WriteFieldBeginError
@@ -1910,14 +2432,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
 }
 
-func (p *MessageServiceGetMessageChatResult) String() string {
+func (p *MessageServiceGetMassageChatResult) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("MessageServiceGetMessageChatResult(%+v)", *p)
+	return fmt.Sprintf("MessageServiceGetMassageChatResult(%+v)", *p)
 }
 
-func (p *MessageServiceGetMessageChatResult) DeepEqual(ano *MessageServiceGetMessageChatResult) bool {
+func (p *MessageServiceGetMassageChatResult) DeepEqual(ano *MessageServiceGetMassageChatResult) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -1929,7 +2451,7 @@ func (p *MessageServiceGetMessageChatResult) DeepEqual(ano *MessageServiceGetMes
 	return true
 }
 
-func (p *MessageServiceGetMessageChatResult) Field0DeepEqual(src *MessageChatResp) bool {
+func (p *MessageServiceGetMassageChatResult) Field0DeepEqual(src *MessageChatResp) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false
@@ -1937,39 +2459,39 @@ func (p *MessageServiceGetMessageChatResult) Field0DeepEqual(src *MessageChatRes
 	return true
 }
 
-type MessageServiceMessageActionArgs struct {
-	Req *MessageActionReq `thrift:"req,1" frugal:"1,default,MessageActionReq" json:"req"`
+type MessageServiceMassageActionArgs struct {
+	Req *MassageActionReq `thrift:"req,1" frugal:"1,default,MassageActionReq" json:"req"`
 }
 
-func NewMessageServiceMessageActionArgs() *MessageServiceMessageActionArgs {
-	return &MessageServiceMessageActionArgs{}
+func NewMessageServiceMassageActionArgs() *MessageServiceMassageActionArgs {
+	return &MessageServiceMassageActionArgs{}
 }
 
-func (p *MessageServiceMessageActionArgs) InitDefault() {
-	*p = MessageServiceMessageActionArgs{}
+func (p *MessageServiceMassageActionArgs) InitDefault() {
+	*p = MessageServiceMassageActionArgs{}
 }
 
-var MessageServiceMessageActionArgs_Req_DEFAULT *MessageActionReq
+var MessageServiceMassageActionArgs_Req_DEFAULT *MassageActionReq
 
-func (p *MessageServiceMessageActionArgs) GetReq() (v *MessageActionReq) {
+func (p *MessageServiceMassageActionArgs) GetReq() (v *MassageActionReq) {
 	if !p.IsSetReq() {
-		return MessageServiceMessageActionArgs_Req_DEFAULT
+		return MessageServiceMassageActionArgs_Req_DEFAULT
 	}
 	return p.Req
 }
-func (p *MessageServiceMessageActionArgs) SetReq(val *MessageActionReq) {
+func (p *MessageServiceMassageActionArgs) SetReq(val *MassageActionReq) {
 	p.Req = val
 }
 
-var fieldIDToName_MessageServiceMessageActionArgs = map[int16]string{
+var fieldIDToName_MessageServiceMassageActionArgs = map[int16]string{
 	1: "req",
 }
 
-func (p *MessageServiceMessageActionArgs) IsSetReq() bool {
+func (p *MessageServiceMassageActionArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *MessageServiceMessageActionArgs) Read(iprot thrift.TProtocol) (err error) {
+func (p *MessageServiceMassageActionArgs) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -2018,7 +2540,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMessageActionArgs[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMassageActionArgs[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -2028,17 +2550,17 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *MessageServiceMessageActionArgs) ReadField1(iprot thrift.TProtocol) error {
-	p.Req = NewMessageActionReq()
+func (p *MessageServiceMassageActionArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewMassageActionReq()
 	if err := p.Req.Read(iprot); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *MessageServiceMessageActionArgs) Write(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceMassageActionArgs) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("messageAction_args"); err != nil {
+	if err = oprot.WriteStructBegin("MassageAction_args"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -2065,7 +2587,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *MessageServiceMessageActionArgs) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceMassageActionArgs) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -2082,14 +2604,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *MessageServiceMessageActionArgs) String() string {
+func (p *MessageServiceMassageActionArgs) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("MessageServiceMessageActionArgs(%+v)", *p)
+	return fmt.Sprintf("MessageServiceMassageActionArgs(%+v)", *p)
 }
 
-func (p *MessageServiceMessageActionArgs) DeepEqual(ano *MessageServiceMessageActionArgs) bool {
+func (p *MessageServiceMassageActionArgs) DeepEqual(ano *MessageServiceMassageActionArgs) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -2101,7 +2623,7 @@ func (p *MessageServiceMessageActionArgs) DeepEqual(ano *MessageServiceMessageAc
 	return true
 }
 
-func (p *MessageServiceMessageActionArgs) Field1DeepEqual(src *MessageActionReq) bool {
+func (p *MessageServiceMassageActionArgs) Field1DeepEqual(src *MassageActionReq) bool {
 
 	if !p.Req.DeepEqual(src) {
 		return false
@@ -2109,39 +2631,39 @@ func (p *MessageServiceMessageActionArgs) Field1DeepEqual(src *MessageActionReq)
 	return true
 }
 
-type MessageServiceMessageActionResult struct {
-	Success *MessageActionResp `thrift:"success,0,optional" frugal:"0,optional,MessageActionResp" json:"success,omitempty"`
+type MessageServiceMassageActionResult struct {
+	Success *MassageActionResp `thrift:"success,0,optional" frugal:"0,optional,MassageActionResp" json:"success,omitempty"`
 }
 
-func NewMessageServiceMessageActionResult() *MessageServiceMessageActionResult {
-	return &MessageServiceMessageActionResult{}
+func NewMessageServiceMassageActionResult() *MessageServiceMassageActionResult {
+	return &MessageServiceMassageActionResult{}
 }
 
-func (p *MessageServiceMessageActionResult) InitDefault() {
-	*p = MessageServiceMessageActionResult{}
+func (p *MessageServiceMassageActionResult) InitDefault() {
+	*p = MessageServiceMassageActionResult{}
 }
 
-var MessageServiceMessageActionResult_Success_DEFAULT *MessageActionResp
+var MessageServiceMassageActionResult_Success_DEFAULT *MassageActionResp
 
-func (p *MessageServiceMessageActionResult) GetSuccess() (v *MessageActionResp) {
+func (p *MessageServiceMassageActionResult) GetSuccess() (v *MassageActionResp) {
 	if !p.IsSetSuccess() {
-		return MessageServiceMessageActionResult_Success_DEFAULT
+		return MessageServiceMassageActionResult_Success_DEFAULT
 	}
 	return p.Success
 }
-func (p *MessageServiceMessageActionResult) SetSuccess(x interface{}) {
-	p.Success = x.(*MessageActionResp)
+func (p *MessageServiceMassageActionResult) SetSuccess(x interface{}) {
+	p.Success = x.(*MassageActionResp)
 }
 
-var fieldIDToName_MessageServiceMessageActionResult = map[int16]string{
+var fieldIDToName_MessageServiceMassageActionResult = map[int16]string{
 	0: "success",
 }
 
-func (p *MessageServiceMessageActionResult) IsSetSuccess() bool {
+func (p *MessageServiceMassageActionResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *MessageServiceMessageActionResult) Read(iprot thrift.TProtocol) (err error) {
+func (p *MessageServiceMassageActionResult) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -2190,7 +2712,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMessageActionResult[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMassageActionResult[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -2200,17 +2722,17 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *MessageServiceMessageActionResult) ReadField0(iprot thrift.TProtocol) error {
-	p.Success = NewMessageActionResp()
+func (p *MessageServiceMassageActionResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewMassageActionResp()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *MessageServiceMessageActionResult) Write(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceMassageActionResult) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("messageAction_result"); err != nil {
+	if err = oprot.WriteStructBegin("MassageAction_result"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -2237,7 +2759,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *MessageServiceMessageActionResult) writeField0(oprot thrift.TProtocol) (err error) {
+func (p *MessageServiceMassageActionResult) writeField0(oprot thrift.TProtocol) (err error) {
 	if p.IsSetSuccess() {
 		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
 			goto WriteFieldBeginError
@@ -2256,14 +2778,14 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
 }
 
-func (p *MessageServiceMessageActionResult) String() string {
+func (p *MessageServiceMassageActionResult) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("MessageServiceMessageActionResult(%+v)", *p)
+	return fmt.Sprintf("MessageServiceMassageActionResult(%+v)", *p)
 }
 
-func (p *MessageServiceMessageActionResult) DeepEqual(ano *MessageServiceMessageActionResult) bool {
+func (p *MessageServiceMassageActionResult) DeepEqual(ano *MessageServiceMassageActionResult) bool {
 	if p == ano {
 		return true
 	} else if p == nil || ano == nil {
@@ -2275,7 +2797,353 @@ func (p *MessageServiceMessageActionResult) DeepEqual(ano *MessageServiceMessage
 	return true
 }
 
-func (p *MessageServiceMessageActionResult) Field0DeepEqual(src *MessageActionResp) bool {
+func (p *MessageServiceMassageActionResult) Field0DeepEqual(src *MassageActionResp) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type MessageServiceGetLatestMessageArgs struct {
+	Req *GetLatestMessageReq `thrift:"req,1" frugal:"1,default,GetLatestMessageReq" json:"req"`
+}
+
+func NewMessageServiceGetLatestMessageArgs() *MessageServiceGetLatestMessageArgs {
+	return &MessageServiceGetLatestMessageArgs{}
+}
+
+func (p *MessageServiceGetLatestMessageArgs) InitDefault() {
+	*p = MessageServiceGetLatestMessageArgs{}
+}
+
+var MessageServiceGetLatestMessageArgs_Req_DEFAULT *GetLatestMessageReq
+
+func (p *MessageServiceGetLatestMessageArgs) GetReq() (v *GetLatestMessageReq) {
+	if !p.IsSetReq() {
+		return MessageServiceGetLatestMessageArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *MessageServiceGetLatestMessageArgs) SetReq(val *GetLatestMessageReq) {
+	p.Req = val
+}
+
+var fieldIDToName_MessageServiceGetLatestMessageArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *MessageServiceGetLatestMessageArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *MessageServiceGetLatestMessageArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceGetLatestMessageArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MessageServiceGetLatestMessageArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewGetLatestMessageReq()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MessageServiceGetLatestMessageArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetLatestMessage_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MessageServiceGetLatestMessageArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *MessageServiceGetLatestMessageArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MessageServiceGetLatestMessageArgs(%+v)", *p)
+}
+
+func (p *MessageServiceGetLatestMessageArgs) DeepEqual(ano *MessageServiceGetLatestMessageArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Req) {
+		return false
+	}
+	return true
+}
+
+func (p *MessageServiceGetLatestMessageArgs) Field1DeepEqual(src *GetLatestMessageReq) bool {
+
+	if !p.Req.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type MessageServiceGetLatestMessageResult struct {
+	Success *GetLatestMessageResp `thrift:"success,0,optional" frugal:"0,optional,GetLatestMessageResp" json:"success,omitempty"`
+}
+
+func NewMessageServiceGetLatestMessageResult() *MessageServiceGetLatestMessageResult {
+	return &MessageServiceGetLatestMessageResult{}
+}
+
+func (p *MessageServiceGetLatestMessageResult) InitDefault() {
+	*p = MessageServiceGetLatestMessageResult{}
+}
+
+var MessageServiceGetLatestMessageResult_Success_DEFAULT *GetLatestMessageResp
+
+func (p *MessageServiceGetLatestMessageResult) GetSuccess() (v *GetLatestMessageResp) {
+	if !p.IsSetSuccess() {
+		return MessageServiceGetLatestMessageResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *MessageServiceGetLatestMessageResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetLatestMessageResp)
+}
+
+var fieldIDToName_MessageServiceGetLatestMessageResult = map[int16]string{
+	0: "success",
+}
+
+func (p *MessageServiceGetLatestMessageResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *MessageServiceGetLatestMessageResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceGetLatestMessageResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MessageServiceGetLatestMessageResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewGetLatestMessageResp()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MessageServiceGetLatestMessageResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetLatestMessage_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MessageServiceGetLatestMessageResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *MessageServiceGetLatestMessageResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MessageServiceGetLatestMessageResult(%+v)", *p)
+}
+
+func (p *MessageServiceGetLatestMessageResult) DeepEqual(ano *MessageServiceGetLatestMessageResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *MessageServiceGetLatestMessageResult) Field0DeepEqual(src *GetLatestMessageResp) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

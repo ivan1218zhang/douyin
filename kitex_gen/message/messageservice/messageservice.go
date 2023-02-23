@@ -16,11 +16,12 @@ func serviceInfo() *kitex.ServiceInfo {
 var messageServiceServiceInfo = NewServiceInfo()
 
 func NewServiceInfo() *kitex.ServiceInfo {
-	serviceName := "messageService"
+	serviceName := "MessageService"
 	handlerType := (*message.MessageService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"GetMessageChat": kitex.NewMethodInfo(GetMessageChatHandler, newMessageServiceGetMessageChatArgs, newMessageServiceGetMessageChatResult, false),
-		"messageAction":  kitex.NewMethodInfo(messageActionHandler, newMessageServiceMessageActionArgs, newMessageServiceMessageActionResult, false),
+		"GetMassageChat":   kitex.NewMethodInfo(getMassageChatHandler, newMessageServiceGetMassageChatArgs, newMessageServiceGetMassageChatResult, false),
+		"MassageAction":    kitex.NewMethodInfo(massageActionHandler, newMessageServiceMassageActionArgs, newMessageServiceMassageActionResult, false),
+		"GetLatestMessage": kitex.NewMethodInfo(getLatestMessageHandler, newMessageServiceGetLatestMessageArgs, newMessageServiceGetLatestMessageResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "message",
@@ -36,40 +37,58 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	return svcInfo
 }
 
-func GetMessageChatHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*message.MessageServiceGetMessageChatArgs)
-	realResult := result.(*message.MessageServiceGetMessageChatResult)
-	success, err := handler.(message.MessageService).GetMessageChat(ctx, realArg.Req)
+func getMassageChatHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*message.MessageServiceGetMassageChatArgs)
+	realResult := result.(*message.MessageServiceGetMassageChatResult)
+	success, err := handler.(message.MessageService).GetMassageChat(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
 	realResult.Success = success
 	return nil
 }
-func newMessageServiceGetMessageChatArgs() interface{} {
-	return message.NewMessageServiceGetMessageChatArgs()
+func newMessageServiceGetMassageChatArgs() interface{} {
+	return message.NewMessageServiceGetMassageChatArgs()
 }
 
-func newMessageServiceGetMessageChatResult() interface{} {
-	return message.NewMessageServiceGetMessageChatResult()
+func newMessageServiceGetMassageChatResult() interface{} {
+	return message.NewMessageServiceGetMassageChatResult()
 }
 
-func messageActionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*message.MessageServiceMessageActionArgs)
-	realResult := result.(*message.MessageServiceMessageActionResult)
-	success, err := handler.(message.MessageService).MessageAction(ctx, realArg.Req)
+func massageActionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*message.MessageServiceMassageActionArgs)
+	realResult := result.(*message.MessageServiceMassageActionResult)
+	success, err := handler.(message.MessageService).MassageAction(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
 	realResult.Success = success
 	return nil
 }
-func newMessageServiceMessageActionArgs() interface{} {
-	return message.NewMessageServiceMessageActionArgs()
+func newMessageServiceMassageActionArgs() interface{} {
+	return message.NewMessageServiceMassageActionArgs()
 }
 
-func newMessageServiceMessageActionResult() interface{} {
-	return message.NewMessageServiceMessageActionResult()
+func newMessageServiceMassageActionResult() interface{} {
+	return message.NewMessageServiceMassageActionResult()
+}
+
+func getLatestMessageHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*message.MessageServiceGetLatestMessageArgs)
+	realResult := result.(*message.MessageServiceGetLatestMessageResult)
+	success, err := handler.(message.MessageService).GetLatestMessage(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newMessageServiceGetLatestMessageArgs() interface{} {
+	return message.NewMessageServiceGetLatestMessageArgs()
+}
+
+func newMessageServiceGetLatestMessageResult() interface{} {
+	return message.NewMessageServiceGetLatestMessageResult()
 }
 
 type kClient struct {
@@ -82,21 +101,31 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) GetMessageChat(ctx context.Context, req *message.MessageChatReq) (r *message.MessageChatResp, err error) {
-	var _args message.MessageServiceGetMessageChatArgs
+func (p *kClient) GetMassageChat(ctx context.Context, req *message.MessageChatReq) (r *message.MessageChatResp, err error) {
+	var _args message.MessageServiceGetMassageChatArgs
 	_args.Req = req
-	var _result message.MessageServiceGetMessageChatResult
-	if err = p.c.Call(ctx, "GetMessageChat", &_args, &_result); err != nil {
+	var _result message.MessageServiceGetMassageChatResult
+	if err = p.c.Call(ctx, "GetMassageChat", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) MessageAction(ctx context.Context, req *message.MessageActionReq) (r *message.MessageActionResp, err error) {
-	var _args message.MessageServiceMessageActionArgs
+func (p *kClient) MassageAction(ctx context.Context, req *message.MassageActionReq) (r *message.MassageActionResp, err error) {
+	var _args message.MessageServiceMassageActionArgs
 	_args.Req = req
-	var _result message.MessageServiceMessageActionResult
-	if err = p.c.Call(ctx, "messageAction", &_args, &_result); err != nil {
+	var _result message.MessageServiceMassageActionResult
+	if err = p.c.Call(ctx, "MassageAction", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetLatestMessage(ctx context.Context, req *message.GetLatestMessageReq) (r *message.GetLatestMessageResp, err error) {
+	var _args message.MessageServiceGetLatestMessageArgs
+	_args.Req = req
+	var _result message.MessageServiceGetLatestMessageResult
+	if err = p.c.Call(ctx, "GetLatestMessage", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

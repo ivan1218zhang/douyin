@@ -12,6 +12,7 @@ import (
 	"douyin/kitex_gen/relation"
 	"douyin/kitex_gen/user"
 	"douyin/kitex_gen/video"
+	"fmt"
 	"io/ioutil"
 
 	"douyin/cmd/api/biz/model/api"
@@ -372,7 +373,7 @@ func MessageAction(ctx context.Context, c *app.RequestContext) {
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 	}
-	resp, err := rpc.MessageAction(ctx, &message.MessageActionReq{
+	resp, err := rpc.MessageAction(ctx, &message.MassageActionReq{
 		UserId:     id,
 		ToUserId:   req.ToUserID,
 		ActionType: req.ActionType,
@@ -402,7 +403,7 @@ func MGetChatMessage(ctx context.Context, c *app.RequestContext) {
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 	}
-
+	fmt.Println(id)
 	resp, err := rpc.MGetChatMessage(ctx, &message.MessageChatReq{
 		UserId:     id,
 		FromUserId: req.ToUserID,

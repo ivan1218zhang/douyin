@@ -16,7 +16,7 @@ func NewMessageActionService(ctx context.Context) *messageActionService {
 }
 
 // MessageAction send message
-func (s *messageActionService) MessageAction(req *message.MessageActionReq) error {
+func (s *messageActionService) MessageAction(req *message.MassageActionReq) error {
 
 	err := db.SendMessage(s.ctx, req.UserId, req.ToUserId, req.Content)
 

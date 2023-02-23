@@ -16,7 +16,7 @@ func TestMGetFriendService(t *testing.T) {
 
 	// 生成请求
 	req := &relation.MGetFriendReq{
-		UserId: 643,
+		UserId: 99229651494244352,
 	}
 	// 请求
 	ctx := context.Background()

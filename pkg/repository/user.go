@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	ID        int64
+	ID        int64 `gorm:"primarykey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
