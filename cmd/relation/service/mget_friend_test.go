@@ -1,8 +1,9 @@
-package service
+package service_test
 
 import (
 	"context"
 	"douyin/cmd/relation/dal/db"
+	"douyin/cmd/relation/service"
 	"douyin/kitex_gen/relation"
 	"fmt"
 	"testing"
@@ -19,7 +20,7 @@ func TestMGetFriendService(t *testing.T) {
 	}
 	// 请求
 	ctx := context.Background()
-	resp, err := NewGetFriendService(ctx).MGetFriend(req)
+	resp, err := service.NewGetFriendService(ctx).MGetFriend(req)
 	if err != nil {
 		println(err)
 	}

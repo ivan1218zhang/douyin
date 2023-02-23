@@ -2,14 +2,15 @@ package repository
 
 import (
 	"douyin/pkg/constants"
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Relation struct {
 	Id         int64
-	UserId     int64 `gorm:"Index:idx_relation,priority:11"`
-	FollowerId int64 `gorm:"Index:idx_relation,priority:12;Index:idx_relation_follower;"`
+	UserId     int64 `gorm:"Index:idx_relation,priority:11;uniqueIndex:relation"`
+	FollowerId int64 `gorm:"Index:idx_relation,priority:12;Index:idx_relation_follower;uniqueIndex:relation"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 	DeletedAt  gorm.DeletedAt

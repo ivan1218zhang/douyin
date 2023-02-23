@@ -1,8 +1,9 @@
-package service
+package service_test
 
 import (
 	"context"
 	"douyin/cmd/relation/dal"
+	"douyin/cmd/relation/service"
 	"douyin/kitex_gen/relation"
 	"fmt"
 	"testing"
@@ -10,7 +11,7 @@ import (
 
 func Test_GetRelation(t *testing.T) {
 	dal.Init()
-	followCount, followerCount, isFollow, _ := NewGetRelationService(context.Background()).GetRelation(&relation.GetRelationReq{
+	followCount, followerCount, isFollow, _ := service.NewGetRelationService(context.Background()).GetRelation(&relation.GetRelationReq{
 		UserId:   2,
 		ToUserId: 1,
 	})
