@@ -22,10 +22,6 @@ func (p *BaseResp) InitDefault() {
 	*p = BaseResp{}
 }
 
-func (p *BaseResp) InitDefault() {
-	*p = BaseResp{}
-}
-
 func (p *BaseResp) GetStatusCode() (v int64) {
 	return p.StatusCode
 }
@@ -252,10 +248,6 @@ type User struct {
 
 func NewUser() *User {
 	return &User{}
-}
-
-func (p *User) InitDefault() {
-	*p = User{}
 }
 
 func (p *User) InitDefault() {
