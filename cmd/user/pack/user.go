@@ -25,7 +25,13 @@ func User(u *repository.User) *common.User {
 	if u == nil {
 		return nil
 	}
-	return &common.User{Id: int64(u.ID), Name: u.UserName}
+	return &common.User{
+		Id:              int64(u.ID),
+		Name:            u.UserName,
+		Avatar:          "",
+		BackgroundImage: "https://cdn.cdnjson.com/wx3.sinaimg.cn/large/87c01ec7gy1fsnqqm9l6pj21kw0w0aos.jpg",
+		Signature:       "",
+	}
 }
 
 // Users pack list of user info
