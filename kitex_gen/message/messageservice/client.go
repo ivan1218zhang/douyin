@@ -11,8 +11,9 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	GetMessageChat(ctx context.Context, req *message.MessageChatReq, callOptions ...callopt.Option) (r *message.MessageChatResp, err error)
-	MessageAction(ctx context.Context, req *message.MessageActionReq, callOptions ...callopt.Option) (r *message.MessageActionResp, err error)
+	GetMassageChat(ctx context.Context, req *message.MessageChatReq, callOptions ...callopt.Option) (r *message.MessageChatResp, err error)
+	MassageAction(ctx context.Context, req *message.MassageActionReq, callOptions ...callopt.Option) (r *message.MassageActionResp, err error)
+	GetLatestMessage(ctx context.Context, req *message.GetLatestMessageReq, callOptions ...callopt.Option) (r *message.GetLatestMessageResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -44,12 +45,17 @@ type kMessageServiceClient struct {
 	*kClient
 }
 
-func (p *kMessageServiceClient) GetMessageChat(ctx context.Context, req *message.MessageChatReq, callOptions ...callopt.Option) (r *message.MessageChatResp, err error) {
+func (p *kMessageServiceClient) GetMassageChat(ctx context.Context, req *message.MessageChatReq, callOptions ...callopt.Option) (r *message.MessageChatResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetMessageChat(ctx, req)
+	return p.kClient.GetMassageChat(ctx, req)
 }
 
-func (p *kMessageServiceClient) MessageAction(ctx context.Context, req *message.MessageActionReq, callOptions ...callopt.Option) (r *message.MessageActionResp, err error) {
+func (p *kMessageServiceClient) MassageAction(ctx context.Context, req *message.MassageActionReq, callOptions ...callopt.Option) (r *message.MassageActionResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.MessageAction(ctx, req)
+	return p.kClient.MassageAction(ctx, req)
+}
+
+func (p *kMessageServiceClient) GetLatestMessage(ctx context.Context, req *message.GetLatestMessageReq, callOptions ...callopt.Option) (r *message.GetLatestMessageResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetLatestMessage(ctx, req)
 }

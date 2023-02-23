@@ -19,6 +19,16 @@ struct MessageChatResp{
     2:list<Message> massage_list
 }
 
+struct GetLatestMessageReq{
+    1:i64 user_id
+    2:i64 from_user_id
+}
+
+struct GetLatestMessageResp{
+    1:common.BaseResp base_resp
+    2:Message message
+}
+
 struct MassageActionReq {
     1:i64 user_id
     2:i64 to_user_id
@@ -30,7 +40,9 @@ struct MassageActionResp{
     1:common.BaseResp base_resp
 }
 
-service FavoriteService {
+service MessageService {
     MessageChatResp GetMassageChat(1:MessageChatReq req)
     MassageActionResp MassageAction(1:MassageActionReq req)
+    GetLatestMessageResp GetLatestMessage(1:GetLatestMessageReq req)
 }
+

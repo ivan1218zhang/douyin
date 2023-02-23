@@ -14,9 +14,11 @@ func TestMessageActionService(t *testing.T) {
 
 	// 生成请求
 
-	req := &message.MessageActionReq{
-		UserId:     1,
-		ToUserId:   2,
+	req := &message.MassageActionReq{
+		//UserId:   99233186235551744,
+		//ToUserId: 99229651494244352,
+		UserId:     99229651494244352,
+		ToUserId:   99233186235551744,
 		ActionType: 3,
 		Content:    "打法",
 	}

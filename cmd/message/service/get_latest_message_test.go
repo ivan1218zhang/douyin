@@ -8,24 +8,22 @@ import (
 	"testing"
 )
 
-func TestGetMessageListService(t *testing.T) {
-
+func TestGetLatestMessage(t *testing.T) {
 	// 初始化数据库
 	db.Init()
 
 	// 生成请求
 
-	req := &message.MessageChatReq{
+	req := &message.GetLatestMessageReq{
 		UserId:     99233186235551744,
 		FromUserId: 99229651494244352,
 	}
 	// 请求
 	ctx := context.Background()
-	res, err := NewGetMessageChatService(ctx).GetMessageChat(req)
+	res, err := NewGetLatestMessageService(ctx).GetLatestMessage(req)
 	if err != nil {
 		println(err)
 	}
-	for i := range res {
-		fmt.Println(res[i])
-	}
+	fmt.Println(res)
+
 }
