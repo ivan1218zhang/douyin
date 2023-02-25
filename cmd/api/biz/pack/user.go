@@ -6,6 +6,9 @@ import (
 )
 
 func User(user *common.User) *common2.User {
+	if user == nil {
+		return nil
+	}
 	return &common2.User{
 		ID:            user.Id,
 		Name:          user.Name,

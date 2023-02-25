@@ -6,6 +6,9 @@ import (
 )
 
 func Comment(comment *common.Comment) *common2.Comment {
+	if comment == nil {
+		return nil
+	}
 	return &common2.Comment{
 		ID:         comment.Id,
 		User:       User(comment.User),

@@ -36,7 +36,15 @@ func (s *MGetCommentService) MGetComment(req *comment.MGetCommentReq) ([]*common
 		idList[i] = c.UserId
 	}
 
-	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: idList, UserId: 1})
+	if len(idList) == 0 {
+		// 存入缓存中
+		if err := redis.SetComments(s.ctx, req.VideoId, comments); err != nil {
+			return comments, err
+		}
+		return comments, nil
+	}
+
+	users, err := rpc.MGetUser(s.ctx, &user.MGetUserReq{IdList: idList, UserId: req.UserId})
 
 	if err != nil {
 		return nil, err
