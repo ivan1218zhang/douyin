@@ -6,6 +6,7 @@ import (
 	"douyin/kitex_gen/user"
 	"douyin/pkg/errno"
 	"douyin/pkg/repository"
+	"douyin/pkg/util"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -19,8 +20,12 @@ func NewCreateUserService(ctx context.Context) *CreateUserService {
 	return &CreateUserService{ctx: ctx}
 }
 
-// CreateUser create user info.
+// CreateUser create user
 func (s *CreateUserService) CreateUser(req *user.CreateUserReq) (int64, error) {
+	// 因为有查询+插入两步操作 需要加锁保证并发安全
+	util.KLock.Lock(req.Username)
+	defer util.KLock.Unlock(req.Username)
+	// 检查用户名是否重复
 	users, err := db.QueryUser(s.ctx, req.Username)
 	if err != nil {
 		return 0, err
@@ -34,6 +39,7 @@ func (s *CreateUserService) CreateUser(req *user.CreateUserReq) (int64, error) {
 		return 0, err
 	}
 	password := string(hash)
+	// 插入数据库
 	user1 := &repository.User{
 		UserName: req.Username,
 		Password: password,

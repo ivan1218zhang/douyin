@@ -5,6 +5,7 @@ import (
 	"douyin/cmd/user/rpc"
 	user "douyin/kitex_gen/user/userservice"
 	"douyin/pkg/constants"
+	"douyin/pkg/util"
 	"log"
 	"net"
 
@@ -14,6 +15,7 @@ import (
 func Init() {
 	dal.Init()
 	rpc.Init()
+	util.KLock = util.NewKeyLock()
 }
 
 func main() {
