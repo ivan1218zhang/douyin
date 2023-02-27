@@ -24,6 +24,9 @@ func (g *MGetRelationService) MGetRelation(req *relation.MGetRelationReq) ([]int
 	if err != nil {
 		return followCountList, make([]int32, len(req.ToUserIdList)), make([]bool, len(req.ToUserIdList)), err
 	}
+	if req.UserId == -1 {
+		return followCountList, followerCountList, make([]bool, len(req.ToUserIdList)), err
+	}
 	isFollowList, err := db.MIsFollow(g.ctx, req.UserId, req.ToUserIdList)
 	if err != nil {
 		return followCountList, followerCountList, make([]bool, len(req.ToUserIdList)), err
